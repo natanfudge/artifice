@@ -3,6 +3,7 @@ package com.swordglowsblue.artifice.impl;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
+import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import net.minecraft.SharedConstants;
 import net.minecraft.resource.ResourcePack;
@@ -24,21 +25,21 @@ import java.util.function.Predicate;
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<String> namespaces;
     private final ResourceType type;
-    private final Map<Identifier, String> resources = new HashMap<>();
+    private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
 
     public ArtificeResourcePackImpl(ResourceType type, Consumer<ResourceRegistry> registerResources) {
         this.type = type;
         this.namespaces = new HashSet<>();
 
-        registerResources.accept((id, resourceData) -> {
-            this.resources.put(id, resourceData);
+        registerResources.accept((id, resource) -> {
+            this.resources.put(id, resource);
             this.namespaces.add(id.getNamespace());
         });
     }
 
     public InputStream open(ResourceType type, Identifier id) throws IOException {
         if(!contains(type, id)) throw new FileNotFoundException(id.getPath());
-        return new ReaderInputStream(new StringReader(this.resources.get(id)), StandardCharsets.UTF_8);
+        return this.resources.get(id).toInputStream();
     }
 
     public Collection<Identifier> findResources(ResourceType type, String rootFolder, int max, Predicate<String> filter) {
@@ -83,6 +84,6 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @FunctionalInterface
     public interface ResourceRegistry {
-        void add(Identifier id, String resourceData);
+        void add(Identifier id, ArtificeResource resource);
     }
 }
