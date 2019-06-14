@@ -16,8 +16,8 @@
   "icon": "assets/artifice/icon.png",
 
   "entrypoints": {
-    "main": [ "com.swordglowsblue.artifice.Artifice" ],
-    "client": [ "com.swordglowsblue.artifice.Artifice" ]
+    "main": [ "com.swordglowsblue.artifice.impl.ArtificeInit" ],
+    "client": [ "com.swordglowsblue.artifice.impl.ArtificeInit" ]
   },
   "mixins": [ "artifice.mixins.json" ],
 
