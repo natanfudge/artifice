@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.swordglowsblue.modid.mixin",
+  "package": "com.swordglowsblue.artifice.mixin",
   "compatibilityLevel": "JAVA_8",
   "injectors": { "defaultRequire": 1 },
 

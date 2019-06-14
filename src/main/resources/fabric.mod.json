@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "artifice",
   "version": "${version}",
 
-  "name": "",
-  "description": "",
+  "name": "Artifice",
+  "description": "Library for programmatically generated resource files.",
   "authors": [ "swordglowsblue" ],
 
   "contact": {
-    "homepage": "https://minecraft.curseforge.com/projects/modid",
-    "sources": "https://github.com/swordglowsblue/modid"
+    "homepage": "https://minecraft.curseforge.com/projects/artifice-resources",
+    "sources": "https://github.com/swordglowsblue/artifice-resources"
   },
 
   "license": "MIT",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/artifice/icon.png",
 
   "entrypoints": {
-    "main": [ "com.swordglowsblue.modid.ModId" ],
-    "client": [ "com.swordglowsblue.modid.ModIdClient" ]
+    "main": [ "com.swordglowsblue.artifice.Artifice" ],
+    "client": [ "com.swordglowsblue.artifice.Artifice" ]
   },
-  "mixins": [ "modid.mixins.json" ],
+  "mixins": [ "artifice.mixins.json" ],
 
   "depends": {
     "fabricloader": ">=0.4.0",
