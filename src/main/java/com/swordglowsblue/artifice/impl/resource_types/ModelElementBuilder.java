@@ -3,10 +3,13 @@ package com.swordglowsblue.artifice.impl.resource_types;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
+@Environment(EnvType.CLIENT)
 public class ModelElementBuilder extends JsonBuilder<ModelElementBuilder, JsonObject> {
     ModelElementBuilder() { super(new JsonObject(), j->j); }
 

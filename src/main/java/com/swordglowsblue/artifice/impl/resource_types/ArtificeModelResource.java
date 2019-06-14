@@ -5,8 +5,11 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class ArtificeModelResource implements ArtificeResource {
     private final JsonObject model;
     private ArtificeModelResource(JsonObject model) { this.model = model; }
@@ -23,10 +26,9 @@ public class ArtificeModelResource implements ArtificeResource {
         // TODO: Model overrides
     }
 
-
     @SuppressWarnings("unchecked")
     static abstract class Builder<T extends Builder<T>> extends JsonBuilder<T, ArtificeModelResource> {
-        protected Builder() { super(new JsonObject(), ArtificeModelResource::new); }
+        Builder() { super(new JsonObject(), ArtificeModelResource::new); }
 
         public T parent(Identifier id) {
             root.addProperty("parent", id.toString());

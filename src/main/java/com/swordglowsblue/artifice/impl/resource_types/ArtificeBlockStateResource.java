@@ -5,8 +5,11 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class ArtificeBlockStateResource implements ArtificeResource {
     private final JsonObject state;
     private ArtificeBlockStateResource(JsonObject state) { this.state = state; }
