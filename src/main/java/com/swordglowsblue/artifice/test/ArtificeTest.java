@@ -2,8 +2,11 @@ package com.swordglowsblue.artifice.test;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
@@ -12,10 +15,12 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class ArtificeTest {
+public class ArtificeTest implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
 
-    public static void onInitialize() {
+    public void onInitialize() {
+        if(!FabricLoader.getInstance().isDevelopmentEnvironment()) return;
+
         Item.Settings itemSettings = new Item.Settings().group(ItemGroup.MISC);
         Item testItem = Registry.register(Registry.ITEM, id("test_item"), new Item(itemSettings));
         Block testBlock = Registry.register(Registry.BLOCK, id("test_block"), new Block(Block.Settings.copy(Blocks.STONE)));
@@ -23,7 +28,9 @@ public class ArtificeTest {
     }
 
     @Environment(EnvType.CLIENT)
-    public static void onInitializeClient() {
+    public void onInitializeClient() {
+        if(!FabricLoader.getInstance().isDevelopmentEnvironment()) return;
+
         Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(pack -> {
             pack.addItemModel(new Identifier("artifice:test_item"), model -> model
                 .parent(new Identifier("item/generated"))
