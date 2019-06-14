@@ -1,25 +1,35 @@
 package com.swordglowsblue.artifice.impl.resource_types;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.ArtificeResource;
+import com.swordglowsblue.artifice.impl.util.JsonBuilder;
+import com.swordglowsblue.artifice.impl.util.Processor;
 import net.minecraft.util.Identifier;
-
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class ArtificeModelResource implements ArtificeResource {
     private final JsonObject model;
     private ArtificeModelResource(JsonObject model) { this.model = model; }
     public JsonObject toJson() { return model; }
 
+    public static class BlockBuilder extends ArtificeModelResource.Builder<BlockBuilder> {
+        public BlockBuilder ambientocclusion(boolean ambientocclusion) {
+            this.root.addProperty("ambientocclusion", ambientocclusion);
+            return this;
+        }
+    }
+
+    public static class ItemBuilder extends ArtificeModelResource.Builder<ItemBuilder> {
+        // TODO: Model overrides
+    }
+
+
     @SuppressWarnings("unchecked")
-    static abstract class Builder<T extends Builder<T>> {
-        protected final JsonObject model = new JsonObject();
+    static abstract class Builder<T extends Builder<T>> extends JsonBuilder<T, ArtificeModelResource> {
+        protected Builder() { super(new JsonObject(), ArtificeModelResource::new); }
 
         public T parent(Identifier id) {
-            model.addProperty("parent", id.toString());
+            root.addProperty("parent", id.toString());
             return (T)this;
         }
 
@@ -28,36 +38,39 @@ public class ArtificeModelResource implements ArtificeResource {
             return (T)this;
         }
 
-        public T display(String name, Consumer<ModelDisplayBuilder> settings) {
+        public T display(String name, Processor<DisplayBuilder> settings) {
             with("display", JsonObject::new, display -> {
-                ModelDisplayBuilder builder = new ModelDisplayBuilder(display);
-                settings.accept(builder);
-                JsonObject newDisplay = builder.build();
-                newDisplay.entrySet().forEach(e -> display.add(e.getKey(), e.getValue()));
+                DisplayBuilder builder = new DisplayBuilder(display);
+                settings.process(builder).buildTo(display);
             });
             return (T)this;
         }
 
-        public T element(Consumer<ModelElementBuilder> settings) {
+        public T element(Processor<ModelElementBuilder> settings) {
             with("elements", JsonArray::new, elements -> {
                ModelElementBuilder builder = new ModelElementBuilder();
-               settings.accept(builder);
-               elements.add(builder.build());
+               elements.add(settings.process(builder).build());
             });
             return (T)this;
         }
+    }
 
-        public ArtificeModelResource build() {
-            JsonObject modelCopy = new JsonObject();
-            model.entrySet().forEach(entry -> modelCopy.add(entry.getKey(), entry.getValue()));
-            return new ArtificeModelResource(modelCopy);
+    public static class DisplayBuilder extends JsonBuilder<DisplayBuilder, JsonObject> {
+        DisplayBuilder(JsonObject root) { super(root, j->j); }
+
+        public DisplayBuilder rotation(int x, int y, int z) {
+            root.add("rotation", arrayOf(x, y, z));
+            return this;
         }
 
-        @SuppressWarnings("unchecked")
-        protected <T extends JsonElement> void with(String name, Supplier<T> ctor, Consumer<T> run) {
-            T element = model.has(name) ? (T)model.get(name) : ctor.get();
-            run.accept(element);
-            model.add(name, element);
+        public DisplayBuilder translation(int x, int y, int z) {
+            root.add("translation", arrayOf(x, y, z));
+            return this;
+        }
+
+        public DisplayBuilder scale(int x, int y, int z) {
+            root.add("scale", arrayOf(x, y, z));
+            return this;
         }
     }
 }
