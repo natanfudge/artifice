@@ -1,8 +1,7 @@
-package com.swordglowsblue.artifice.impl.resource_types;
+package com.swordglowsblue.artifice.impl.resource;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
@@ -10,25 +9,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class ArtificeModelResource implements ArtificeResource {
-    private final JsonObject model;
-    private ArtificeModelResource(JsonObject model) { this.model = model; }
-    public JsonObject toJson() { return model; }
-
-    public static class BlockBuilder extends ArtificeModelResource.Builder<BlockBuilder> {
-        public BlockBuilder ambientocclusion(boolean ambientocclusion) {
-            this.root.addProperty("ambientocclusion", ambientocclusion);
-            return this;
-        }
-    }
-
-    public static class ItemBuilder extends ArtificeModelResource.Builder<ItemBuilder> {
-        // TODO: Model overrides
-    }
+public class ModelResource extends JsonResource {
+    private ModelResource(JsonObject model) { super(model); }
 
     @SuppressWarnings("unchecked")
-    static abstract class Builder<T extends Builder<T>> extends JsonBuilder<T, ArtificeModelResource> {
-        Builder() { super(new JsonObject(), ArtificeModelResource::new); }
+    public static abstract class Builder<T extends Builder<T>> extends JsonBuilder<T, ModelResource> {
+        Builder() { super(new JsonObject(), ModelResource::new); }
 
         public T parent(Identifier id) {
             root.addProperty("parent", id.toString());
@@ -54,6 +40,17 @@ public class ArtificeModelResource implements ArtificeResource {
                elements.add(settings.process(builder).build());
             });
             return (T)this;
+        }
+
+        public static class Item extends ModelResource.Builder<Item> {
+            // TODO: Model overrides
+        }
+
+        public static class Block extends ModelResource.Builder<Block> {
+            public Block ambientocclusion(boolean ambientocclusion) {
+                this.root.addProperty("ambientocclusion", ambientocclusion);
+                return this;
+            }
         }
     }
 

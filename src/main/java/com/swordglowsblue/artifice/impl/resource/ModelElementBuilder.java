@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.impl.resource_types;
+package com.swordglowsblue.artifice.impl.resource;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;

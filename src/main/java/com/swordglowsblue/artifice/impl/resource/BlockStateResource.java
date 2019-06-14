@@ -1,8 +1,7 @@
-package com.swordglowsblue.artifice.impl.resource_types;
+package com.swordglowsblue.artifice.impl.resource;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
@@ -10,13 +9,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class ArtificeBlockStateResource implements ArtificeResource {
-    private final JsonObject state;
-    private ArtificeBlockStateResource(JsonObject state) { this.state = state; }
-    public JsonObject toJson() { return state; }
+public class BlockStateResource extends JsonResource {
+    private BlockStateResource(JsonObject state) { super(state); }
 
-    public static final class Builder extends JsonBuilder<Builder, ArtificeBlockStateResource> {
-        public Builder() { super(new JsonObject(), ArtificeBlockStateResource::new); }
+    public static final class Builder extends JsonBuilder<Builder, BlockStateResource> {
+        public Builder() { super(new JsonObject(), BlockStateResource::new); }
 
         public Builder variant(String name, Processor<VariantBuilder> settings) {
             with("variants", JsonObject::new, variants -> with(variants, name, JsonObject::new, variant -> {

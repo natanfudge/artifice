@@ -1,8 +1,8 @@
 package com.swordglowsblue.artifice.api;
 
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
-import com.swordglowsblue.artifice.impl.resource_types.ArtificeBlockStateResource;
-import com.swordglowsblue.artifice.impl.resource_types.ArtificeModelResource;
+import com.swordglowsblue.artifice.impl.resource.BlockStateResource;
+import com.swordglowsblue.artifice.impl.resource.ModelResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
@@ -29,18 +29,18 @@ public interface ArtificeResourcePack extends ResourcePack {
     interface ClientResourceRegistry {
         void add(Identifier id, ArtificeResource resource);
 
-        default void addItemModel(Identifier id, Processor<ArtificeModelResource.ItemBuilder> settings) {
-            ArtificeModelResource.ItemBuilder builder = new ArtificeModelResource.ItemBuilder();
+        default void addItemModel(Identifier id, Processor<ModelResource.Builder.Item> settings) {
+            ModelResource.Builder.Item builder = new ModelResource.Builder.Item();
             this.add(IdUtils.wrapPath("models/item/", id, ".json"), settings.process(builder).build());
         }
 
-        default void addBlockModel(Identifier id, Processor<ArtificeModelResource.BlockBuilder> settings) {
-            ArtificeModelResource.BlockBuilder builder = new ArtificeModelResource.BlockBuilder();
+        default void addBlockModel(Identifier id, Processor<ModelResource.Builder.Block> settings) {
+            ModelResource.Builder.Block builder = new ModelResource.Builder.Block();
             this.add(IdUtils.wrapPath("models/block/", id, ".json"), settings.process(builder).build());
         }
 
-        default void addBlockState(Identifier id, Processor<ArtificeBlockStateResource.Builder> settings) {
-            ArtificeBlockStateResource.Builder builder = new ArtificeBlockStateResource.Builder();
+        default void addBlockState(Identifier id, Processor<BlockStateResource.Builder> settings) {
+            BlockStateResource.Builder builder = new BlockStateResource.Builder();
             this.add(IdUtils.wrapPath("blockstates/", id, ".json"), settings.process(builder).build());
         }
     }
