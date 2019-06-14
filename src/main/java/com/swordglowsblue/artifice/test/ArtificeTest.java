@@ -32,6 +32,13 @@ public class ArtificeTest {
             pack.addItemModel(new Identifier("artifice:test_block"), model -> model
                 .parent(new Identifier("artifice:block/test_block")));
 
+            pack.addBlockState(new Identifier("artifice:test_block"), state -> state
+                .weightedVariant("", variant -> variant
+                    .model(new Identifier("artifice:block/test_block"))
+                    .weight(3))
+                .weightedVariant("", variant -> variant
+                    .model(new Identifier("block/coarse_dirt"))));
+
             pack.addBlockModel(new Identifier("artifice:test_block"), model -> model
                 .parent(new Identifier("block/cube_all"))
                 .texture("all", new Identifier("item/diamond_sword")));

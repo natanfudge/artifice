@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import com.swordglowsblue.artifice.impl.resource_types.ArtificeBlockStateResource;
 import com.swordglowsblue.artifice.impl.resource_types.ArtificeModelResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
@@ -93,6 +94,11 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         default void addBlockModel(Identifier id, Processor<ArtificeModelResource.BlockBuilder> settings) {
             ArtificeModelResource.BlockBuilder builder = new ArtificeModelResource.BlockBuilder();
             this.add(IdUtils.wrapPath("models/block/", id, ".json"), settings.process(builder).build());
+        }
+
+        default void addBlockState(Identifier id, Processor<ArtificeBlockStateResource.Builder> settings) {
+            ArtificeBlockStateResource.Builder builder = new ArtificeBlockStateResource.Builder();
+            this.add(IdUtils.wrapPath("blockstates/", id, ".json"), settings.process(builder).build());
         }
     }
 }
