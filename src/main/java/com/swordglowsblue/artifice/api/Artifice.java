@@ -13,8 +13,10 @@ public final class Artifice {
     private Artifice() {}
 
     @Environment(EnvType.CLIENT)
-    public static final MutableRegistry<ResourcePack> ASSETS = new SimpleRegistry<>();
-    public static final MutableRegistry<ResourcePack> DATA = new SimpleRegistry<>();
+    public static final MutableRegistry<ResourcePack> ASSETS =
+        Registry.register(Registry.REGISTRIES, "artifice:assets_packs", new SimpleRegistry<>());
+    public static final MutableRegistry<ResourcePack> DATA =
+        Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());
 
     @Environment(EnvType.CLIENT)
     public static ArtificeResourcePack registerAssets(String id, ArtificeResourcePack pack) { return registerAssets(new Identifier(id), pack); }
