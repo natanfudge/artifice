@@ -5,19 +5,18 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import com.swordglowsblue.artifice.impl.resource_types.ArtificeModelResource;
+import com.swordglowsblue.artifice.impl.util.IdUtils;
+import com.swordglowsblue.artifice.impl.util.Processor;
 import net.minecraft.SharedConstants;
-import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
 import org.apache.commons.io.input.NullInputStream;
-import org.apache.commons.io.input.ReaderInputStream;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -85,5 +84,15 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     @FunctionalInterface
     public interface ResourceRegistry {
         void add(Identifier id, ArtificeResource resource);
+
+        default void addItemModel(Identifier id, Processor<ArtificeModelResource.ItemBuilder> settings) {
+            ArtificeModelResource.ItemBuilder builder = new ArtificeModelResource.ItemBuilder();
+            this.add(IdUtils.wrapPath("models/item/", id, ".json"), settings.process(builder).build());
+        }
+
+        default void addBlockModel(Identifier id, Processor<ArtificeModelResource.BlockBuilder> settings) {
+            ArtificeModelResource.BlockBuilder builder = new ArtificeModelResource.BlockBuilder();
+            this.add(IdUtils.wrapPath("models/block/", id, ".json"), settings.process(builder).build());
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.swordglowsblue.artifice.mixin;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.impl.ArtificeInit;
 import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceReloadMonitor;

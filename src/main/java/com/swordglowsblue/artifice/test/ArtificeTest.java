@@ -2,8 +2,6 @@ package com.swordglowsblue.artifice.test;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.impl.resource_types.BlockModelBuilder;
-import com.swordglowsblue.artifice.impl.resource_types.ItemModelBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -27,18 +25,16 @@ public class ArtificeTest {
     @Environment(EnvType.CLIENT)
     public static void onInitializeClient() {
         Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(pack -> {
-            pack.add(new Identifier("artifice:models/item/test_item.json"), new ItemModelBuilder()
+            pack.addItemModel(new Identifier("artifice:test_item"), model -> model
                 .parent(new Identifier("item/generated"))
                 .texture("layer0", new Identifier("block/sand"))
-                .texture("layer1", new Identifier("block/dead_bush"))
-                .build());
-            pack.add(new Identifier("artifice:models/block/test_block.json"), new BlockModelBuilder()
+                .texture("layer1", new Identifier("block/dead_bush")));
+            pack.addItemModel(new Identifier("artifice:test_block"), model -> model
+                .parent(new Identifier("artifice:block/test_block")));
+
+            pack.addBlockModel(new Identifier("artifice:test_block"), model -> model
                 .parent(new Identifier("block/cube_all"))
-                .texture("all", new Identifier("item/diamond_sword"))
-                .build());
-            pack.add(new Identifier("artifice:models/item/test_block.json"), new ItemModelBuilder()
-                .parent(new Identifier("artifice:block/test_block"))
-                .build());
+                .texture("all", new Identifier("item/diamond_sword")));
         }));
     }
 }
