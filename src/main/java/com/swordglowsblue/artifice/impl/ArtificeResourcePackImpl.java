@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import com.swordglowsblue.artifice.impl.resource.TranslationResource;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
@@ -55,8 +57,22 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         packMeta.addProperty("pack_format", SharedConstants.getGameVersion().getPackVersion());
         packMeta.addProperty("description", "In-memory resource pack via Artifice");
 
+        JsonObject languageMeta = new JsonObject();
+        for(ArtificeResource resource : resources.values()) {
+            if(!(resource instanceof TranslationResource)) continue;
+
+            JsonObject language = new JsonObject();
+            LanguageDefinition def = ((TranslationResource)resource).getLanguage();
+
+            language.addProperty("name", def.getName());
+            language.addProperty("region", def.getRegion());
+            language.addProperty("bidirectional", def.isRightToLeft());
+            languageMeta.add(def.getCode(), language);
+        }
+
         JsonObject meta = new JsonObject();
         meta.add("pack", packMeta);
+        meta.add("language", languageMeta);
 
         return meta.has(reader.getKey())
             ? reader.fromJson(meta.getAsJsonObject(reader.getKey()))
