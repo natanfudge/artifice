@@ -35,10 +35,6 @@ processResources {
 		include "fabric.mod.json"
 		expand "version": project.version
 	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
-	}
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
