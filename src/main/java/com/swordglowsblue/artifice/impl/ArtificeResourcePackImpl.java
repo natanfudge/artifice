@@ -22,10 +22,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<String> namespaces;
     private final ResourceType type;
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
+    private final boolean optional;
 
-    public ArtificeResourcePackImpl(ResourceType type, Consumer<ResourceRegistry> registerResources) {
+    public ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<ResourceRegistry> registerResources) {
         this.type = type;
         this.namespaces = new HashSet<>();
+        this.optional = optional;
 
         registerResources.accept((id, resource) -> {
             this.resources.put(id, resource);
@@ -80,6 +82,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public InputStream openRoot(String filename) { return new NullInputStream(0); }
     public Set<String> getNamespaces(ResourceType type) { return new HashSet<>(this.namespaces); }
     public ResourceType getType() { return this.type; }
+    public boolean isOptional() { return this.optional; }
     public void close() {}
 
     private String name;

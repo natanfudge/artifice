@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.test;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import com.swordglowsblue.artifice.impl.resource.StringResource;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,13 +26,17 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
         Item testItem = Registry.register(Registry.ITEM, id("test_item"), new Item(itemSettings));
         Block testBlock = Registry.register(Registry.BLOCK, id("test_block"), new Block(Block.Settings.copy(Blocks.STONE)));
         Item testBlockItem = Registry.register(Registry.ITEM, id("test_block"), new BlockItem(testBlock, itemSettings));
+
+        Artifice.registerData("artifice:testmod", ArtificeResourcePack.ofData(false, pack -> {
+            pack.add(new Identifier("artifice:recipes/test_item.json"), new StringResource("{}"));
+        }));
     }
 
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
         if(!FabricLoader.getInstance().isDevelopmentEnvironment()) return;
 
-        Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(pack -> {
+        Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(false, pack -> {
             pack.addItemModel(new Identifier("artifice:test_item"), model -> model
                 .parent(new Identifier("item/generated"))
                 .texture("layer0", new Identifier("block/sand"))
@@ -57,5 +62,7 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
 //                .entry("item.artifice.test_item", "Artifice Test Item in custom lang")
 //                .entry("block.artifice.test_block", "Artifice Test Block in custom lang"));
         }));
+
+        Artifice.registerAssets(new Identifier("artifice:testmod2"), ArtificeResourcePack.ofAssets(true, pack -> {}));
     }
 }

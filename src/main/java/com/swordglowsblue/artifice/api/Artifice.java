@@ -2,7 +2,6 @@ package com.swordglowsblue.artifice.api;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.MutableRegistry;
@@ -13,9 +12,9 @@ public final class Artifice {
     private Artifice() {}
 
     @Environment(EnvType.CLIENT)
-    public static final MutableRegistry<ResourcePack> ASSETS =
+    public static final MutableRegistry<ArtificeResourcePack> ASSETS =
         Registry.register(Registry.REGISTRIES, "artifice:assets_packs", new SimpleRegistry<>());
-    public static final MutableRegistry<ResourcePack> DATA =
+    public static final MutableRegistry<ArtificeResourcePack> DATA =
         Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());
 
     @Environment(EnvType.CLIENT)

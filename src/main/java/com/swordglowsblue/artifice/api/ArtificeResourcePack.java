@@ -16,12 +16,13 @@ import java.util.function.Consumer;
 
 public interface ArtificeResourcePack extends ResourcePack {
     ResourceType getType();
+    boolean isOptional();
 
     @Environment(EnvType.CLIENT)
-    static ArtificeResourcePack ofAssets(Consumer<ClientResourceRegistry> register) {
-        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register::accept); }
+    static ArtificeResourcePack ofAssets(boolean optional, Consumer<ClientResourceRegistry> register) {
+        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, optional, register::accept); }
     static ArtificeResourcePack ofData(Consumer<ServerResourceRegistry> register) {
-        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register::accept); }
+        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, true, register::accept); }
 
     @FunctionalInterface
     interface ResourceRegistry extends ClientResourceRegistry, ServerResourceRegistry {}
