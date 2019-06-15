@@ -8,7 +8,6 @@ import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -51,10 +50,10 @@ public interface ArtificeResourcePack extends ResourcePack {
             this.add(IdUtils.wrapPath("lang/", id, ".json"), settings.process(builder).build());
         }
 
-        default void addLanguage(Identifier id, LanguageDefinition def, Processor<TranslationResource.Builder> settings) {
-            TranslationResource.Builder builder = new TranslationResource.Builder(def);
-            this.add(IdUtils.wrapPath("lang/", id, ".json"), settings.process(builder).build());
-        }
+//        default void addLanguage(Identifier id, LanguageDefinition def, Processor<TranslationResource.Builder> settings) {
+//            TranslationResource.Builder builder = new TranslationResource.Builder(def);
+//            this.add(IdUtils.wrapPath("lang/", id, ".json"), settings.process(builder).build());
+//        }
     }
 
     interface ServerResourceRegistry {
