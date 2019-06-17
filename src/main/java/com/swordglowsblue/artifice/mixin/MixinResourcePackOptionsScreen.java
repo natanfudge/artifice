@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screen.resourcepack.AvailableResourcePackListWid
 import net.minecraft.client.gui.screen.resourcepack.ResourcePackListWidget;
 import net.minecraft.client.gui.screen.resourcepack.ResourcePackOptionsScreen;
 import net.minecraft.client.gui.screen.resourcepack.SelectedResourcePackListWidget;
+import net.minecraft.client.resource.ClientResourcePackContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +26,8 @@ public abstract class MixinResourcePackOptionsScreen {
         List<ResourcePackListWidget.ResourcePackEntry> toRemove = new ArrayList<>();
 
         this.availableList.children().forEach(entry -> {
-            if(!((ArtificeResourcePackContainer)entry.getPackContainer()).artifice_isOptional()) {
+            ClientResourcePackContainer container = entry.getPackContainer();
+            if(container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)container).isOptional()) {
                 toRemove.add(entry);
                 System.out.println("Hidden pack "+entry.getPackContainer().getName());
             }
@@ -36,7 +38,8 @@ public abstract class MixinResourcePackOptionsScreen {
         toRemove.clear();
 
         this.selectedList.children().forEach(entry -> {
-            if(!((ArtificeResourcePackContainer)entry.getPackContainer()).artifice_isOptional()) {
+            ClientResourcePackContainer container = entry.getPackContainer();
+            if(container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)container).isOptional()) {
                 toRemove.add(entry);
                 System.out.println("Hidden pack "+entry.getPackContainer().getName());
             }
