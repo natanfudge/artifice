@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.impl.util.Processor;
 
-public final class JsonObjectBuilder extends TypedJsonBuilder<JsonObject> {
+public class JsonObjectBuilder extends TypedJsonBuilder<JsonObject> {
     public JsonObjectBuilder() { super(new JsonObject(), j->j); }
     public JsonObjectBuilder(JsonObject root) { super(root, j->j); }
 

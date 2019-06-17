@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.api;
 
 import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -39,5 +40,6 @@ public interface ArtificeResourcePack extends ResourcePack {
 
     interface ServerResourceRegistry extends ResourceRegistry {
         void addAdvancement(Identifier id, Processor<AdvancementBuilder> f);
+        void addLootTable(Identifier id, Processor<LootTableBuilder> f);
     }
 }
