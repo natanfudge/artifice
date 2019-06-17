@@ -52,7 +52,7 @@ public final class ModelElementBuilder extends JsonBuilder<JsonObject> {
     }
 
     public static class Rotation extends JsonBuilder<JsonObject> {
-        Rotation(JsonObject root) { super(root, j->j); }
+        private Rotation(JsonObject root) { super(root, j->j); }
 
         public Rotation origin(float x, float y, float z) {
             root.add("origin", arrayOf(
@@ -80,7 +80,7 @@ public final class ModelElementBuilder extends JsonBuilder<JsonObject> {
     }
 
     public static class Face extends JsonBuilder<JsonObject> {
-        Face(JsonObject root) { super(root, j->j); }
+        private Face(JsonObject root) { super(root, j->j); }
 
         public Face uv(float x1, float x2, float y1, float y2) {
             root.add("uv", arrayOf(
