@@ -9,7 +9,7 @@ import com.swordglowsblue.artifice.impl.util.Processor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Identifier;
 
-public class AdvancementBuilder extends TypedJsonBuilder<JsonResource> {
+public final class AdvancementBuilder extends TypedJsonBuilder<JsonResource> {
     public AdvancementBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public AdvancementBuilder display(Processor<Display> settings) {
