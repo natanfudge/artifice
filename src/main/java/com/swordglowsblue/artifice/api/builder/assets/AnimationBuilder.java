@@ -1,14 +1,15 @@
-package com.swordglowsblue.artifice.api.builder;
+package com.swordglowsblue.artifice.api.builder.assets;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
-public final class AnimationBuilder extends JsonBuilder<JsonResource> {
+public final class AnimationBuilder extends TypedJsonBuilder<JsonResource> {
     public AnimationBuilder() { super(new JsonObject(), anim -> {
         JsonObject json = new JsonObject();
         json.add("animation", anim);

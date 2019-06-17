@@ -8,11 +8,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public abstract class JsonBuilder<T> {
+public abstract class TypedJsonBuilder<T> {
     protected final JsonObject root;
     private final Function<JsonObject, T> ctor;
 
-    protected JsonBuilder(JsonObject root, Function<JsonObject, T> ctor) {
+    protected TypedJsonBuilder(JsonObject root, Function<JsonObject, T> ctor) {
         this.root = root;
         this.ctor = ctor;
     }

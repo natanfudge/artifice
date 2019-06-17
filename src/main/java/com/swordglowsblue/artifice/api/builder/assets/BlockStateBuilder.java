@@ -1,8 +1,9 @@
-package com.swordglowsblue.artifice.api.builder;
+package com.swordglowsblue.artifice.api.builder.assets;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
@@ -10,7 +11,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public final class BlockStateBuilder extends JsonBuilder<JsonResource> {
+public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource> {
     public BlockStateBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public BlockStateBuilder variant(String name, Processor<Variant> settings) {
@@ -38,7 +39,7 @@ public final class BlockStateBuilder extends JsonBuilder<JsonResource> {
     }
 
     @Environment(EnvType.CLIENT)
-    public static final class Variant extends JsonBuilder<JsonObject> {
+    public static final class Variant extends TypedJsonBuilder<JsonObject> {
         private Variant() { super(new JsonObject(), j->j); }
         private Variant(JsonObject root) { super(root, j->j); }
 
@@ -69,7 +70,7 @@ public final class BlockStateBuilder extends JsonBuilder<JsonResource> {
     }
 
     @Environment(EnvType.CLIENT)
-    public static final class Case extends JsonBuilder<JsonObject> {
+    public static final class Case extends TypedJsonBuilder<JsonObject> {
         private Case() { super(new JsonObject(), j->j); }
 
         public Case when(String name, String state) {

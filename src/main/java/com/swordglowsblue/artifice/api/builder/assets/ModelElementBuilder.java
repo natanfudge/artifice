@@ -1,6 +1,7 @@
-package com.swordglowsblue.artifice.api.builder;
+package com.swordglowsblue.artifice.api.builder.assets;
 
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,7 +10,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public final class ModelElementBuilder extends JsonBuilder<JsonObject> {
+public final class ModelElementBuilder extends TypedJsonBuilder<JsonObject> {
     ModelElementBuilder() { super(new JsonObject(), j->j); }
 
     public ModelElementBuilder from(float x, float y, float z) {
@@ -52,7 +53,7 @@ public final class ModelElementBuilder extends JsonBuilder<JsonObject> {
     }
 
     @Environment(EnvType.CLIENT)
-    public static final class Rotation extends JsonBuilder<JsonObject> {
+    public static final class Rotation extends TypedJsonBuilder<JsonObject> {
         private Rotation(JsonObject root) { super(root, j->j); }
 
         public Rotation origin(float x, float y, float z) {
@@ -81,7 +82,7 @@ public final class ModelElementBuilder extends JsonBuilder<JsonObject> {
     }
 
     @Environment(EnvType.CLIENT)
-    public static final class Face extends JsonBuilder<JsonObject> {
+    public static final class Face extends TypedJsonBuilder<JsonObject> {
         private Face(JsonObject root) { super(root, j->j); }
 
         public Face uv(float x1, float x2, float y1, float y2) {

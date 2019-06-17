@@ -1,7 +1,8 @@
-package com.swordglowsblue.artifice.api.builder;
+package com.swordglowsblue.artifice.api.builder.assets;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
@@ -9,7 +10,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public final class ModelBuilder extends JsonBuilder<JsonResource> {
+public final class ModelBuilder extends TypedJsonBuilder<JsonResource> {
     public ModelBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public ModelBuilder parent(Identifier id) {
@@ -49,7 +50,7 @@ public final class ModelBuilder extends JsonBuilder<JsonResource> {
     }
 
     @Environment(EnvType.CLIENT)
-    public static final class Display extends JsonBuilder<JsonObject> {
+    public static final class Display extends TypedJsonBuilder<JsonObject> {
         private Display(JsonObject root) { super(root, j->j); }
 
         public Display rotation(int x, int y, int z) {
@@ -69,7 +70,7 @@ public final class ModelBuilder extends JsonBuilder<JsonResource> {
     }
 
     @Environment(EnvType.CLIENT)
-    public static final class Override extends JsonBuilder<JsonObject> {
+    public static final class Override extends TypedJsonBuilder<JsonObject> {
         private Override() { super(new JsonObject(), j->j); }
 
         public Override predicate(String name, int value) {
