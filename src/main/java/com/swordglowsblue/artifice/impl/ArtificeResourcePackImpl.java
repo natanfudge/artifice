@@ -5,7 +5,10 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import com.swordglowsblue.artifice.impl.resource.LanguageResource;
+import com.swordglowsblue.artifice.impl.resource.TranslationResource;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
@@ -22,6 +25,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<String> namespaces;
     private final ResourceType type;
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
+    private final Set<LanguageResource> languages = new HashSet<>();
     private final boolean optional;
 
     public ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<ResourceRegistry> registerResources) {
@@ -30,8 +34,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         this.optional = optional;
 
         registerResources.accept((id, resource) -> {
-            this.resources.put(id, resource);
-            this.namespaces.add(id.getNamespace());
+            if(resource instanceof LanguageResource)
+                this.languages.add((LanguageResource)resource);
+            else {
+                this.resources.put(id, resource);
+                this.namespaces.add(id.getNamespace());
+            }
         });
     }
 
@@ -57,22 +65,20 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         packMeta.addProperty("pack_format", SharedConstants.getGameVersion().getPackVersion());
         packMeta.addProperty("description", "In-memory resource pack via Artifice");
 
-//        JsonObject languageMeta = new JsonObject();
-//        for(ArtificeResource resource : resources.values()) {
-//            if(!(resource instanceof TranslationResource)) continue;
-//
-//            JsonObject language = new JsonObject();
-//            LanguageDefinition def = ((TranslationResource)resource).getLanguage();
-//
-//            language.addProperty("name", def.getName());
-//            language.addProperty("region", def.getRegion());
-//            language.addProperty("bidirectional", def.isRightToLeft());
-//            languageMeta.add(def.getCode(), language);
-//        }
+        JsonObject languageMeta = new JsonObject();
+        for(LanguageResource resource : languages) {
+            JsonObject language = new JsonObject();
+            LanguageDefinition def = resource.getData();
+
+            language.addProperty("name", def.getName());
+            language.addProperty("region", def.getRegion());
+            language.addProperty("bidirectional", def.isRightToLeft());
+            languageMeta.add(def.getCode(), language);
+        }
 
         JsonObject meta = new JsonObject();
         meta.add("pack", packMeta);
-//        meta.add("language", languageMeta);
+        meta.add("language", languageMeta);
 
         return meta.has(reader.getKey())
             ? reader.fromJson(meta.getAsJsonObject(reader.getKey()))

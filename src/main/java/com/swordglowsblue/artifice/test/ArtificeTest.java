@@ -10,6 +10,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -58,9 +59,10 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
             pack.addTranslations(new Identifier("artifice:en_us"), translations -> translations
                 .entry("item.artifice.test_item", "Artifice Test Item")
                 .entry("block.artifice.test_block", "Artifice Test Block"));
-//            pack.addLanguage(new Identifier("artifice:artifice"), new LanguageDefinition("artifice", "Artifice", "Artifice", false), t->t
-//                .entry("item.artifice.test_item", "Artifice Test Item in custom lang")
-//                .entry("block.artifice.test_block", "Artifice Test Block in custom lang"));
+            pack.addLanguage("ar_tm", "Artifice", "Test Mod", false);
+            pack.addTranslations(new Identifier("artifice:ar_tm"), translations -> translations
+                .entry("item.artifice.test_item", "Artifice Test Item in custom lang")
+                .entry("block.artifice.test_block", "Artifice Test Block in custom lang"));
         }));
 
         Artifice.registerAssets(new Identifier("artifice:testmod2"), ArtificeResourcePack.ofAssets(true, pack -> {}));

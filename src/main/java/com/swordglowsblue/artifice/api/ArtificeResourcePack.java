@@ -2,12 +2,14 @@ package com.swordglowsblue.artifice.api;
 
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import com.swordglowsblue.artifice.impl.resource.BlockStateResource;
+import com.swordglowsblue.artifice.impl.resource.LanguageResource;
 import com.swordglowsblue.artifice.impl.resource.ModelResource;
 import com.swordglowsblue.artifice.impl.resource.TranslationResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -47,14 +49,14 @@ public interface ArtificeResourcePack extends ResourcePack {
         }
 
         default void addTranslations(Identifier id, Processor<TranslationResource.Builder> settings) {
-            TranslationResource.Builder builder = new TranslationResource.Builder(id.getPath());
+            TranslationResource.Builder builder = new TranslationResource.Builder();
             this.add(IdUtils.wrapPath("lang/", id, ".json"), settings.process(builder).build());
         }
 
-//        default void addLanguage(Identifier id, LanguageDefinition def, Processor<TranslationResource.Builder> settings) {
-//            TranslationResource.Builder builder = new TranslationResource.Builder(def);
-//            this.add(IdUtils.wrapPath("lang/", id, ".json"), settings.process(builder).build());
-//        }
+        default void addLanguage(LanguageDefinition def) { this.add(null, new LanguageResource(def)); }
+        default void addLanguage(String code, String region, String name, boolean rtl) {
+            this.addLanguage(new LanguageDefinition(code, region, name, rtl));
+        }
     }
 
     interface ServerResourceRegistry {
