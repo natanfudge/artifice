@@ -5,10 +5,7 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.api.builder.BlockStateBuilder;
-import com.swordglowsblue.artifice.api.builder.JsonBuilder;
-import com.swordglowsblue.artifice.api.builder.ModelBuilder;
-import com.swordglowsblue.artifice.api.builder.TranslationBuilder;
+import com.swordglowsblue.artifice.api.builder.*;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
@@ -66,6 +63,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.addJson("blockstates/", id, f, BlockStateBuilder::new); }
         public void addTranslations(Identifier id, Processor<TranslationBuilder> f) {
             this.addJson("lang/", id, f, TranslationBuilder::new); }
+        public void addParticle(Identifier id, Processor<ParticleBuilder> f) {
+            this.addJson("particles/", id, f, ParticleBuilder::new); }
 
         public void addLanguage(LanguageDefinition def) { ArtificeResourcePackImpl.this.languages.add(def); }
         public void addLanguage(String code, String region, String name, boolean rtl) {

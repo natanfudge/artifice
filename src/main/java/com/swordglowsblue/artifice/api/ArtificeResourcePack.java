@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.api;
 
 import com.swordglowsblue.artifice.api.builder.BlockStateBuilder;
 import com.swordglowsblue.artifice.api.builder.ModelBuilder;
+import com.swordglowsblue.artifice.api.builder.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.TranslationBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
@@ -28,6 +29,7 @@ public interface ArtificeResourcePack extends ResourcePack {
         void addBlockModel(Identifier id, Processor<ModelBuilder> f);
         void addBlockState(Identifier id, Processor<BlockStateBuilder> f);
         void addTranslations(Identifier id, Processor<TranslationBuilder> f);
+        void addParticle(Identifier id, Processor<ParticleBuilder> f);
         void addLanguage(LanguageDefinition def);
         void addLanguage(String code, String region, String name, boolean rtl);
 
