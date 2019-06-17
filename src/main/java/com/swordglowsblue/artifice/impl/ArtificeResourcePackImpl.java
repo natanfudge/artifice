@@ -33,15 +33,15 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final ResourceType type;
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
     private final Set<LanguageResource> languages = new HashSet<>();
-    private final boolean optional;
 
     private String description;
     private String displayName;
+    private boolean optional;
+    private boolean visible;
 
-    public <T extends ResourceRegistry> ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<T> registerResources) {
+    public <T extends ResourceRegistry> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
         this.type = type;
         this.namespaces = new HashSet<>();
-        this.optional = optional;
         registerResources.accept((T)new ResourceRegistryImpl());
     }
 
@@ -50,6 +50,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void setDisplayName(String name) { ArtificeResourcePackImpl.this.displayName = name; }
         public void setDescription(String desc) { ArtificeResourcePackImpl.this.description = desc; }
+        public void setOptional(boolean b) { ArtificeResourcePackImpl.this.optional = b; }
+
+        public void setVisible(boolean b) {
+            ArtificeResourcePackImpl.this.visible = b;
+            if(!b) setOptional(false);
+        }
 
         public void add(Identifier id, ArtificeResource resource) {
             if(resource instanceof LanguageResource)
@@ -125,6 +131,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public Set<String> getNamespaces(ResourceType type) { return new HashSet<>(this.namespaces); }
     public ResourceType getType() { return this.type; }
     public boolean isOptional() { return this.optional; }
+    public boolean isVisible() { return this.visible; }
     public void close() {}
 
     public String getName() {

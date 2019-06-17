@@ -27,10 +27,7 @@ public abstract class MixinResourcePackOptionsScreen {
 
         this.availableList.children().forEach(entry -> {
             ClientResourcePackContainer container = entry.getPackContainer();
-            if(container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)container).isOptional()) {
-                toRemove.add(entry);
-                System.out.println("Hidden pack "+entry.getPackContainer().getName());
-            }
+            if(container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)container).isVisible()) toRemove.add(entry);
         });
 
         this.availableList.children().removeAll(toRemove);
@@ -39,10 +36,7 @@ public abstract class MixinResourcePackOptionsScreen {
 
         this.selectedList.children().forEach(entry -> {
             ClientResourcePackContainer container = entry.getPackContainer();
-            if(container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)container).isOptional()) {
-                toRemove.add(entry);
-                System.out.println("Hidden pack "+entry.getPackContainer().getName());
-            }
+            if(container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)container).isVisible()) toRemove.add(entry);
         });
 
         this.selectedList.children().removeAll(toRemove);

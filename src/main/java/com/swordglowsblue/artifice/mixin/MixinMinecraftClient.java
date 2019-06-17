@@ -29,7 +29,7 @@ public abstract class MixinMinecraftClient {
                     ArtificeResourcePack pack = Artifice.ASSETS.get(id);
                     T cont = ResourcePackContainer.of(id.toString(), false, () -> pack, factory,
                         pack.isOptional() ? ResourcePackContainer.InsertionPosition.TOP : ResourcePackContainer.InsertionPosition.BOTTOM);
-                    packs.put(id.toString(), (T)new ArtificeResourcePackContainer(pack.isOptional(), cont));
+                    packs.put(id.toString(), (T)new ArtificeResourcePackContainer(pack.isOptional(), pack.isVisible(), cont));
                 }
             }
         });

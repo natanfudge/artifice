@@ -17,12 +17,13 @@ import java.util.function.Consumer;
 public interface ArtificeResourcePack extends ResourcePack {
     ResourceType getType();
     boolean isOptional();
+    boolean isVisible();
 
     @Environment(EnvType.CLIENT)
-    static ArtificeResourcePack ofAssets(boolean optional, Consumer<ClientResourceRegistry> register) {
-        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, optional, register); }
+    static ArtificeResourcePack ofAssets(Consumer<ClientResourceRegistry> register) {
+        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register); }
     static ArtificeResourcePack ofData(Consumer<ServerResourceRegistry> register) {
-        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, true, register); }
+        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register); }
 
     interface ResourceRegistry {
         void add(Identifier id, ArtificeResource resource);
@@ -38,6 +39,9 @@ public interface ArtificeResourcePack extends ResourcePack {
         void addTranslations(Identifier id, Processor<TranslationBuilder> f);
         void addLanguage(LanguageDefinition def);
         void addLanguage(String code, String region, String name, boolean rtl);
+
+        void setOptional(boolean b);
+        void setVisible(boolean b);
     }
 
     interface ServerResourceRegistry extends ResourceRegistry {}

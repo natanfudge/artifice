@@ -8,12 +8,14 @@ import net.minecraft.resource.ResourcePackContainer;
 @Environment(EnvType.CLIENT)
 public class ArtificeResourcePackContainer extends ClientResourcePackContainer {
     private final boolean optional;
+    private final boolean visible;
     public boolean isOptional() { return this.optional; }
+    public boolean isVisible() { return this.visible; }
 
-    public ArtificeResourcePackContainer(boolean optional, ResourcePackContainer wrapping) {
+    public ArtificeResourcePackContainer(boolean optional, boolean visible, ResourcePackContainer wrapping) {
         super(
             wrapping.getName(),
-            wrapping.canBeSorted(),
+            !optional,
             wrapping::createResourcePack,
             wrapping.getDisplayName(),
             wrapping.getDescription(),
@@ -22,6 +24,8 @@ public class ArtificeResourcePackContainer extends ClientResourcePackContainer {
             wrapping.isPositionFixed(),
             null
         );
+
         this.optional = optional;
+        this.visible = visible;
     }
 }

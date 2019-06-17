@@ -36,7 +36,7 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
     public void onInitializeClient() {
         if(!FabricLoader.getInstance().isDevelopmentEnvironment()) return;
 
-        Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(false, pack -> {
+        Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(pack -> {
             pack.setDisplayName("Artifice Test Resources");
             pack.setDescription("Resources for the Artifice test mod");
 
@@ -67,6 +67,9 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
                 .entry("block.artifice.test_block", "Artifice Test Block in custom lang"));
         }));
 
-        Artifice.registerAssets(new Identifier("artifice:testmod2"), ArtificeResourcePack.ofAssets(true, pack -> {}));
+        Artifice.registerAssets(new Identifier("artifice:testmod2"), ArtificeResourcePack.ofAssets(pack -> {
+            pack.setOptional(true);
+            pack.setVisible(true);
+        }));
     }
 }
