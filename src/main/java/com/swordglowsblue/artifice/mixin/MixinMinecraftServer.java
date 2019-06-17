@@ -2,7 +2,6 @@ package com.swordglowsblue.artifice.mixin;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.impl.ArtificeResourcePackContainer;
 import net.minecraft.resource.ResourcePackContainer;
 import net.minecraft.resource.ResourcePackContainerManager;
 import net.minecraft.resource.ResourcePackCreator;
