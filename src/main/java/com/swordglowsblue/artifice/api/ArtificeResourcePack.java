@@ -40,8 +40,8 @@ public interface ArtificeResourcePack extends ResourcePack {
         void addLanguage(LanguageDefinition def);
         void addLanguage(String code, String region, String name, boolean rtl);
 
-        void setOptional(boolean b);
-        void setVisible(boolean b);
+        void setOptional();
+        void setVisible();
     }
 
     interface ServerResourceRegistry extends ResourceRegistry {}

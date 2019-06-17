@@ -50,12 +50,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void setDisplayName(String name) { ArtificeResourcePackImpl.this.displayName = name; }
         public void setDescription(String desc) { ArtificeResourcePackImpl.this.description = desc; }
-        public void setOptional(boolean b) { ArtificeResourcePackImpl.this.optional = b; }
-
-        public void setVisible(boolean b) {
-            ArtificeResourcePackImpl.this.visible = b;
-            if(!b) setOptional(false);
+        public void setVisible() { ArtificeResourcePackImpl.this.visible = true; }
+        public void setOptional() {
+            ArtificeResourcePackImpl.this.optional = true;
+            ArtificeResourcePackImpl.this.visible = true;
         }
+
 
         public void add(Identifier id, ArtificeResource resource) {
             if(resource instanceof LanguageResource)

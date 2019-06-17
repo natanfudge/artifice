@@ -68,8 +68,7 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
         }));
 
         Artifice.registerAssets(new Identifier("artifice:testmod2"), ArtificeResourcePack.ofAssets(pack -> {
-            pack.setOptional(true);
-            pack.setVisible(true);
+            pack.setOptional();
         }));
     }
 }
