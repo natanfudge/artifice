@@ -65,6 +65,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.addJson("lang/", id, f, TranslationBuilder::new); }
         public void addParticle(Identifier id, Processor<ParticleBuilder> f) {
             this.addJson("particles/", id, f, ParticleBuilder::new); }
+        public void addItemAnimation(Identifier id, Processor<AnimationBuilder> f) {
+            this.addMcmeta("textures/item/", id, f, AnimationBuilder::new); }
+        public void addBlockAnimation(Identifier id, Processor<AnimationBuilder> f) {
+            this.addMcmeta("textures/block/", id, f, AnimationBuilder::new); }
 
         public void addLanguage(LanguageDefinition def) { ArtificeResourcePackImpl.this.languages.add(def); }
         public void addLanguage(String code, String region, String name, boolean rtl) {
@@ -72,8 +76,9 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
 
         private <T extends JsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
-            this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build());
-        }
+            this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build()); }
+        private <T extends JsonBuilder<? extends JsonResource>> void addMcmeta(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
+            this.add(IdUtils.wrapPath(path, id, ".mcmeta"), f.process(ctor.get()).build()); }
     }
 
     public InputStream openRoot(String fname) throws IOException { return open(this.type, new Identifier(fname)); }
