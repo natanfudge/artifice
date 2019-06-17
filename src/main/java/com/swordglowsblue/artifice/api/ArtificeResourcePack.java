@@ -3,6 +3,7 @@ package com.swordglowsblue.artifice.api;
 import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
+import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -41,5 +42,10 @@ public interface ArtificeResourcePack extends ResourcePack {
     interface ServerResourceRegistry extends ResourceRegistry {
         void addAdvancement(Identifier id, Processor<AdvancementBuilder> f);
         void addLootTable(Identifier id, Processor<LootTableBuilder> f);
+        void addItemTag(Identifier id, Processor<TagBuilder> f);
+        void addBlockTag(Identifier id, Processor<TagBuilder> f);
+        void addEntityTypeTag(Identifier id, Processor<TagBuilder> f);
+        void addFluidTag(Identifier id, Processor<TagBuilder> f);
+        void addFunctionTag(Identifier id, Processor<TagBuilder> f);
     }
 }

@@ -9,6 +9,7 @@ import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
+import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
@@ -85,6 +86,16 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.addJson("advancements/", id, f, AdvancementBuilder::new); }
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
             this.addJson("loot_tables/", id, f, LootTableBuilder::new); }
+        public void addItemTag(Identifier id, Processor<TagBuilder> f) {
+            this.addJson("tags/items", id, f, TagBuilder::new); }
+        public void addBlockTag(Identifier id, Processor<TagBuilder> f) {
+            this.addJson("tags/blocks", id, f, TagBuilder::new); }
+        public void addEntityTypeTag(Identifier id, Processor<TagBuilder> f) {
+            this.addJson("tags/entity_types", id, f, TagBuilder::new); }
+        public void addFluidTag(Identifier id, Processor<TagBuilder> f) {
+            this.addJson("tags/fluids", id, f, TagBuilder::new); }
+        public void addFunctionTag(Identifier id, Processor<TagBuilder> f) {
+            this.addJson("tags/functions", id, f, TagBuilder::new); }
 
         private <T extends TypedJsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
             this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build()); }
