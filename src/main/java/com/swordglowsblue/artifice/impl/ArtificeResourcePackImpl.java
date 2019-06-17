@@ -5,7 +5,15 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
+import com.swordglowsblue.artifice.api.ArtificeResourcePack.ResourceRegistry;
+import com.swordglowsblue.artifice.impl.builder.BlockStateBuilder;
+import com.swordglowsblue.artifice.impl.builder.ModelBuilder;
+import com.swordglowsblue.artifice.impl.builder.TranslationBuilder;
+import com.swordglowsblue.artifice.impl.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.resource.LanguageResource;
+import com.swordglowsblue.artifice.impl.util.IdUtils;
+import com.swordglowsblue.artifice.impl.util.JsonBuilder;
+import com.swordglowsblue.artifice.impl.util.Processor;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
@@ -19,27 +27,51 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-public class ArtificeResourcePackImpl implements ArtificeResourcePack {
+public class ArtificeResourcePackImpl<T extends ResourceRegistry> implements ArtificeResourcePack {
     private final Set<String> namespaces;
     private final ResourceType type;
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
     private final Set<LanguageResource> languages = new HashSet<>();
     private final boolean optional;
 
-    public ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<ResourceRegistry> registerResources) {
+    public ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<T> registerResources) {
         this.type = type;
         this.namespaces = new HashSet<>();
         this.optional = optional;
+        registerResources.accept((T)new ResourceRegistryImpl());
+    }
 
-        registerResources.accept((id, resource) -> {
+    private final class ResourceRegistryImpl implements ClientResourceRegistry, ServerResourceRegistry {
+        private ResourceRegistryImpl() {}
+
+        public void add(Identifier id, ArtificeResource resource) {
             if(resource instanceof LanguageResource)
-                this.languages.add((LanguageResource)resource);
+                ArtificeResourcePackImpl.this.languages.add((LanguageResource)resource);
             else {
-                this.resources.put(id, resource);
-                this.namespaces.add(id.getNamespace());
+                ArtificeResourcePackImpl.this.resources.put(id, resource);
+                ArtificeResourcePackImpl.this.namespaces.add(id.getNamespace());
             }
-        });
+        }
+
+        public void addItemModel(Identifier id, Processor<ModelBuilder> f) {
+            this.addJson("models/item/", id, f, ModelBuilder::new); }
+        public void addBlockModel(Identifier id, Processor<ModelBuilder> f) {
+            this.addJson("models/block/", id, f, ModelBuilder::new); }
+        public void addBlockState(Identifier id, Processor<BlockStateBuilder> f) {
+            this.addJson("blockstates/", id, f, BlockStateBuilder::new); }
+        public void addTranslations(Identifier id, Processor<TranslationBuilder> f) {
+            this.addJson("lang/", id, f, TranslationBuilder::new); }
+
+        public void addLanguage(LanguageDefinition def) { this.add(null, new LanguageResource(def)); }
+        public void addLanguage(String code, String region, String name, boolean rtl) {
+            this.addLanguage(new LanguageDefinition(code, region, name, rtl));
+        }
+
+        private <T extends JsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
+            this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build());
+        }
     }
 
     public InputStream open(ResourceType type, Identifier id) throws IOException {
