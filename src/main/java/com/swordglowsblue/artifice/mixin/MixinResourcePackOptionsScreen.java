@@ -18,6 +18,7 @@ import java.util.List;
 public abstract class MixinResourcePackOptionsScreen {
     @Shadow private AvailableResourcePackListWidget availableList;
     @Shadow private SelectedResourcePackListWidget selectedList;
+    private List<ResourcePackListWidget.ResourcePackEntry> hidden = new ArrayList<>();
 
     @Inject(method = "init", at = @At("RETURN"))
     private void hideNoDisplayPacks(CallbackInfo cbi) {
@@ -31,6 +32,7 @@ public abstract class MixinResourcePackOptionsScreen {
         });
 
         this.availableList.children().removeAll(toRemove);
+        this.hidden.addAll(toRemove);
         toRemove.clear();
 
         this.selectedList.children().forEach(entry -> {
@@ -41,5 +43,11 @@ public abstract class MixinResourcePackOptionsScreen {
         });
 
         this.selectedList.children().removeAll(toRemove);
+        this.hidden.addAll(toRemove);
+    }
+
+    @Inject(method = "method_19919", at = @At("HEAD"))
+    private void ensureHiddenPacksAreSelected(CallbackInfo cbi) {
+        this.selectedList.children().addAll(hidden);
     }
 }
