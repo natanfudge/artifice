@@ -9,7 +9,6 @@ import com.swordglowsblue.artifice.impl.builder.BlockStateBuilder;
 import com.swordglowsblue.artifice.impl.builder.ModelBuilder;
 import com.swordglowsblue.artifice.impl.builder.TranslationBuilder;
 import com.swordglowsblue.artifice.impl.resource.JsonResource;
-import com.swordglowsblue.artifice.impl.resource.LanguageResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
@@ -32,7 +31,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<String> namespaces;
     private final ResourceType type;
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
-    private final Set<LanguageResource> languages = new HashSet<>();
+    private final Set<LanguageDefinition> languages = new HashSet<>();
 
     private String description;
     private String displayName;
@@ -56,14 +55,9 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             ArtificeResourcePackImpl.this.visible = true;
         }
 
-
         public void add(Identifier id, ArtificeResource resource) {
-            if(resource instanceof LanguageResource)
-                ArtificeResourcePackImpl.this.languages.add((LanguageResource)resource);
-            else {
-                ArtificeResourcePackImpl.this.resources.put(id, resource);
-                ArtificeResourcePackImpl.this.namespaces.add(id.getNamespace());
-            }
+            ArtificeResourcePackImpl.this.resources.put(id, resource);
+            ArtificeResourcePackImpl.this.namespaces.add(id.getNamespace());
         }
 
         public void addItemModel(Identifier id, Processor<ModelBuilder> f) {
@@ -75,7 +69,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         public void addTranslations(Identifier id, Processor<TranslationBuilder> f) {
             this.addJson("lang/", id, f, TranslationBuilder::new); }
 
-        public void addLanguage(LanguageDefinition def) { this.add(null, new LanguageResource(def)); }
+        public void addLanguage(LanguageDefinition def) { ArtificeResourcePackImpl.this.languages.add(def); }
         public void addLanguage(String code, String region, String name, boolean rtl) {
             this.addLanguage(new LanguageDefinition(code, region, name, rtl));
         }
@@ -108,10 +102,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         packMeta.addProperty("description", description != null ? description : "In-memory resource pack created with Artifice");
 
         JsonObject languageMeta = new JsonObject();
-        for(LanguageResource resource : languages) {
+        for(LanguageDefinition def : languages) {
             JsonObject language = new JsonObject();
-            LanguageDefinition def = resource.getData();
-
             language.addProperty("name", def.getName());
             language.addProperty("region", def.getRegion());
             language.addProperty("bidirectional", def.isRightToLeft());
