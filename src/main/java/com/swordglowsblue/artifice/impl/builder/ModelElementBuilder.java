@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.impl.resource;
+package com.swordglowsblue.artifice.impl.builder;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.impl.util.JsonBuilder;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public class ModelElementBuilder extends JsonBuilder<ModelElementBuilder, JsonObject> {
+public final class ModelElementBuilder extends JsonBuilder<JsonObject> {
     ModelElementBuilder() { super(new JsonObject(), j->j); }
 
     public ModelElementBuilder from(float x, float y, float z) {
@@ -31,9 +31,9 @@ public class ModelElementBuilder extends JsonBuilder<ModelElementBuilder, JsonOb
         return this;
     }
 
-    public ModelElementBuilder rotation(Processor<RotationBuilder> settings) {
+    public ModelElementBuilder rotation(Processor<Rotation> settings) {
         with("rotation", JsonObject::new, rotation -> {
-            RotationBuilder builder = new RotationBuilder(rotation);
+            Rotation builder = new Rotation(rotation);
             settings.process(builder).buildTo(rotation);
         });
         return this;
@@ -44,18 +44,18 @@ public class ModelElementBuilder extends JsonBuilder<ModelElementBuilder, JsonOb
         return this;
     }
 
-    public ModelElementBuilder face(Direction side, Processor<FaceBuilder> settings) {
+    public ModelElementBuilder face(Direction side, Processor<Face> settings) {
         with("faces", JsonObject::new, faces -> with(faces, side.getName(), JsonObject::new, face -> {
-            FaceBuilder builder = new FaceBuilder(face);
+            Face builder = new Face(face);
             settings.process(builder).buildTo(face);
         }));
         return this;
     }
 
-    public static class RotationBuilder extends JsonBuilder<RotationBuilder, JsonObject> {
-        RotationBuilder(JsonObject root) { super(root, j->j); }
+    public static class Rotation extends JsonBuilder<JsonObject> {
+        Rotation(JsonObject root) { super(root, j->j); }
 
-        public RotationBuilder origin(float x, float y, float z) {
+        public Rotation origin(float x, float y, float z) {
             root.add("origin", arrayOf(
                 MathHelper.clamp(x, -16, 32),
                 MathHelper.clamp(y, -16, 32),
@@ -64,26 +64,26 @@ public class ModelElementBuilder extends JsonBuilder<ModelElementBuilder, JsonOb
             return this;
         }
 
-        public RotationBuilder axis(Direction.Axis axis) {
+        public Rotation axis(Direction.Axis axis) {
             root.addProperty("axis", axis.getName());
             return this;
         }
 
-        public RotationBuilder angle(float angle) {
+        public Rotation angle(float angle) {
             root.addProperty("angle", MathHelper.clamp(angle, -45f, 45f) % 22.5f * 22.5f);
             return this;
         }
 
-        public RotationBuilder rescale(boolean rescale) {
+        public Rotation rescale(boolean rescale) {
             root.addProperty("rescale", rescale);
             return this;
         }
     }
 
-    public static class FaceBuilder extends JsonBuilder<FaceBuilder, JsonObject> {
-        FaceBuilder(JsonObject root) { super(root, j->j); }
+    public static class Face extends JsonBuilder<JsonObject> {
+        Face(JsonObject root) { super(root, j->j); }
 
-        public FaceBuilder uv(float x1, float x2, float y1, float y2) {
+        public Face uv(float x1, float x2, float y1, float y2) {
             root.add("uv", arrayOf(
                 MathHelper.clamp(x1, -16, 32),
                 MathHelper.clamp(x2, -16, 32),
@@ -93,27 +93,27 @@ public class ModelElementBuilder extends JsonBuilder<ModelElementBuilder, JsonOb
             return this;
         }
 
-        public FaceBuilder texture(String varName) {
+        public Face texture(String varName) {
             root.addProperty("texture", "#"+varName);
             return this;
         }
 
-        public FaceBuilder texture(Identifier path) {
+        public Face texture(Identifier path) {
             root.addProperty("texture", path.toString());
             return this;
         }
 
-        public FaceBuilder cullface(Direction side) {
+        public Face cullface(Direction side) {
             root.addProperty("cullface", side.getName());
             return this;
         }
 
-        public FaceBuilder rotation(int rotation) {
+        public Face rotation(int rotation) {
             root.addProperty("rotation", MathHelper.clamp(rotation, 0, 270) % 90 * 90);
             return this;
         }
 
-        public FaceBuilder tintindex(int tintindex) {
+        public Face tintindex(int tintindex) {
             root.addProperty("tintindex", tintindex);
             return this;
         }

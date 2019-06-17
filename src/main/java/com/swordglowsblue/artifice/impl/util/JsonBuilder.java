@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public abstract class JsonBuilder<B extends JsonBuilder<B,T>, T> {
+public abstract class JsonBuilder<T> {
     protected final JsonObject root;
     private final Function<JsonObject, T> ctor;
 

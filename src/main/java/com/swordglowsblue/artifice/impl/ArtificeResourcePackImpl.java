@@ -6,7 +6,6 @@ import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.impl.resource.LanguageResource;
-import com.swordglowsblue.artifice.impl.resource.TranslationResource;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
