@@ -28,8 +28,8 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
-    private final Set<String> namespaces;
     private final ResourceType type;
+    private final Set<String> namespaces = new HashSet<>();
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
     private final Set<LanguageDefinition> languages = new HashSet<>();
 
@@ -40,7 +40,6 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     public <T extends ResourceRegistry> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
         this.type = type;
-        this.namespaces = new HashSet<>();
         registerResources.accept((T)new ResourceRegistryImpl());
     }
 
@@ -79,6 +78,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
     }
 
+    public InputStream openRoot(String fname) throws IOException { return open(this.type, new Identifier(fname)); }
     public InputStream open(ResourceType type, Identifier id) throws IOException {
         if(!contains(type, id)) throw new FileNotFoundException(id.getPath());
         return this.resources.get(id).toInputStream();
@@ -119,7 +119,6 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             : null;
     }
 
-    public InputStream openRoot(String filename) { return new NullInputStream(0); }
     public Set<String> getNamespaces(ResourceType type) { return new HashSet<>(this.namespaces); }
     public ResourceType getType() { return this.type; }
     public boolean isOptional() { return this.optional; }
