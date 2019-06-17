@@ -20,9 +20,9 @@ public interface ArtificeResourcePack extends ResourcePack {
 
     @Environment(EnvType.CLIENT)
     static ArtificeResourcePack ofAssets(boolean optional, Consumer<ClientResourceRegistry> register) {
-        return new ArtificeResourcePackImpl<>(ResourceType.CLIENT_RESOURCES, optional, register); }
+        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, optional, register); }
     static ArtificeResourcePack ofData(Consumer<ServerResourceRegistry> register) {
-        return new ArtificeResourcePackImpl<>(ResourceType.SERVER_DATA, true, register); }
+        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, true, register); }
 
     interface ResourceRegistry {
         void add(Identifier id, ArtificeResource resource);

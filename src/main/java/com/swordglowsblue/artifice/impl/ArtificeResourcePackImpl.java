@@ -29,14 +29,14 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class ArtificeResourcePackImpl<T extends ResourceRegistry> implements ArtificeResourcePack {
+public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<String> namespaces;
     private final ResourceType type;
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
     private final Set<LanguageResource> languages = new HashSet<>();
     private final boolean optional;
 
-    public ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<T> registerResources) {
+    public <T extends ResourceRegistry> ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<T> registerResources) {
         this.type = type;
         this.namespaces = new HashSet<>();
         this.optional = optional;
