@@ -26,6 +26,8 @@ public interface ArtificeResourcePack extends ResourcePack {
 
     interface ResourceRegistry {
         void add(Identifier id, ArtificeResource resource);
+        void setDisplayName(String name);
+        void setDescription(String desc);
     }
 
     @Environment(EnvType.CLIENT)

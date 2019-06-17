@@ -37,6 +37,9 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
         if(!FabricLoader.getInstance().isDevelopmentEnvironment()) return;
 
         Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(false, pack -> {
+            pack.setDisplayName("Artifice Test Resources");
+            pack.setDescription("Resources for the Artifice test mod");
+
             pack.addItemModel(new Identifier("artifice:test_item"), model -> model
                 .parent(new Identifier("item/generated"))
                 .texture("layer0", new Identifier("block/sand"))

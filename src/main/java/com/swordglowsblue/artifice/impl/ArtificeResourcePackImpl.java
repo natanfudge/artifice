@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.api.ArtificeResourcePack.ResourceRegistry;
 import com.swordglowsblue.artifice.impl.builder.BlockStateBuilder;
 import com.swordglowsblue.artifice.impl.builder.ModelBuilder;
 import com.swordglowsblue.artifice.impl.builder.TranslationBuilder;
@@ -36,6 +35,9 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<LanguageResource> languages = new HashSet<>();
     private final boolean optional;
 
+    private String description;
+    private String displayName;
+
     public <T extends ResourceRegistry> ArtificeResourcePackImpl(ResourceType type, boolean optional, Consumer<T> registerResources) {
         this.type = type;
         this.namespaces = new HashSet<>();
@@ -45,6 +47,9 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     private final class ResourceRegistryImpl implements ClientResourceRegistry, ServerResourceRegistry {
         private ResourceRegistryImpl() {}
+
+        public void setDisplayName(String name) { ArtificeResourcePackImpl.this.displayName = name; }
+        public void setDescription(String desc) { ArtificeResourcePackImpl.this.description = desc; }
 
         public void add(Identifier id, ArtificeResource resource) {
             if(resource instanceof LanguageResource)
@@ -94,7 +99,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public <T> T parseMetadata(ResourceMetadataReader<T> reader) {
         JsonObject packMeta = new JsonObject();
         packMeta.addProperty("pack_format", SharedConstants.getGameVersion().getPackVersion());
-        packMeta.addProperty("description", "In-memory resource pack via Artifice");
+        packMeta.addProperty("description", description != null ? description : "In-memory resource pack created with Artifice");
 
         JsonObject languageMeta = new JsonObject();
         for(LanguageResource resource : languages) {
@@ -122,13 +127,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public boolean isOptional() { return this.optional; }
     public void close() {}
 
-    private String name;
     public String getName() {
-        if(name != null) return name;
+        if(displayName != null) return displayName;
         switch(this.type) {
-            case CLIENT_RESOURCES: return name = Artifice.ASSETS.getId(this).toString();
-            case SERVER_DATA: return name = Artifice.DATA.getId(this).toString();
-            default: return name = "In-memory resource pack via Artifice";
+            case CLIENT_RESOURCES: return displayName = Artifice.ASSETS.getId(this).toString();
+            case SERVER_DATA: return displayName = Artifice.DATA.getId(this).toString();
+            default: return displayName;
         }
     }
 }
