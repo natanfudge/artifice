@@ -4,11 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.Processor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-public class AnimationBuilder extends JsonBuilder<JsonResource> {
+@Environment(EnvType.CLIENT)
+public final class AnimationBuilder extends JsonBuilder<JsonResource> {
     public AnimationBuilder() { super(new JsonObject(), anim -> {
         JsonObject json = new JsonObject();
         json.add("animation", anim);
@@ -40,6 +40,7 @@ public class AnimationBuilder extends JsonBuilder<JsonResource> {
         return this;
     }
 
+    @Environment(EnvType.CLIENT)
     public static final class FrameOrder {
         private final JsonArray frames = new JsonArray();
         private FrameOrder() {}

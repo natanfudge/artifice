@@ -9,6 +9,8 @@ import com.swordglowsblue.artifice.api.builder.*;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
@@ -39,6 +41,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         registerResources.accept((T)new ResourceRegistryImpl());
     }
 
+    @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourceRegistry.class)
     private final class ResourceRegistryImpl implements ClientResourceRegistry, ServerResourceRegistry {
         private ResourceRegistryImpl() {}
 

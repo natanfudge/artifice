@@ -37,6 +37,7 @@ public final class BlockStateBuilder extends JsonBuilder<JsonResource> {
         return this;
     }
 
+    @Environment(EnvType.CLIENT)
     public static final class Variant extends JsonBuilder<JsonObject> {
         private Variant() { super(new JsonObject(), j->j); }
         private Variant(JsonObject root) { super(root, j->j); }
@@ -67,6 +68,7 @@ public final class BlockStateBuilder extends JsonBuilder<JsonResource> {
         }
     }
 
+    @Environment(EnvType.CLIENT)
     public static final class Case extends JsonBuilder<JsonObject> {
         private Case() { super(new JsonObject(), j->j); }
 

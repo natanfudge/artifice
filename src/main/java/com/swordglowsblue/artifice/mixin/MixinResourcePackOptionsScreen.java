@@ -1,6 +1,8 @@
 package com.swordglowsblue.artifice.mixin;
 
 import com.swordglowsblue.artifice.impl.pack.ArtificeResourcePackContainer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.resourcepack.AvailableResourcePackListWidget;
 import net.minecraft.client.gui.screen.resourcepack.ResourcePackListWidget;
 import net.minecraft.client.gui.screen.resourcepack.ResourcePackOptionsScreen;
@@ -15,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 @Mixin(ResourcePackOptionsScreen.class)
 public abstract class MixinResourcePackOptionsScreen {
     @Shadow private AvailableResourcePackListWidget availableList;

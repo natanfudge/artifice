@@ -48,7 +48,8 @@ public final class ModelBuilder extends JsonBuilder<JsonResource> {
         return this;
     }
 
-    public static class Display extends JsonBuilder<JsonObject> {
+    @Environment(EnvType.CLIENT)
+    public static final class Display extends JsonBuilder<JsonObject> {
         private Display(JsonObject root) { super(root, j->j); }
 
         public Display rotation(int x, int y, int z) {
@@ -67,7 +68,8 @@ public final class ModelBuilder extends JsonBuilder<JsonResource> {
         }
     }
 
-    public static class Override extends JsonBuilder<JsonObject> {
+    @Environment(EnvType.CLIENT)
+    public static final class Override extends JsonBuilder<JsonObject> {
         private Override() { super(new JsonObject(), j->j); }
 
         public Override predicate(String name, int value) {
