@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 public class StringResource implements ArtificeResource<String> {
     private final String data;
-    public StringResource(String data) { this.data = data; }
+    public StringResource(String... lines) { this.data = String.join("\n", lines); }
 
     public String getData() { return this.data; }
     public InputStream toInputStream() {
