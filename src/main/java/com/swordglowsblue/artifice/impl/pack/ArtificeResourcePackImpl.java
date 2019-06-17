@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.api.builder.*;
+import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
+import com.swordglowsblue.artifice.api.builder.assets.*;
+import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
@@ -78,9 +80,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.addLanguage(new LanguageDefinition(code, region, name, rtl));
         }
 
-        private <T extends JsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
+        public void addAdvancement(Identifier id, Processor<AdvancementBuilder> f) {
+            this.addJson("advancements/", id, f, AdvancementBuilder::new); }
+
+        private <T extends TypedJsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
             this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build()); }
-        private <T extends JsonBuilder<? extends JsonResource>> void addMcmeta(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
+        private <T extends TypedJsonBuilder<? extends JsonResource>> void addMcmeta(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
             this.add(IdUtils.wrapPath(path, id, ".mcmeta"), f.process(ctor.get()).build()); }
     }
 
