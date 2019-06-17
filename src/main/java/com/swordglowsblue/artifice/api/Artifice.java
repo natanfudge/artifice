@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api;
 
 import com.swordglowsblue.artifice.api.ArtificeResourcePack.ClientResourceRegistry;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack.ServerResourceRegistry;
-import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
+import com.swordglowsblue.artifice.impl.pack.ArtificeResourcePackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resource.ResourceType;

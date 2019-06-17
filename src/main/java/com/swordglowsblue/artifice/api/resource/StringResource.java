@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.impl.resource;
+package com.swordglowsblue.artifice.api.resource;
 
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import org.apache.commons.io.input.ReaderInputStream;

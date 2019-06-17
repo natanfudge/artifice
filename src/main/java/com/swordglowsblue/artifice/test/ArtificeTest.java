@@ -1,7 +1,7 @@
 package com.swordglowsblue.artifice.test;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.impl.resource.StringResource;
+import com.swordglowsblue.artifice.api.resource.StringResource;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

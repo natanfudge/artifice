@@ -1,7 +1,6 @@
-package com.swordglowsblue.artifice.impl.builder;
+package com.swordglowsblue.artifice.api.builder;
 
 import com.google.gson.JsonObject;
-import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

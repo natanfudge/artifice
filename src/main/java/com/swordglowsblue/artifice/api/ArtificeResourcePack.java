@@ -1,8 +1,8 @@
 package com.swordglowsblue.artifice.api;
 
-import com.swordglowsblue.artifice.impl.builder.BlockStateBuilder;
-import com.swordglowsblue.artifice.impl.builder.ModelBuilder;
-import com.swordglowsblue.artifice.impl.builder.TranslationBuilder;
+import com.swordglowsblue.artifice.api.builder.BlockStateBuilder;
+import com.swordglowsblue.artifice.api.builder.ModelBuilder;
+import com.swordglowsblue.artifice.api.builder.TranslationBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

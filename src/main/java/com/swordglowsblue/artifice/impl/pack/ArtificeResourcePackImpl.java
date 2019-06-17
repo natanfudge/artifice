@@ -1,16 +1,16 @@
-package com.swordglowsblue.artifice.impl;
+package com.swordglowsblue.artifice.impl.pack;
 
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.impl.builder.BlockStateBuilder;
-import com.swordglowsblue.artifice.impl.builder.ModelBuilder;
-import com.swordglowsblue.artifice.impl.builder.TranslationBuilder;
-import com.swordglowsblue.artifice.impl.resource.JsonResource;
+import com.swordglowsblue.artifice.api.builder.BlockStateBuilder;
+import com.swordglowsblue.artifice.api.builder.JsonBuilder;
+import com.swordglowsblue.artifice.api.builder.ModelBuilder;
+import com.swordglowsblue.artifice.api.builder.TranslationBuilder;
+import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
-import com.swordglowsblue.artifice.impl.util.JsonBuilder;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.language.LanguageDefinition;

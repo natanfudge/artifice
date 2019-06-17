@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.impl.util;
+package com.swordglowsblue.artifice.api.builder;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

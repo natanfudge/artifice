@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.impl;
+package com.swordglowsblue.artifice.impl.pack;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
