@@ -33,7 +33,8 @@ public abstract class MixinMinecraftClient {
         });
     }
 
-    @Inject(method = "init", at = @At("RETURN"))
+    @Inject(method = "init", at = @At(value = "INVOKE",
+            target = "net/minecraft/resource/ResourcePackContainerManager.callCreators()V"))
     private void enableNonOptional(CallbackInfo cbi) {
         this.resourcePackContainerManager.getDisabledContainers().forEach(c -> {
             if(c instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)c).isOptional())
