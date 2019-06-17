@@ -1,6 +1,5 @@
 package com.swordglowsblue.artifice.api;
 
-import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import com.swordglowsblue.artifice.impl.builder.BlockStateBuilder;
 import com.swordglowsblue.artifice.impl.builder.ModelBuilder;
 import com.swordglowsblue.artifice.impl.builder.TranslationBuilder;
@@ -12,18 +11,10 @@ import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 
-import java.util.function.Consumer;
-
 public interface ArtificeResourcePack extends ResourcePack {
     ResourceType getType();
     boolean isOptional();
     boolean isVisible();
-
-    @Environment(EnvType.CLIENT)
-    static ArtificeResourcePack ofAssets(Consumer<ClientResourceRegistry> register) {
-        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register); }
-    static ArtificeResourcePack ofData(Consumer<ServerResourceRegistry> register) {
-        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register); }
 
     interface ResourceRegistry {
         void add(Identifier id, ArtificeResource resource);

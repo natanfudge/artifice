@@ -1,7 +1,6 @@
 package com.swordglowsblue.artifice.test;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.impl.resource.StringResource;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -27,16 +26,16 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
         Block testBlock = Registry.register(Registry.BLOCK, id("test_block"), new Block(Block.Settings.copy(Blocks.STONE)));
         Item testBlockItem = Registry.register(Registry.ITEM, id("test_block"), new BlockItem(testBlock, itemSettings));
 
-        Artifice.registerData("artifice:testmod", ArtificeResourcePack.ofData(pack -> {
+        Artifice.registerData("artifice:testmod", pack -> {
             pack.add(new Identifier("artifice:recipes/test_item.json"), new StringResource("{}"));
-        }));
+        });
     }
 
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
         if(!FabricLoader.getInstance().isDevelopmentEnvironment()) return;
 
-        Artifice.registerAssets("artifice:testmod", ArtificeResourcePack.ofAssets(pack -> {
+        Artifice.registerAssets("artifice:testmod", pack -> {
             pack.setDisplayName("Artifice Test Resources");
             pack.setDescription("Resources for the Artifice test mod");
 
@@ -65,10 +64,10 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
             pack.addTranslations(new Identifier("artifice:ar_tm"), translations -> translations
                 .entry("item.artifice.test_item", "Artifice Test Item in custom lang")
                 .entry("block.artifice.test_block", "Artifice Test Block in custom lang"));
-        }));
+        });
 
-        Artifice.registerAssets(new Identifier("artifice:testmod2"), ArtificeResourcePack.ofAssets(pack -> {
+        Artifice.registerAssets(new Identifier("artifice:testmod2"), pack -> {
             pack.setOptional();
-        }));
+        });
     }
 }

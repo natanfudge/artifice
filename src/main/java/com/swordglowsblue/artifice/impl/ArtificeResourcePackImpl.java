@@ -17,7 +17,6 @@ import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
-import org.apache.commons.io.input.NullInputStream;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
