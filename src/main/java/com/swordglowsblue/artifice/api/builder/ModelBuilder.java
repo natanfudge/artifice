@@ -41,7 +41,12 @@ public final class ModelBuilder extends JsonBuilder<JsonResource> {
         return this;
     }
 
-    // TODO: Item model overrides
+    public ModelBuilder override(Processor<Override> settings) {
+        with("overrides", JsonArray::new, overrides ->
+            overrides.add(settings.process(new Override()).build())
+        );
+        return this;
+    }
 
     public static class Display extends JsonBuilder<JsonObject> {
         private Display(JsonObject root) { super(root, j->j); }
@@ -58,6 +63,20 @@ public final class ModelBuilder extends JsonBuilder<JsonResource> {
 
         public Display scale(int x, int y, int z) {
             root.add("scale", arrayOf(x, y, z));
+            return this;
+        }
+    }
+
+    public static class Override extends JsonBuilder<JsonObject> {
+        private Override() { super(new JsonObject(), j->j); }
+
+        public Override predicate(String name, int value) {
+            with("predicate", JsonObject::new, predicate -> predicate.addProperty(name, value));
+            return this;
+        }
+
+        public Override model(Identifier id) {
+            root.addProperty("model", id.toString());
             return this;
         }
     }
