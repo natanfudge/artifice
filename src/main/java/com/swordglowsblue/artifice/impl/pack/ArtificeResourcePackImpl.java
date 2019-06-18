@@ -182,7 +182,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     public void dumpResources(String folderPath) throws IOException, IllegalArgumentException {
-        LogManager.getLogger().info("[Artifice] Dumping resources to "+folderPath+", this may take a while.");
+        LogManager.getLogger().info("[Artifice] Dumping "+getName()+" "+type.getName()+" to "+folderPath+", this may take a while.");
 
         File dir = new File(folderPath);
         if(!dir.exists() && !dir.mkdirs())
@@ -198,7 +198,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             writeResourceFile(new File(path), resource);
         });
 
-        LogManager.getLogger().info("[Artifice] Finished dumping resources.");
+        LogManager.getLogger().info("[Artifice] Finished dumping "+getName()+" "+type.getName()+".");
     }
 
     private void writeResourceFile(File output, ArtificeResource resource) {
