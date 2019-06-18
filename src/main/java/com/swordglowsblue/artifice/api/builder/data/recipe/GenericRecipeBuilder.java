@@ -3,7 +3,7 @@ package com.swordglowsblue.artifice.api.builder.data.recipe;
 import com.google.gson.JsonElement;
 import com.swordglowsblue.artifice.api.builder.JsonArrayBuilder;
 import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
-import com.swordglowsblue.artifice.impl.util.Processor;
+import com.swordglowsblue.artifice.api.util.Processor;
 
 public final class GenericRecipeBuilder extends RecipeBuilder<GenericRecipeBuilder> {
     public RecipeBuilder add(String name, JsonElement value) {

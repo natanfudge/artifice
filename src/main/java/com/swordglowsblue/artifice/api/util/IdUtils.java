@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.impl.util;
+package com.swordglowsblue.artifice.api.util;
 
 import net.minecraft.util.Identifier;
 

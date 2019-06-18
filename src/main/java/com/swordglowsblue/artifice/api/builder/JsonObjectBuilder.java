@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.swordglowsblue.artifice.impl.util.Processor;
+import com.swordglowsblue.artifice.api.util.Processor;
 
 public class JsonObjectBuilder extends TypedJsonBuilder<JsonObject> {
     public JsonObjectBuilder() { super(new JsonObject(), j->j); }

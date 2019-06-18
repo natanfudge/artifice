@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.swordglowsblue.artifice.impl.util.Processor;
+import com.swordglowsblue.artifice.api.util.Processor;
 
 public final class JsonArrayBuilder {
     private final JsonArray root;

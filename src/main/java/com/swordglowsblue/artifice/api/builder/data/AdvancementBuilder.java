@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
-import com.swordglowsblue.artifice.impl.util.Processor;
+import com.swordglowsblue.artifice.api.util.Processor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Identifier;
 
