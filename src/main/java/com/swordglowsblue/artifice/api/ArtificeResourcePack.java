@@ -4,6 +4,7 @@ import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
+import com.swordglowsblue.artifice.api.builder.data.recipe.*;
 import com.swordglowsblue.artifice.impl.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -47,5 +48,14 @@ public interface ArtificeResourcePack extends ResourcePack {
         void addEntityTypeTag(Identifier id, Processor<TagBuilder> f);
         void addFluidTag(Identifier id, Processor<TagBuilder> f);
         void addFunctionTag(Identifier id, Processor<TagBuilder> f);
+
+        void addGenericRecipe(Identifier id, Processor<GenericRecipeBuilder> f);
+        void addShapedRecipe(Identifier id, Processor<ShapedRecipeBuilder> f);
+        void addShapelessRecipe(Identifier id, Processor<ShapelessRecipeBuilder> f);
+        void addStonecuttingRecipe(Identifier id, Processor<StonecuttingRecipeBuilder> f);
+        void addSmeltingRecipe(Identifier id, Processor<CookingRecipeBuilder> f);
+        void addBlastingRecipe(Identifier id, Processor<CookingRecipeBuilder> f);
+        void addSmokingRecipe(Identifier id, Processor<CookingRecipeBuilder> f);
+        void addCampfireRecipe(Identifier id, Processor<CookingRecipeBuilder> f);
     }
 }

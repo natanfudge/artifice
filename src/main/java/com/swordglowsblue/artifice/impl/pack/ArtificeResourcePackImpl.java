@@ -10,6 +10,7 @@ import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
+import com.swordglowsblue.artifice.api.builder.data.recipe.*;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.impl.util.IdUtils;
 import com.swordglowsblue.artifice.impl.util.Processor;
@@ -96,6 +97,24 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.addJson("tags/fluids", id, f, TagBuilder::new); }
         public void addFunctionTag(Identifier id, Processor<TagBuilder> f) {
             this.addJson("tags/functions", id, f, TagBuilder::new); }
+
+        public void addGenericRecipe(Identifier id, Processor<GenericRecipeBuilder> f) {
+            this.addJson("recipes/", id, f, GenericRecipeBuilder::new); }
+        public void addShapedRecipe(Identifier id, Processor<ShapedRecipeBuilder> f) {
+            this.addJson("recipes/", id, f, ShapedRecipeBuilder::new); }
+        public void addShapelessRecipe(Identifier id, Processor<ShapelessRecipeBuilder> f) {
+            this.addJson("recipes/", id, f, ShapelessRecipeBuilder::new); }
+        public void addStonecuttingRecipe(Identifier id, Processor<StonecuttingRecipeBuilder> f) {
+            this.addJson("recipes/", id, f, StonecuttingRecipeBuilder::new); }
+
+        public void addSmeltingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
+            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("smelting"))), CookingRecipeBuilder::new); }
+        public void addBlastingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
+            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("blasting"))), CookingRecipeBuilder::new); }
+        public void addSmokingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
+            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("smoking"))), CookingRecipeBuilder::new); }
+        public void addCampfireRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
+            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("campfire_cooking"))), CookingRecipeBuilder::new); }
 
         private <T extends TypedJsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
             this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build()); }
