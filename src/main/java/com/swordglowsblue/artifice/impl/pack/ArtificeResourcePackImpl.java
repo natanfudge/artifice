@@ -35,6 +35,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<String> namespaces = new HashSet<>();
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
     private final Set<LanguageDefinition> languages = new HashSet<>();
+    private final JsonObject metadata;
 
     private String description;
     private String displayName;
@@ -44,6 +45,23 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public <T extends ResourceRegistry> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
         this.type = type;
         registerResources.accept((T)new ResourceRegistryImpl());
+
+        JsonObject packMeta = new JsonObject();
+        packMeta.addProperty("pack_format", SharedConstants.getGameVersion().getPackVersion());
+        packMeta.addProperty("description", description != null ? description : "In-memory resource pack created with Artifice");
+
+        JsonObject languageMeta = new JsonObject();
+        for(LanguageDefinition def : languages) {
+            JsonObject language = new JsonObject();
+            language.addProperty("name", def.getName());
+            language.addProperty("region", def.getRegion());
+            language.addProperty("bidirectional", def.isRightToLeft());
+            languageMeta.add(def.getCode(), language);
+        }
+
+        this.metadata = new JsonObject();
+        metadata.add("pack", packMeta);
+        metadata.add("language", languageMeta);
     }
 
     @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourceRegistry.class)
@@ -141,25 +159,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     public <T> T parseMetadata(ResourceMetadataReader<T> reader) {
-        JsonObject packMeta = new JsonObject();
-        packMeta.addProperty("pack_format", SharedConstants.getGameVersion().getPackVersion());
-        packMeta.addProperty("description", description != null ? description : "In-memory resource pack created with Artifice");
-
-        JsonObject languageMeta = new JsonObject();
-        for(LanguageDefinition def : languages) {
-            JsonObject language = new JsonObject();
-            language.addProperty("name", def.getName());
-            language.addProperty("region", def.getRegion());
-            language.addProperty("bidirectional", def.isRightToLeft());
-            languageMeta.add(def.getCode(), language);
-        }
-
-        JsonObject meta = new JsonObject();
-        meta.add("pack", packMeta);
-        meta.add("language", languageMeta);
-
-        return meta.has(reader.getKey())
-            ? reader.fromJson(meta.getAsJsonObject(reader.getKey()))
+        return metadata.has(reader.getKey())
+            ? reader.fromJson(metadata.getAsJsonObject(reader.getKey()))
             : null;
     }
 
