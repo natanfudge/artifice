@@ -6,6 +6,7 @@ import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.*;
 import com.swordglowsblue.artifice.api.util.Processor;
+import com.swordglowsblue.artifice.impl.pack.ArtificeResourcePackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.resource.language.LanguageDefinition;
@@ -20,6 +21,12 @@ public interface ArtificeResourcePack extends ResourcePack {
     boolean isOptional();
     boolean isVisible();
     void dumpResources(String folderPath) throws IOException;
+
+    @Environment(EnvType.CLIENT)
+    static ArtificeResourcePack ofAssets(Processor<ClientResourceRegistry> register) {
+        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register); }
+    static ArtificeResourcePack ofData(Processor<ServerResourceRegistry> register) {
+        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register); }
 
     interface ResourceRegistry {
         void add(Identifier id, ArtificeResource resource);

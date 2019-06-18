@@ -2,16 +2,13 @@ package com.swordglowsblue.artifice.api;
 
 import com.swordglowsblue.artifice.api.ArtificeResourcePack.ClientResourceRegistry;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack.ServerResourceRegistry;
-import com.swordglowsblue.artifice.impl.pack.ArtificeResourcePackImpl;
+import com.swordglowsblue.artifice.api.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
-
-import java.util.function.Consumer;
 
 public final class Artifice {
     private Artifice() {}
@@ -23,17 +20,26 @@ public final class Artifice {
         Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());
 
     @Environment(EnvType.CLIENT)
-    public static ArtificeResourcePack registerAssets(String id, Consumer<ClientResourceRegistry> register) {
+    public static ArtificeResourcePack registerAssets(String id, Processor<ClientResourceRegistry> register) {
         return registerAssets(new Identifier(id), register); }
-    public static ArtificeResourcePack registerData(String id, Consumer<ServerResourceRegistry> register) {
+    public static ArtificeResourcePack registerData(String id, Processor<ServerResourceRegistry> register) {
         return registerData(new Identifier(id), register); }
 
     @Environment(EnvType.CLIENT)
-    public static ArtificeResourcePack registerAssets(Identifier id, Consumer<ClientResourceRegistry> register) {
-        return Registry.register(ASSETS, id, new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register));
-    }
+    public static ArtificeResourcePack registerAssets(Identifier id, Processor<ClientResourceRegistry> register) {
+        return Registry.register(ASSETS, id, ArtificeResourcePack.ofAssets(register)); }
+    public static ArtificeResourcePack registerData(Identifier id, Processor<ServerResourceRegistry> register) {
+        return Registry.register(DATA, id, ArtificeResourcePack.ofData(register)); }
 
-    public static ArtificeResourcePack registerData(Identifier id, Consumer<ServerResourceRegistry> register) {
-        return Registry.register(DATA, id, new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register));
-    }
+    @Environment(EnvType.CLIENT)
+    public static ArtificeResourcePack registerAssets(String id, ArtificeResourcePack pack) {
+        return registerAssets(new Identifier(id), pack); }
+    public static ArtificeResourcePack registerData(String id, ArtificeResourcePack pack) {
+        return registerData(new Identifier(id), pack); }
+
+    @Environment(EnvType.CLIENT)
+    public static ArtificeResourcePack registerAssets(Identifier id, ArtificeResourcePack pack) {
+        return Registry.register(ASSETS, id, pack); }
+    public static ArtificeResourcePack registerData(Identifier id, ArtificeResourcePack pack) {
+        return Registry.register(ASSETS, id, pack); }
 }
