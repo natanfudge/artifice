@@ -1,6 +1,9 @@
 package com.swordglowsblue.artifice.impl.pack;
 
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResource;
@@ -21,10 +24,9 @@ import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.LogManager;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -176,6 +178,44 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             case CLIENT_RESOURCES: return displayName = Artifice.ASSETS.getId(this).toString();
             case SERVER_DATA: return displayName = Artifice.DATA.getId(this).toString();
             default: return displayName;
+        }
+    }
+
+    public void dumpResources(String folderPath) throws IOException, IllegalArgumentException {
+        LogManager.getLogger().info("[Artifice] Dumping resources to "+folderPath+", this may take a while.");
+
+        File dir = new File(folderPath);
+        if(!dir.exists() && !dir.mkdirs())
+            throw new IOException("Can't dump resources to "+folderPath+"; couldn't create parent directories");
+        if(!dir.isDirectory())
+            throw new IllegalArgumentException("Can't dump resources to "+folderPath+" as it's not a directory");
+        if(!dir.canWrite())
+            throw new IOException("Can't dump resources to "+folderPath+"; permission denied");
+
+        writeResourceFile(new File(folderPath+"/pack.mcmeta"), new JsonResource(metadata));
+        resources.forEach((id, resource) -> {
+            String path = String.format("./%s/%s/%s/%s", folderPath, this.type.getName(), id.getNamespace(), id.getPath());
+            writeResourceFile(new File(path), resource);
+        });
+
+        LogManager.getLogger().info("[Artifice] Finished dumping resources.");
+    }
+
+    private void writeResourceFile(File output, ArtificeResource resource) {
+        try {
+            if(output.getParentFile().exists() || output.getParentFile().mkdirs()) {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+                if(resource.getData() instanceof JsonElement) {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    writer.write(gson.toJson(resource.getData()));
+                } else
+                    writer.write(resource.getData().toString());
+                writer.close();
+            } else {
+                throw new IOException("Failed to dump resource file "+output.getPath()+"; couldn't create parent directories");
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
         }
     }
 }

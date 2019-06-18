@@ -23,15 +23,17 @@ public final class Artifice {
         Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());
 
     @Environment(EnvType.CLIENT)
-    public static void registerAssets(String id, Consumer<ClientResourceRegistry> register) { registerAssets(new Identifier(id), register); }
-    public static void registerData(String id, Consumer<ServerResourceRegistry> register) { registerData(new Identifier(id), register); }
+    public static ArtificeResourcePack registerAssets(String id, Consumer<ClientResourceRegistry> register) {
+        return registerAssets(new Identifier(id), register); }
+    public static ArtificeResourcePack registerData(String id, Consumer<ServerResourceRegistry> register) {
+        return registerData(new Identifier(id), register); }
 
     @Environment(EnvType.CLIENT)
-    public static void registerAssets(Identifier id, Consumer<ClientResourceRegistry> register) {
-        Registry.register(ASSETS, id, new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register));
+    public static ArtificeResourcePack registerAssets(Identifier id, Consumer<ClientResourceRegistry> register) {
+        return Registry.register(ASSETS, id, new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register));
     }
 
-    public static void registerData(Identifier id, Consumer<ServerResourceRegistry> register) {
-        Registry.register(DATA, id, new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register));
+    public static ArtificeResourcePack registerData(Identifier id, Consumer<ServerResourceRegistry> register) {
+        return Registry.register(DATA, id, new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register));
     }
 }

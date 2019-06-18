@@ -13,10 +13,13 @@ import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 
+import java.io.IOException;
+
 public interface ArtificeResourcePack extends ResourcePack {
     ResourceType getType();
     boolean isOptional();
     boolean isVisible();
+    void dumpResources(String folderPath) throws IOException;
 
     interface ResourceRegistry {
         void add(Identifier id, ArtificeResource resource);
