@@ -45,12 +45,28 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 jar { from "LICENSE" }
 
+apply from: "https://raw.githubusercontent.com/NerdHubMC/Gradle-Scripts/master/scripts/utilities.gradle"
 publishing {
-	repositories {}
 	publications {
 		mavenJava(MavenPublication) {
-			artifact(jar) { builtBy remapJar }
-			artifact(sourcesJar) { builtBy remapSourcesJar }
+			afterEvaluate {
+				artifact(remapJar.output)
+			}
+			if (project.tasks.findByName('sourcesJar')) {
+				artifact(project.tasks.getByName('sourcesJar')) {
+					builtBy project.tasks.getByName('remapSourcesJar')
+				}
+			}
+
+			if (project.tasks.findByName('javadocJar')) {
+				artifact project.tasks.getByName('javadocJar')
+			}
+
+			if (project.hasProperty("api_package")) {
+				artifact(project.tasks.getByName('apiJar')) {
+					builtBy project.tasks.getByName('remapApiJar')
+				}
+			}
 		}
 	}
 }
