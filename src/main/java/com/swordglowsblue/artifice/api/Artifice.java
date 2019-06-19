@@ -1,7 +1,7 @@
 package com.swordglowsblue.artifice.api;
 
-import com.swordglowsblue.artifice.api.ArtificeResourcePack.ClientResourceRegistry;
-import com.swordglowsblue.artifice.api.ArtificeResourcePack.ServerResourceRegistry;
+import com.swordglowsblue.artifice.api.ArtificeResourcePack.ClientResourcePackBuilder;
+import com.swordglowsblue.artifice.api.ArtificeResourcePack.ServerResourcePackBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -20,15 +20,15 @@ public final class Artifice {
         Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());
 
     @Environment(EnvType.CLIENT)
-    public static ArtificeResourcePack registerAssets(String id, Processor<ClientResourceRegistry> register) {
+    public static ArtificeResourcePack registerAssets(String id, Processor<ClientResourcePackBuilder> register) {
         return registerAssets(new Identifier(id), register); }
-    public static ArtificeResourcePack registerData(String id, Processor<ServerResourceRegistry> register) {
+    public static ArtificeResourcePack registerData(String id, Processor<ServerResourcePackBuilder> register) {
         return registerData(new Identifier(id), register); }
 
     @Environment(EnvType.CLIENT)
-    public static ArtificeResourcePack registerAssets(Identifier id, Processor<ClientResourceRegistry> register) {
+    public static ArtificeResourcePack registerAssets(Identifier id, Processor<ClientResourcePackBuilder> register) {
         return Registry.register(ASSETS, id, ArtificeResourcePack.ofAssets(register)); }
-    public static ArtificeResourcePack registerData(Identifier id, Processor<ServerResourceRegistry> register) {
+    public static ArtificeResourcePack registerData(Identifier id, Processor<ServerResourcePackBuilder> register) {
         return Registry.register(DATA, id, ArtificeResourcePack.ofData(register)); }
 
     @Environment(EnvType.CLIENT)

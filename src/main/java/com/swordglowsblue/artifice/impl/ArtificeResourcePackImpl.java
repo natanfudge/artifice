@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.ArtificeResource;
+import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.*;
@@ -44,9 +44,9 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private boolean optional;
     private boolean visible;
 
-    public <T extends ResourceRegistry> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
+    public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
         this.type = type;
-        registerResources.accept((T)new ResourceRegistryImpl());
+        registerResources.accept((T)new ArtificeResourcePackBuilder());
 
         JsonObject packMeta = new JsonObject();
         packMeta.addProperty("pack_format", SharedConstants.getGameVersion().getPackVersion());
@@ -66,9 +66,9 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         metadata.add("language", languageMeta);
     }
 
-    @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourceRegistry.class)
-    private final class ResourceRegistryImpl implements ClientResourceRegistry, ServerResourceRegistry {
-        private ResourceRegistryImpl() {}
+    @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourcePackBuilder.class)
+    private final class ArtificeResourcePackBuilder implements ClientResourcePackBuilder, ServerResourcePackBuilder {
+        private ArtificeResourcePackBuilder() {}
 
         public void setDisplayName(String name) { ArtificeResourcePackImpl.this.displayName = name; }
         public void setDescription(String desc) { ArtificeResourcePackImpl.this.description = desc; }

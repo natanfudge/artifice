@@ -1,7 +1,6 @@
 package com.swordglowsblue.artifice.api.resource;
 
 import com.google.gson.JsonElement;
-import com.swordglowsblue.artifice.api.ArtificeResource;
 import org.apache.commons.io.input.ReaderInputStream;
 
 import java.io.InputStream;

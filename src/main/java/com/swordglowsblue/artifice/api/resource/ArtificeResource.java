@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.api;
+package com.swordglowsblue.artifice.api.resource;
 
 import java.io.InputStream;
 

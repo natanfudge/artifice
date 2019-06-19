@@ -5,6 +5,7 @@ import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.*;
+import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.util.Processor;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import net.fabricmc.api.EnvType;
@@ -23,19 +24,19 @@ public interface ArtificeResourcePack extends ResourcePack {
     void dumpResources(String folderPath) throws IOException;
 
     @Environment(EnvType.CLIENT)
-    static ArtificeResourcePack ofAssets(Processor<ClientResourceRegistry> register) {
+    static ArtificeResourcePack ofAssets(Processor<ClientResourcePackBuilder> register) {
         return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register); }
-    static ArtificeResourcePack ofData(Processor<ServerResourceRegistry> register) {
+    static ArtificeResourcePack ofData(Processor<ServerResourcePackBuilder> register) {
         return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register); }
 
-    interface ResourceRegistry {
+    interface ResourcePackBuilder {
         void add(Identifier id, ArtificeResource resource);
         void setDisplayName(String name);
         void setDescription(String desc);
     }
 
     @Environment(EnvType.CLIENT)
-    interface ClientResourceRegistry extends ResourceRegistry {
+    interface ClientResourcePackBuilder extends ResourcePackBuilder {
         void addItemModel(Identifier id, Processor<ModelBuilder> f);
         void addBlockModel(Identifier id, Processor<ModelBuilder> f);
         void addBlockState(Identifier id, Processor<BlockStateBuilder> f);
@@ -50,7 +51,7 @@ public interface ArtificeResourcePack extends ResourcePack {
         void setVisible();
     }
 
-    interface ServerResourceRegistry extends ResourceRegistry {
+    interface ServerResourcePackBuilder extends ResourcePackBuilder {
         void addAdvancement(Identifier id, Processor<AdvancementBuilder> f);
         void addLootTable(Identifier id, Processor<LootTableBuilder> f);
         void addItemTag(Identifier id, Processor<TagBuilder> f);
