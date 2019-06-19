@@ -28,6 +28,9 @@ public class ArtificeTest implements ModInitializer, ClientModInitializer {
         Item testBlockItem = Registry.register(Registry.ITEM, id("test_block"), new BlockItem(testBlock, itemSettings));
 
         ArtificeResourcePack dataPack = Artifice.registerData("artifice:testmod", pack -> {
+            pack.setDisplayName("Artifice Test Data");
+            pack.setDescription("Data for the Artifice test mod");
+
             pack.add(new Identifier("artifice:recipes/test_item.json"), new StringResource("{}"));
         });
 
