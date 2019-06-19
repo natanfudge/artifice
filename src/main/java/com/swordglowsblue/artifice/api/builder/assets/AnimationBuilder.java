@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.api.builder.assets;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
@@ -10,11 +11,8 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public final class AnimationBuilder extends TypedJsonBuilder<JsonResource> {
-    public AnimationBuilder() { super(new JsonObject(), anim -> {
-        JsonObject json = new JsonObject();
-        json.add("animation", anim);
-        return new JsonResource(json);
-    }); }
+    public AnimationBuilder() { super(new JsonObject(), anim ->
+        new JsonResource(new JsonObjectBuilder().add("animation", anim).build())); }
 
     public AnimationBuilder interpolate(boolean interpolate) {
         root.addProperty("interpolate", interpolate);
@@ -52,10 +50,7 @@ public final class AnimationBuilder extends TypedJsonBuilder<JsonResource> {
         }
 
         public FrameOrder frame(int index, int frametime) {
-            JsonObject frame = new JsonObject();
-            frame.addProperty("index", index);
-            frame.addProperty("time", frametime);
-            frames.add(frame);
+            frames.add(new JsonObjectBuilder().add("index", index).add("time", frametime).build());
             return this;
         }
 

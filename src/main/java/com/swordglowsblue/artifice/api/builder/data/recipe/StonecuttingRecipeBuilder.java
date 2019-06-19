@@ -1,6 +1,7 @@
 package com.swordglowsblue.artifice.api.builder.data.recipe;
 
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 import net.minecraft.util.Identifier;
 
@@ -8,16 +9,12 @@ public final class StonecuttingRecipeBuilder extends RecipeBuilder<StonecuttingR
     public StonecuttingRecipeBuilder() { super(); type(new Identifier("stonecutting")); }
 
     public StonecuttingRecipeBuilder ingredientItem(Identifier id) {
-        JsonObject ingr = new JsonObject();
-        ingr.addProperty("item", id.toString());
-        root.add("ingredient", ingr);
+        root.add("ingredient", new JsonObjectBuilder().add("item", id.toString()).build());
         return this;
     }
 
     public StonecuttingRecipeBuilder ingredientTag(Identifier id) {
-        JsonObject ingr = new JsonObject();
-        ingr.addProperty("tag", id.toString());
-        root.add("ingredient", ingr);
+        root.add("ingredient", new JsonObjectBuilder().add("tag", id.toString()).build());
         return this;
     }
 

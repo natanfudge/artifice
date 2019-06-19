@@ -32,10 +32,7 @@ public final class ModelElementBuilder extends TypedJsonBuilder<JsonObject> {
     }
 
     public ModelElementBuilder rotation(Processor<Rotation> settings) {
-        with("rotation", JsonObject::new, rotation -> {
-            Rotation builder = new Rotation(rotation);
-            settings.process(builder).buildTo(rotation);
-        });
+        with("rotation", JsonObject::new, rotation -> settings.process(new Rotation(rotation)).buildTo(rotation));
         return this;
     }
 
@@ -45,10 +42,8 @@ public final class ModelElementBuilder extends TypedJsonBuilder<JsonObject> {
     }
 
     public ModelElementBuilder face(Direction side, Processor<Face> settings) {
-        with("faces", JsonObject::new, faces -> with(faces, side.getName(), JsonObject::new, face -> {
-            Face builder = new Face(face);
-            settings.process(builder).buildTo(face);
-        }));
+        with("faces", JsonObject::new, faces -> with(faces, side.getName(), JsonObject::new, face ->
+            settings.process(new Face(face)).buildTo(face)));
         return this;
     }
 

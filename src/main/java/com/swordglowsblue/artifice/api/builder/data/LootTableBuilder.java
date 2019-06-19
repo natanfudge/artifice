@@ -17,9 +17,7 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
     }
 
     public LootTableBuilder pool(Processor<Pool> settings) {
-        with("pools", JsonArray::new, pools ->
-            pools.add(settings.process(new Pool()).build())
-        );
+        with("pools", JsonArray::new, pools -> pools.add(settings.process(new Pool()).build()));
         return this;
     }
 
@@ -27,11 +25,8 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
         private Pool() { super(new JsonObject(), j->j); }
 
         public Pool condition(Identifier id, Processor<JsonObjectBuilder> settings) {
-            with("conditions", JsonArray::new, conditions -> {
-                JsonObject cond = new JsonObject();
-                cond.addProperty("condition", id.toString());
-                conditions.add(settings.process(new JsonObjectBuilder(cond)).build());
-            });
+            with("conditions", JsonArray::new, conditions ->
+                conditions.add(settings.process(new JsonObjectBuilder().add("condition", id.toString())).build()));
             return this;
         }
 
@@ -41,10 +36,7 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
         }
 
         public Pool rolls(int min, int max) {
-            JsonObject rolls = new JsonObject();
-            rolls.addProperty("min", min);
-            rolls.addProperty("max", max);
-            root.add("rolls", rolls);
+            root.add("rolls", new JsonObjectBuilder().add("min", min).add("max", max).build());
             return this;
         }
 
@@ -54,10 +46,7 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
         }
 
         public Pool bonusRolls(float min, float max) {
-            JsonObject rolls = new JsonObject();
-            rolls.addProperty("min", min);
-            rolls.addProperty("max", max);
-            root.add("bonus_rolls", rolls);
+            root.add("bonus_rolls", new JsonObjectBuilder().add("min", min).add("max", max).build());
             return this;
         }
 
@@ -75,9 +64,7 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
             }
 
             public Entry child(Processor<Entry> settings) {
-                with("children", JsonArray::new, children ->
-                   children.add(settings.process(new Entry()).build())
-                );
+                with("children", JsonArray::new, children -> children.add(settings.process(new Entry()).build()));
                 return this;
             }
 
@@ -87,11 +74,8 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
             }
 
             public Entry function(Identifier id, Processor<Function> settings) {
-                with("functions", JsonArray::new, functions -> {
-                    JsonObject func = new JsonObject();
-                    func.addProperty("function", id.toString());
-                    functions.add(settings.process(new Function(func)).build());
-                });
+                with("functions", JsonArray::new, functions ->
+                    functions.add(settings.process(new Function(new JsonObjectBuilder().add("function", id.toString()).build())).build()));
                 return this;
             }
 
@@ -99,11 +83,8 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
                 private Function(JsonObject func) { super(func); }
 
                 public Function condition(Identifier id, Processor<JsonObjectBuilder> settings) {
-                    with("conditions", JsonArray::new, conditions -> {
-                        JsonObject cond = new JsonObject();
-                        cond.addProperty("condition", id.toString());
-                        conditions.add(settings.process(new JsonObjectBuilder(cond)).build());
-                    });
+                    with("conditions", JsonArray::new, conditions ->
+                        conditions.add(settings.process(new JsonObjectBuilder().add("condition", id.toString())).build()));
                     return this;
                 }
             }

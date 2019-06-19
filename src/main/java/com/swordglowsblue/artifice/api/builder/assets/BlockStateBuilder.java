@@ -3,6 +3,8 @@ package com.swordglowsblue.artifice.api.builder.assets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.builder.JsonArrayBuilder;
+import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
@@ -17,24 +19,20 @@ public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource> {
     public BlockStateBuilder variant(String name, Processor<Variant> settings) {
         root.remove("multipart");
         with("variants", JsonObject::new, variants -> with(variants, name, JsonObject::new, variant ->
-            settings.process(new Variant(variant)).buildTo(variant)
-        ));
+            settings.process(new Variant(variant)).buildTo(variant)));
         return this;
     }
 
     public BlockStateBuilder weightedVariant(String name, Processor<Variant> settings) {
         root.remove("multipart");
         with("variants", JsonObject::new, variants -> with(variants, name, JsonArray::new, options ->
-           options.add(settings.process(new Variant()).build())
-        ));
+           options.add(settings.process(new Variant()).build())));
         return this;
     }
 
     public BlockStateBuilder multipartCase(Processor<Case> settings) {
         root.remove("variants");
-        with("multipart", JsonArray::new, cases ->
-            cases.add(settings.process(new Case()).build())
-        );
+        with("multipart", JsonArray::new, cases -> cases.add(settings.process(new Case()).build()));
         return this;
     }
 
@@ -79,14 +77,11 @@ public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource> {
         }
 
         public Case whenAny(String name, String state) {
-            JsonElement or = root.get("OR");
-            root.entrySet().forEach(e -> root.remove(e.getKey()));
-            root.add("OR", or);
-
-            JsonObject obj = new JsonObject();
-            obj.addProperty(name, state);
-            with("OR", JsonArray::new, cases -> cases.add(obj));
-
+            with("OR", JsonArray::new, cases -> {
+                root.entrySet().forEach(e -> root.remove(e.getKey()));
+                root.add("OR", new JsonArrayBuilder(cases).add(
+                    new JsonObjectBuilder().add(name, state).build()).build());
+            });
             return this;
         }
 
@@ -96,9 +91,7 @@ public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource> {
         }
 
         public Case weightedApply(Processor<Variant> settings) {
-            with("apply", JsonArray::new, options ->
-                options.add(settings.process(new Variant()).build())
-            );
+            with("apply", JsonArray::new, options -> options.add(settings.process(new Variant()).build()));
             return this;
         }
     }

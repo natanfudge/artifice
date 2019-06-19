@@ -14,8 +14,7 @@ public final class AdvancementBuilder extends TypedJsonBuilder<JsonResource> {
 
     public AdvancementBuilder display(Processor<Display> settings) {
         with("display", JsonObject::new, display ->
-            settings.process(new Display()).buildTo(display)
-        );
+            settings.process(new Display()).buildTo(display));
         return this;
     }
 
@@ -26,8 +25,7 @@ public final class AdvancementBuilder extends TypedJsonBuilder<JsonResource> {
 
     public AdvancementBuilder criteria(String name, Processor<Criteria> settings) {
         with("criteria", JsonObject::new, criteria -> with(name, JsonObject::new, criterion ->
-            settings.process(new Criteria()).buildTo(criterion)
-        ));
+            settings.process(new Criteria()).buildTo(criterion)));
         return this;
     }
 

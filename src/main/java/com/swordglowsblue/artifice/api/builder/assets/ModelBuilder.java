@@ -24,16 +24,12 @@ public final class ModelBuilder extends TypedJsonBuilder<JsonResource> {
     }
 
     public ModelBuilder display(String name, Processor<Display> settings) {
-        with("display", JsonObject::new, display ->
-            settings.process(new Display(display)).buildTo(display)
-        );
+        with("display", JsonObject::new, display -> settings.process(new Display(display)).buildTo(display));
         return this;
     }
 
     public ModelBuilder element(Processor<ModelElementBuilder> settings) {
-        with("elements", JsonArray::new, elements ->
-           elements.add(settings.process(new ModelElementBuilder()).build())
-        );
+        with("elements", JsonArray::new, elements -> elements.add(settings.process(new ModelElementBuilder()).build()));
         return this;
     }
 
@@ -43,9 +39,7 @@ public final class ModelBuilder extends TypedJsonBuilder<JsonResource> {
     }
 
     public ModelBuilder override(Processor<Override> settings) {
-        with("overrides", JsonArray::new, overrides ->
-            overrides.add(settings.process(new Override()).build())
-        );
+        with("overrides", JsonArray::new, overrides -> overrides.add(settings.process(new Override()).build()));
         return this;
     }
 

@@ -3,6 +3,7 @@ package com.swordglowsblue.artifice.api.builder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.swordglowsblue.artifice.api.util.Processor;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -23,22 +24,11 @@ public abstract class TypedJsonBuilder<T> {
         return ctor.apply(target);
     }
 
-    protected <J extends JsonElement> void with(String key, Supplier<J> ctor, Consumer<J> run) { with(root, key, ctor, run); }
-
     @SuppressWarnings("unchecked")
-    protected static <J extends JsonElement> void with(JsonObject in, String key, Supplier<J> ctor, Consumer<J> run) {
-        J elem = in.has(key) ? (J)in.get(key) : ctor.get();
-        run.accept(elem);
-        in.add(key, elem);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected static <J extends JsonElement> void with(JsonArray in, String key, String sep, Supplier<J> ctor, Consumer<J> run) {
-        int keyInt = Integer.parseInt(key);
-        J elem = in.size() > keyInt ? (J)in.get(keyInt) : ctor.get();
-        run.accept(elem);
-        in.set(keyInt, elem);
-    }
+    protected <J extends JsonElement> void with(JsonObject in, String key, Supplier<J> ctor, Processor<J> run) {
+        in.add(key, run.process(in.has(key) ? (J)in.get(key) : ctor.get())); }
+    protected <J extends JsonElement> void with(String key, Supplier<J> ctor, Processor<J> run) {
+        this.with(root, key, ctor, run); }
 
     protected JsonArray arrayOf(boolean... values) {
         JsonArray array = new JsonArray();

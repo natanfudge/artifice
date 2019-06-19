@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.Artifice;
+import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
@@ -48,18 +49,18 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         this.type = type;
         registerResources.accept((T)new ArtificeResourcePackBuilder());
 
-        JsonObject packMeta = new JsonObject();
-        packMeta.addProperty("pack_format", SharedConstants.getGameVersion().getPackVersion());
-        packMeta.addProperty("description", description != null ? description : "In-memory resource pack created with Artifice");
+        JsonObject packMeta = new JsonObjectBuilder()
+            .add("pack_format", SharedConstants.getGameVersion().getPackVersion())
+            .add("description", description != null ? description : "In-memory resource pack created with Artifice")
+            .build();
 
         JsonObject languageMeta = new JsonObject();
-        for(LanguageDefinition def : languages) {
-            JsonObject language = new JsonObject();
-            language.addProperty("name", def.getName());
-            language.addProperty("region", def.getRegion());
-            language.addProperty("bidirectional", def.isRightToLeft());
-            languageMeta.add(def.getCode(), language);
-        }
+        for(LanguageDefinition def : languages)
+            languageMeta.add(def.getCode(), new JsonObjectBuilder()
+                .add("name", def.getName())
+                .add("region", def.getRegion())
+                .add("bidirectional", def.isRightToLeft())
+                .build());
 
         this.metadata = new JsonObject();
         metadata.add("pack", packMeta);

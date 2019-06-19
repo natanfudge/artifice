@@ -20,9 +20,7 @@ public final class TagBuilder extends TypedJsonBuilder<JsonResource> {
     }
 
     public TagBuilder values(Identifier... ids) {
-        with("values", JsonArray::new, values -> {
-            for(Identifier id : ids) values.add(id.toString());
-        });
+        with("values", JsonArray::new, values -> { for(Identifier id : ids) values.add(id.toString()); });
         return this;
     }
 }
