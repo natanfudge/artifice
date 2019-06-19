@@ -3,6 +3,8 @@ plugins {
 	id 'maven-publish'
 }
 
+apply from: "https://raw.githubusercontent.com/NerdHubMC/Gradle-Scripts/master/scripts/fabric/publish/maven_base.gradle"
+
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -44,29 +46,3 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.allSource
 }
 jar { from "LICENSE" }
-
-apply from: "https://raw.githubusercontent.com/NerdHubMC/Gradle-Scripts/master/scripts/utilities.gradle"
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			afterEvaluate {
-				artifact(remapJar.output)
-			}
-			if (project.tasks.findByName('sourcesJar')) {
-				artifact(project.tasks.getByName('sourcesJar')) {
-					builtBy project.tasks.getByName('remapSourcesJar')
-				}
-			}
-
-			if (project.tasks.findByName('javadocJar')) {
-				artifact project.tasks.getByName('javadocJar')
-			}
-
-			if (project.hasProperty("api_package")) {
-				artifact(project.tasks.getByName('apiJar')) {
-					builtBy project.tasks.getByName('remapApiJar')
-				}
-			}
-		}
-	}
-}
