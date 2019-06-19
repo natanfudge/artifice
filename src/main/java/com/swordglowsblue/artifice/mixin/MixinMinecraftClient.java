@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.mixin;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.impl.pack.ArtificeResourcePackContainer;
+import com.swordglowsblue.artifice.impl.ArtificeResourcePackContainer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.impl.pack;
+package com.swordglowsblue.artifice.impl;
 
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;

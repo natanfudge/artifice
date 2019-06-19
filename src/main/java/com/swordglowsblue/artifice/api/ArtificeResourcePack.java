@@ -6,7 +6,7 @@ import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.*;
 import com.swordglowsblue.artifice.api.util.Processor;
-import com.swordglowsblue.artifice.impl.pack.ArtificeResourcePackImpl;
+import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.resource.language.LanguageDefinition;
