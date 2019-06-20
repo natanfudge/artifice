@@ -10,7 +10,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public final class ModelBuilder extends TypedJsonBuilder<JsonResource> {
+public final class ModelBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public ModelBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public ModelBuilder parent(Identifier id) {

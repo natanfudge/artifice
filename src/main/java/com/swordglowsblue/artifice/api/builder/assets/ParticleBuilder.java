@@ -9,7 +9,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public final class ParticleBuilder extends TypedJsonBuilder<JsonResource> {
+public final class ParticleBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public ParticleBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public ParticleBuilder texture(Identifier id) {

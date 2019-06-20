@@ -38,7 +38,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final Set<String> namespaces = new HashSet<>();
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
     private final Set<LanguageDefinition> languages = new HashSet<>();
-    private final JsonObject metadata;
+    private final JsonResource<JsonObject> metadata;
 
     private String description;
     private String displayName;
@@ -62,10 +62,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
                 .add("bidirectional", def.isRightToLeft())
                 .build());
 
-        this.metadata = new JsonObjectBuilder()
+        this.metadata = new JsonResource<>(new JsonObjectBuilder()
             .add("pack", packMeta)
             .add("language", languageMeta)
-            .build();
+            .build());
     }
 
     @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourcePackBuilder.class)
@@ -144,7 +144,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     public InputStream openRoot(String fname) throws IOException {
-        if(fname.equals("pack.mcmeta")) return new JsonResource(metadata).toInputStream();
+        if(fname.equals("pack.mcmeta")) return metadata.toInputStream();
         return new NullInputStream(0);
     }
 
@@ -165,8 +165,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     public <T> T parseMetadata(ResourceMetadataReader<T> reader) {
-        return metadata.has(reader.getKey())
-            ? reader.fromJson(metadata.getAsJsonObject(reader.getKey()))
+        return metadata.getData().has(reader.getKey())
+            ? reader.fromJson(metadata.getData().getAsJsonObject(reader.getKey()))
             : null;
     }
 
@@ -196,7 +196,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         if(!dir.canWrite())
             throw new IOException("Can't dump resources to "+folderPath+"; permission denied");
 
-        writeResourceFile(new File(folderPath+"/pack.mcmeta"), new JsonResource(metadata));
+        writeResourceFile(new File(folderPath+"/pack.mcmeta"), metadata);
         resources.forEach((id, resource) -> {
             String path = String.format("./%s/%s/%s/%s", folderPath, this.type.getName(), id.getNamespace(), id.getPath());
             writeResourceFile(new File(path), resource);

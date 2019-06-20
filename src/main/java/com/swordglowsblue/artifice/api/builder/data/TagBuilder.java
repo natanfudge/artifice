@@ -6,7 +6,7 @@ import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import net.minecraft.util.Identifier;
 
-public final class TagBuilder extends TypedJsonBuilder<JsonResource> {
+public final class TagBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public TagBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public TagBuilder replace(boolean replace) {

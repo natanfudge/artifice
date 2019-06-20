@@ -10,9 +10,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
-public final class AnimationBuilder extends TypedJsonBuilder<JsonResource> {
+public final class AnimationBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public AnimationBuilder() { super(new JsonObject(), anim ->
-        new JsonResource(new JsonObjectBuilder().add("animation", anim).build())); }
+        new JsonResource<>(new JsonObjectBuilder().add("animation", anim).build())); }
 
     public AnimationBuilder interpolate(boolean interpolate) {
         root.addProperty("interpolate", interpolate);

@@ -8,7 +8,7 @@ import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
 import net.minecraft.util.Identifier;
 
-public final class LootTableBuilder extends TypedJsonBuilder<JsonResource> {
+public final class LootTableBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public LootTableBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public LootTableBuilder type(Identifier id) {

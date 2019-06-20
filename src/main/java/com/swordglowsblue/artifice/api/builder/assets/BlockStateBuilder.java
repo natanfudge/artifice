@@ -13,7 +13,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource> {
+public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public BlockStateBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public BlockStateBuilder variant(String name, Processor<Variant> settings) {
