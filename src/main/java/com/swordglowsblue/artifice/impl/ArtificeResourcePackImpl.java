@@ -110,15 +110,15 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
             this.addJson("loot_tables/", id, f, LootTableBuilder::new); }
         public void addItemTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/items", id, f, TagBuilder::new); }
+            this.addJson("tags/items/", id, f, TagBuilder::new); }
         public void addBlockTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/blocks", id, f, TagBuilder::new); }
+            this.addJson("tags/blocks/", id, f, TagBuilder::new); }
         public void addEntityTypeTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/entity_types", id, f, TagBuilder::new); }
+            this.addJson("tags/entity_types/", id, f, TagBuilder::new); }
         public void addFluidTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/fluids", id, f, TagBuilder::new); }
+            this.addJson("tags/fluids/", id, f, TagBuilder::new); }
         public void addFunctionTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/functions", id, f, TagBuilder::new); }
+            this.addJson("tags/functions/", id, f, TagBuilder::new); }
 
         public void addGenericRecipe(Identifier id, Processor<GenericRecipeBuilder> f) {
             this.addJson("recipes/", id, f, GenericRecipeBuilder::new); }
@@ -130,13 +130,13 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.addJson("recipes/", id, f, StonecuttingRecipeBuilder::new); }
 
         public void addSmeltingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("smelting"))), CookingRecipeBuilder::new); }
+            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("smelting"))), CookingRecipeBuilder::new); }
         public void addBlastingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("blasting"))), CookingRecipeBuilder::new); }
+            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("blasting"))), CookingRecipeBuilder::new); }
         public void addSmokingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("smoking"))), CookingRecipeBuilder::new); }
+            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("smoking"))), CookingRecipeBuilder::new); }
         public void addCampfireRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes", id, r -> f.process(r.type(new Identifier("campfire_cooking"))), CookingRecipeBuilder::new); }
+            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("campfire_cooking"))), CookingRecipeBuilder::new); }
 
         private <T extends TypedJsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
             this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build()); }
