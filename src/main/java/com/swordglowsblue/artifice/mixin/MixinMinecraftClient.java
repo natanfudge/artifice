@@ -24,6 +24,7 @@ import java.util.Map;
 public abstract class MixinMinecraftClient {
     @Shadow private ResourcePackContainerManager<ClientResourcePackContainer> resourcePackContainerManager;
 
+    @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
     private void registerPackCreator(CallbackInfo cbi) {
         this.resourcePackContainerManager.addCreator(new ResourcePackCreator() {

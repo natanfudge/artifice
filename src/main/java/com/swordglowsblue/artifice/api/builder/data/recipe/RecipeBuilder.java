@@ -5,8 +5,9 @@ import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import net.minecraft.util.Identifier;
 
+@SuppressWarnings("unchecked")
 public abstract class RecipeBuilder<T extends RecipeBuilder<T>> extends TypedJsonBuilder<JsonResource<JsonObject>> {
-    public RecipeBuilder() { super(new JsonObject(), JsonResource::new); }
+    protected RecipeBuilder() { super(new JsonObject(), JsonResource::new); }
 
     public T type(Identifier id) {
         root.addProperty("type", id.toString());

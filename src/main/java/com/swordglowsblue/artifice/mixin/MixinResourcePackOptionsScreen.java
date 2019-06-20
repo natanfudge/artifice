@@ -22,7 +22,7 @@ import java.util.List;
 public abstract class MixinResourcePackOptionsScreen {
     @Shadow private AvailableResourcePackListWidget availableList;
     @Shadow private SelectedResourcePackListWidget selectedList;
-    private List<ResourcePackListWidget.ResourcePackEntry> hidden = new ArrayList<>();
+    private final List<ResourcePackListWidget.ResourcePackEntry> hidden = new ArrayList<>();
 
     @Inject(method = "init", at = @At("RETURN"))
     private void hideNoDisplayPacks(CallbackInfo cbi) {

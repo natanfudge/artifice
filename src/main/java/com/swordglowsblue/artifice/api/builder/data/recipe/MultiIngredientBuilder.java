@@ -1,7 +1,6 @@
 package com.swordglowsblue.artifice.api.builder.data.recipe;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import net.minecraft.util.Identifier;
 

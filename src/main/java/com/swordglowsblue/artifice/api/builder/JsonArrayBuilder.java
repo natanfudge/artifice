@@ -4,8 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.swordglowsblue.artifice.api.util.Processor;
 
-import java.util.Collection;
-
 public final class JsonArrayBuilder {
     private final JsonArray root;
 

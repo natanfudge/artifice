@@ -33,6 +33,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unchecked")
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final ResourceType type;
     private final Set<String> namespaces = new HashSet<>();
@@ -143,7 +144,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
     }
 
-    public InputStream openRoot(String fname) throws IOException {
+    public InputStream openRoot(String fname) {
         if(fname.equals("pack.mcmeta")) return metadata.toInputStream();
         return new NullInputStream(0);
     }
