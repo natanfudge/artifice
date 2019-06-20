@@ -1,6 +1,5 @@
 package com.swordglowsblue.artifice.impl;
 
-import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -87,19 +86,19 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
 
         public void addItemModel(Identifier id, Processor<ModelBuilder> f) {
-            this.addJson("models/item/", id, f, ModelBuilder::new); }
+            this.add("models/item/", id, ".json", f, ModelBuilder::new); }
         public void addBlockModel(Identifier id, Processor<ModelBuilder> f) {
-            this.addJson("models/block/", id, f, ModelBuilder::new); }
+            this.add("models/block/", id, ".json", f, ModelBuilder::new); }
         public void addBlockState(Identifier id, Processor<BlockStateBuilder> f) {
-            this.addJson("blockstates/", id, f, BlockStateBuilder::new); }
+            this.add("blockstates/", id, ".json", f, BlockStateBuilder::new); }
         public void addTranslations(Identifier id, Processor<TranslationBuilder> f) {
-            this.addJson("lang/", id, f, TranslationBuilder::new); }
+            this.add("lang/", id, ".json", f, TranslationBuilder::new); }
         public void addParticle(Identifier id, Processor<ParticleBuilder> f) {
-            this.addJson("particles/", id, f, ParticleBuilder::new); }
+            this.add("particles/", id, ".json", f, ParticleBuilder::new); }
         public void addItemAnimation(Identifier id, Processor<AnimationBuilder> f) {
-            this.addMcmeta("textures/item/", id, f, AnimationBuilder::new); }
+            this.add("textures/item/", id, ".mcmeta", f, AnimationBuilder::new); }
         public void addBlockAnimation(Identifier id, Processor<AnimationBuilder> f) {
-            this.addMcmeta("textures/block/", id, f, AnimationBuilder::new); }
+            this.add("textures/block/", id, ".mcmeta", f, AnimationBuilder::new); }
 
         public void addLanguage(LanguageDefinition def) { ArtificeResourcePackImpl.this.languages.add(def); }
         public void addLanguage(String code, String region, String name, boolean rtl) {
@@ -107,42 +106,41 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
 
         public void addAdvancement(Identifier id, Processor<AdvancementBuilder> f) {
-            this.addJson("advancements/", id, f, AdvancementBuilder::new); }
+            this.add("advancements/", id, ".json", f, AdvancementBuilder::new); }
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
-            this.addJson("loot_tables/", id, f, LootTableBuilder::new); }
+            this.add("loot_tables/", id, ".json", f, LootTableBuilder::new); }
         public void addItemTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/items/", id, f, TagBuilder::new); }
+            this.add("tags/items/", id, ".json", f, TagBuilder::new); }
         public void addBlockTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/blocks/", id, f, TagBuilder::new); }
+            this.add("tags/blocks/", id, ".json", f, TagBuilder::new); }
         public void addEntityTypeTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/entity_types/", id, f, TagBuilder::new); }
+            this.add("tags/entity_types/", id, ".json", f, TagBuilder::new); }
         public void addFluidTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/fluids/", id, f, TagBuilder::new); }
+            this.add("tags/fluids/", id, ".json", f, TagBuilder::new); }
         public void addFunctionTag(Identifier id, Processor<TagBuilder> f) {
-            this.addJson("tags/functions/", id, f, TagBuilder::new); }
+            this.add("tags/functions/", id, ".json", f, TagBuilder::new); }
 
         public void addGenericRecipe(Identifier id, Processor<GenericRecipeBuilder> f) {
-            this.addJson("recipes/", id, f, GenericRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", f, GenericRecipeBuilder::new); }
         public void addShapedRecipe(Identifier id, Processor<ShapedRecipeBuilder> f) {
-            this.addJson("recipes/", id, f, ShapedRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", f, ShapedRecipeBuilder::new); }
         public void addShapelessRecipe(Identifier id, Processor<ShapelessRecipeBuilder> f) {
-            this.addJson("recipes/", id, f, ShapelessRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", f, ShapelessRecipeBuilder::new); }
         public void addStonecuttingRecipe(Identifier id, Processor<StonecuttingRecipeBuilder> f) {
-            this.addJson("recipes/", id, f, StonecuttingRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", f, StonecuttingRecipeBuilder::new); }
 
         public void addSmeltingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("smelting"))), CookingRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", r -> f.process(r.type(new Identifier("smelting"))), CookingRecipeBuilder::new); }
         public void addBlastingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("blasting"))), CookingRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", r -> f.process(r.type(new Identifier("blasting"))), CookingRecipeBuilder::new); }
         public void addSmokingRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("smoking"))), CookingRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", r -> f.process(r.type(new Identifier("smoking"))), CookingRecipeBuilder::new); }
         public void addCampfireRecipe(Identifier id, Processor<CookingRecipeBuilder> f) {
-            this.addJson("recipes/", id, r -> f.process(r.type(new Identifier("campfire_cooking"))), CookingRecipeBuilder::new); }
+            this.add("recipes/", id, ".json", r -> f.process(r.type(new Identifier("campfire_cooking"))), CookingRecipeBuilder::new); }
 
-        private <T extends TypedJsonBuilder<? extends JsonResource>> void addJson(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
-            this.add(IdUtils.wrapPath(path, id, ".json"), f.process(ctor.get()).build()); }
-        private <T extends TypedJsonBuilder<? extends JsonResource>> void addMcmeta(String path, Identifier id, Processor<T> f, Supplier<T> ctor) {
-            this.add(IdUtils.wrapPath(path, id, ".mcmeta"), f.process(ctor.get()).build()); }
+        private <T extends TypedJsonBuilder<? extends JsonResource>> void add(String path, Identifier id, String ext, Processor<T> f, Supplier<T> ctor) {
+            this.add(IdUtils.wrapPath(path, id, ext), f.process(ctor.get()).build());
+        }
     }
 
     public InputStream openRoot(String fname) throws IOException {
