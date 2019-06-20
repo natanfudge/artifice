@@ -152,9 +152,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     public Collection<Identifier> findResources(ResourceType type, String rootFolder, int max, Predicate<String> filter) {
         if(type != this.type) return new HashSet<>();
-        Set<Identifier> keys = Sets.newHashSet(this.resources.keySet());
-        keys.removeIf(id -> !id.getPath().split("[\\/]")[0].equals(rootFolder));
-        keys.removeIf(id -> !filter.test(id.getPath()));
+        Set<Identifier> keys = new HashSet<>(this.resources.keySet());
+        keys.removeIf(id -> !id.getPath().startsWith(rootFolder) || !filter.test(id.getPath()));
         return keys;
     }
 
