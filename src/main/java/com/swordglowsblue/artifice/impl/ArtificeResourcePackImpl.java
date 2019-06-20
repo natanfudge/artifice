@@ -25,6 +25,7 @@ import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
+import org.apache.commons.io.input.NullInputStream;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
@@ -144,7 +145,11 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.add(IdUtils.wrapPath(path, id, ".mcmeta"), f.process(ctor.get()).build()); }
     }
 
-    public InputStream openRoot(String fname) throws IOException { return open(this.type, new Identifier(fname)); }
+    public InputStream openRoot(String fname) throws IOException {
+        if(fname.equals("pack.mcmeta")) return new JsonResource(metadata).toInputStream();
+        return new NullInputStream(0);
+    }
+
     public InputStream open(ResourceType type, Identifier id) throws IOException {
         if(!contains(type, id)) throw new FileNotFoundException(id.getPath());
         return this.resources.get(id).toInputStream();
