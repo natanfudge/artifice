@@ -1,0 +1,29 @@
+{
+  "parent": "artifice:parent",
+  "criteria": {
+    "criteria0": {
+      "trigger": "artifice:trigger0",
+      "conditions": { "test": 0 }
+    },
+    "criteria1": {
+      "trigger": "artifice:trigger1",
+      "conditions": { "test": 1 }
+    }
+  },
+  "display": {
+    "title": "title",
+    "description": "desc",
+    "icon": {
+      "item": "artifice:icon",
+      "nbt": "nbt"
+    },
+    "background": "artifice:background",
+    "frame": "challenge",
+    "hidden": true,
+    "announce_to_chat": true,
+    "show_toast": true
+  },
+  "requirements": [
+    [ "criteria0", "criteria1" ]
+  ]
+}
