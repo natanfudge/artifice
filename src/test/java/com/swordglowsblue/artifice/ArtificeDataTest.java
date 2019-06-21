@@ -9,9 +9,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ArtificeDataTest {
     @ParameterizedTest
@@ -24,15 +24,21 @@ class ArtificeDataTest {
         "artifice:tags/fluids/test_fluid_tag.json",
         "artifice:tags/functions/test_function_tag.json"
     })
-    void testDataFiles(String path) throws IOException {
-        assertEquals(Util.readFile("data/"+path.substring(path.lastIndexOf('/'))), Util.getResource(data, path));
+    void testDataResources(String path) throws IOException {
+        assertEquals(Util.readFile("data_ref/data/"+path.replace(":","/")), Util.getResource(data, path));
     }
 
     @Test
     void testDataMeta() throws IOException {
         assertEquals(data.getType(), ResourceType.SERVER_DATA);
         assertEquals(data.getName(), "Artifice Test");
-        assertEquals(Util.readFile("data/pack.mcmeta"), Util.getRootResource(data, "pack.mcmeta"));
+        assertEquals(Util.readFile("data_ref/pack.mcmeta"), Util.getRootResource(data, "pack.mcmeta"));
+    }
+
+    @Test
+    void testDataFiles() throws IOException {
+        data.dumpResources("./src/test/resources/data_dump");
+        Util.compareDirectoryToDump(Paths.get("./src/test/resources/data_ref"), "_ref", "_dump");
     }
 
     private ArtificeResourcePack data = ArtificeResourcePack.ofData(pack -> {

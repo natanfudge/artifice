@@ -1,7 +1,6 @@
 package com.swordglowsblue.artifice;
 
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.junit.jupiter.api.Test;
@@ -9,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,15 +26,21 @@ class ArtificeRecipesTest {
         "artifice:recipes/test_stonecutting_tag_recipe.json",
         "artifice:recipes/test_stonecutting_multi_recipe.json"
     })
-    void testRecipeFiles(String path) throws IOException {
-        assertEquals(Util.readFile("recipes/"+path.substring(path.lastIndexOf('/'))), Util.getResource(recipes, path));
+    void testRecipeResources(String path) throws IOException {
+        assertEquals(Util.readFile("recipes_ref/data/"+path.replace(":","/")), Util.getResource(recipes, path));
     }
 
     @Test
     void testRecipeMeta() throws IOException {
         assertEquals(recipes.getType(), ResourceType.SERVER_DATA);
         assertEquals(recipes.getName(), "Artifice Test");
-        assertEquals(Util.readFile("recipes/pack.mcmeta"), Util.getRootResource(recipes, "pack.mcmeta"));
+        assertEquals(Util.readFile("recipes_ref/pack.mcmeta"), Util.getRootResource(recipes, "pack.mcmeta"));
+    }
+
+    @Test
+    void testRecipeFiles() throws IOException {
+        recipes.dumpResources("./src/test/resources/recipes_dump");
+        Util.compareDirectoryToDump(Paths.get("./src/test/resources/recipes_ref"), "_ref", "_dump");
     }
 
     private ArtificeResourcePack recipes = ArtificeResourcePack.ofData(pack -> {

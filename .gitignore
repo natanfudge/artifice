@@ -24,3 +24,5 @@ bin/
 
 run/
 *.log
+*.log.gz
+src/test/resources/*_dump/

@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,17 +26,23 @@ class ArtificeAssetsTest {
         "artifice:particles/test_particle.json",
         "artifice:lang/test_language.json"
     })
-    void testAssetFiles(String path) throws IOException {
-        assertEquals(Util.readFile("assets/"+path.substring(path.lastIndexOf('/'))), Util.getResource(assets, path));
+    void testAssetResources(String path) throws IOException {
+        assertEquals(Util.readFile("assets_ref/assets/"+path.replace(":","/")), Util.getResource(assets, path));
     }
 
     @Test
     void testAssetMeta() throws IOException {
         assertEquals(assets.getType(), ResourceType.CLIENT_RESOURCES);
         assertEquals(assets.getName(), "Artifice Test");
-        assertEquals(Util.readFile("assets/pack.mcmeta"), Util.getRootResource(assets, "pack.mcmeta"));
+        assertEquals(Util.readFile("assets_ref/pack.mcmeta"), Util.getRootResource(assets, "pack.mcmeta"));
         assertTrue(assets.isOptional());
         assertTrue(assets.isVisible());
+    }
+
+    @Test
+    void testAssetFiles() throws IOException {
+        assets.dumpResources("./src/test/resources/assets_dump");
+        Util.compareDirectoryToDump(Paths.get("./src/test/resources/assets_ref"), "_ref", "_dump");
     }
 
     private ArtificeResourcePack assets = ArtificeResourcePack.ofAssets(pack -> {
