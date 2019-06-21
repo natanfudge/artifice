@@ -24,7 +24,8 @@ public final class ModelBuilder extends TypedJsonBuilder<JsonResource<JsonObject
     }
 
     public ModelBuilder display(String name, Processor<Display> settings) {
-        with("display", JsonObject::new, display -> settings.process(new Display(display)).buildTo(display));
+        with("display", JsonObject::new, display ->
+            display.add(name, settings.process(new Display()).build()));
         return this;
     }
 
@@ -45,19 +46,19 @@ public final class ModelBuilder extends TypedJsonBuilder<JsonResource<JsonObject
 
     @Environment(EnvType.CLIENT)
     public static final class Display extends TypedJsonBuilder<JsonObject> {
-        private Display(JsonObject root) { super(root, j->j); }
+        private Display() { super(new JsonObject(), j->j); }
 
-        public Display rotation(int x, int y, int z) {
+        public Display rotation(float x, float y, float z) {
             root.add("rotation", arrayOf(x, y, z));
             return this;
         }
 
-        public Display translation(int x, int y, int z) {
+        public Display translation(float x, float y, float z) {
             root.add("translation", arrayOf(x, y, z));
             return this;
         }
 
-        public Display scale(int x, int y, int z) {
+        public Display scale(float x, float y, float z) {
             root.add("scale", arrayOf(x, y, z));
             return this;
         }

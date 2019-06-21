@@ -10,6 +10,7 @@ import com.swordglowsblue.artifice.api.util.Processor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
@@ -46,12 +47,14 @@ public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource<JsonO
         }
 
         public Variant rotationX(int x) {
-            root.addProperty("x", x % 90 * 90);
+            if(x % 90 != 0) throw new IllegalArgumentException("X rotation must be in increments of 90");
+            root.addProperty("x", x);
             return this;
         }
 
         public Variant rotationY(int y) {
-            root.addProperty("y", y % 90 * 90);
+            if(y % 90 != 0) throw new IllegalArgumentException("Y rotation must be in increments of 90");
+            root.addProperty("y", y);
             return this;
         }
 
@@ -71,16 +74,18 @@ public final class BlockStateBuilder extends TypedJsonBuilder<JsonResource<JsonO
         private Case() { super(new JsonObject(), j->j); }
 
         public Case when(String name, String state) {
-            root.addProperty(name, state);
+            with("when", JsonObject::new, when -> {
+                when.remove("OR");
+                when.addProperty(name, state);
+            });
             return this;
         }
 
         public Case whenAny(String name, String state) {
-            with("OR", JsonArray::new, cases -> {
-                root.entrySet().forEach(e -> root.remove(e.getKey()));
-                root.add("OR", new JsonArrayBuilder(cases).add(
-                    new JsonObjectBuilder().add(name, state).build()).build());
-            });
+            with("when", JsonObject::new, when -> with(when, "OR", JsonArray::new, cases -> {
+                when.entrySet().forEach(e -> { if(!e.getKey().equals("OR")) when.remove(e.getKey()); });
+                cases.add(new JsonObjectBuilder().add(name, state).build());
+            }));
             return this;
         }
 

@@ -66,7 +66,9 @@ public final class ModelElementBuilder extends TypedJsonBuilder<JsonObject> {
         }
 
         public Rotation angle(float angle) {
-            root.addProperty("angle", MathHelper.clamp(angle, -45f, 45f) % 22.5f * 22.5f);
+            if(angle != MathHelper.clamp(angle, -45f, 45f) || angle % 22.5f != 0)
+                throw new IllegalArgumentException("Angle must be between -45 and 45 in increments of 22.5");
+            root.addProperty("angle", angle);
             return this;
         }
 
@@ -80,12 +82,12 @@ public final class ModelElementBuilder extends TypedJsonBuilder<JsonObject> {
     public static final class Face extends TypedJsonBuilder<JsonObject> {
         private Face(JsonObject root) { super(root, j->j); }
 
-        public Face uv(float x1, float x2, float y1, float y2) {
+        public Face uv(int x1, int x2, int y1, int y2) {
             root.add("uv", arrayOf(
-                MathHelper.clamp(x1, -16, 32),
-                MathHelper.clamp(x2, -16, 32),
-                MathHelper.clamp(y1, -16, 32),
-                MathHelper.clamp(y2, -16, 32)
+                MathHelper.clamp(x1, 0, 16),
+                MathHelper.clamp(x2, 0, 16),
+                MathHelper.clamp(y1, 0, 16),
+                MathHelper.clamp(y2, 0, 16)
             ));
             return this;
         }
@@ -106,7 +108,9 @@ public final class ModelElementBuilder extends TypedJsonBuilder<JsonObject> {
         }
 
         public Face rotation(int rotation) {
-            root.addProperty("rotation", MathHelper.clamp(rotation, 0, 270) % 90 * 90);
+            if(rotation != MathHelper.clamp(rotation, 0, 270) || rotation % 90 != 0)
+                throw new IllegalArgumentException("Rotation must be between 0 and 270 in increments of 90");
+            root.addProperty("rotation", rotation);
             return this;
         }
 
