@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "variant=0": { "model": "artifice:model", "x": 90, "y": 180, "uvlock": true },
+    "variant=1": [
+      { "model": "artifice:model0" },
+      { "model": "artifice:model1" }
+    ]
+  }
+}

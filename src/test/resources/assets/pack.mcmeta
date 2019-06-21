@@ -1,0 +1,13 @@
+{
+  "pack": {
+    "pack_format": 4,
+    "description": "Artifice test pack"
+  },
+  "language": {
+    "test_language": {
+      "name": "Test Language",
+      "region": "Testing",
+      "bidirectional": false
+    }
+  }
+}
