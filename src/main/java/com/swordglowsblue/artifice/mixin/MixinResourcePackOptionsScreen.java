@@ -46,7 +46,7 @@ public abstract class MixinResourcePackOptionsScreen {
         this.hidden.addAll(toRemove);
     }
 
-    @Inject(method = "method_19919", at = @At("HEAD"))
+    @Inject(method = "method_19919(Lnet/minecraft/client/gui/widget/ButtonWidget;)V", at = @At("HEAD"))
     private void ensureHiddenPacksAreSelected(CallbackInfo cbi) {
         this.selectedList.children().addAll(hidden);
     }
