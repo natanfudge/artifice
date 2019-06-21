@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 20,
+  "experience": 70.0,
+  "ingredient": { "tag": "artifice:ingredient" },
+  "result": "artifice:result"
+}

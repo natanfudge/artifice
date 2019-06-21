@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": { "item": "artifice:ingredient" },
+  "result": "artifice:result",
+  "count": 1
+}

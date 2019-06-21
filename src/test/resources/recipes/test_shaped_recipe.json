@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "YZY",
+    "XXX"
+  ],
+  "key": {
+    "X": { "item": "artifice:ingredient0" },
+    "Y": { "tag": "artifice:ingredient1" },
+    "Z": [
+      { "item": "artifice:ingredient2" },
+      { "tag": "artifice:ingredient3" }
+    ]
+  },
+  "result": {
+    "item": "artifice:result",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smoking",
+  "cookingtime": 20,
+  "experience": 70.0,
+  "ingredient": [
+    { "item": "artifice:ingredient0" },
+    { "tag": "artifice:ingredient1" }
+  ],
+  "result": "artifice:result"
+}

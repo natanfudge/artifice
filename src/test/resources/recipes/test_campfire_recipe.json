@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "cookingtime": 20,
+  "experience": 70.0,
+  "ingredient": { "item": "artifice:ingredient" },
+  "result": "artifice:result"
+}
