@@ -24,6 +24,12 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource<JsonOb
     public static final class Pool extends TypedJsonBuilder<JsonObject> {
         private Pool() { super(new JsonObject(), j->j); }
 
+        public Pool entry(Processor<Entry> settings) {
+            with("entries", JsonArray::new, entries ->
+                entries.add(settings.process(new Entry()).build()));
+            return this;
+        }
+
         public Pool condition(Identifier id, Processor<JsonObjectBuilder> settings) {
             with("conditions", JsonArray::new, conditions ->
                 conditions.add(settings.process(new JsonObjectBuilder().add("condition", id.toString())).build()));
@@ -70,6 +76,16 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource<JsonOb
 
             public Entry expand(boolean expand) {
                 root.addProperty("expand", expand);
+                return this;
+            }
+
+            public Entry weight(int weight) {
+                root.addProperty("weight", weight);
+                return this;
+            }
+
+            public Entry quality(int quality) {
+                root.addProperty("quality", quality);
                 return this;
             }
 

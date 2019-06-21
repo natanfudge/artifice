@@ -24,7 +24,7 @@ public final class AdvancementBuilder extends TypedJsonBuilder<JsonResource<Json
     }
 
     public AdvancementBuilder criteria(String name, Processor<Criteria> settings) {
-        with("criteria", JsonObject::new, criteria -> with(name, JsonObject::new, criterion ->
+        with("criteria", JsonObject::new, criteria -> with(criteria, name, JsonObject::new, criterion ->
             settings.process(new Criteria()).buildTo(criterion)));
         return this;
     }

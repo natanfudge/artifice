@@ -63,10 +63,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
                 .add("bidirectional", def.isRightToLeft())
                 .build());
 
-        this.metadata = new JsonResource<>(new JsonObjectBuilder()
-            .add("pack", packMeta)
-            .add("language", languageMeta)
-            .build());
+        JsonObjectBuilder builder = new JsonObjectBuilder();
+        builder.add("pack", packMeta);
+        if(languages.size() > 0) builder.add("language", languageMeta);
+        this.metadata = new JsonResource<>(builder.build());
     }
 
     @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourcePackBuilder.class)
