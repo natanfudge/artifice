@@ -8,16 +8,16 @@
   "authors": [ "swordglowsblue" ],
 
   "contact": {
-    "homepage": "https://minecraft.curseforge.com/projects/artifice-resources",
-    "sources": "https://github.com/swordglowsblue/artifice-resources"
+    "homepage": "https://minecraft.curseforge.com/projects/artifice",
+    "sources": "https://github.com/swordglowsblue/artifice"
   },
 
   "license": "MIT",
   "icon": "assets/artifice/icon.png",
 
   "entrypoints": {
-    "main": [ "com.swordglowsblue.artifice.test.ArtificeTest" ],
-    "client": [ "com.swordglowsblue.artifice.test.ArtificeTest" ]
+    "main": [ "com.swordglowsblue.artifice.test.ArtificeTestMod" ],
+    "client": [ "com.swordglowsblue.artifice.test.ArtificeTestMod" ]
   },
   "mixins": [ "artifice.mixins.json" ],
 
