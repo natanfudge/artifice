@@ -80,8 +80,8 @@ class ArtificeAssetsTest {
                 .rotationX(90)
                 .rotationY(180)
                 .uvlock(true))
-            .weightedVariant("variant=1", variant -> variant.model(new Identifier("artifice:model0")))
-            .weightedVariant("variant=1", variant -> variant.model(new Identifier("artifice:model1"))));
+            .weightedVariant("variant=1", variant -> variant.model(new Identifier("artifice:model0")).weight(0))
+            .weightedVariant("variant=1", variant -> variant.model(new Identifier("artifice:model1")).weight(1)));
 
         pack.addBlockState(new Identifier("artifice:test_blockstate_multipart"), state -> state
             .multipartCase(c -> c
@@ -90,8 +90,8 @@ class ArtificeAssetsTest {
             .multipartCase(c -> c
                 .whenAny("variant", "1|2")
                 .whenAny("other", "3")
-                .weightedApply(variant -> variant.model(new Identifier("artifice:model0")))
-                .weightedApply(variant -> variant.model(new Identifier("artifice:model1")))));
+                .weightedApply(variant -> variant.model(new Identifier("artifice:model0")).weight(0))
+                .weightedApply(variant -> variant.model(new Identifier("artifice:model1")).weight(1))));
 
         pack.addItemAnimation(new Identifier("artifice:test_item_animation"), anim -> anim
             .interpolate(true).width(1).height(7).frametime(1)
