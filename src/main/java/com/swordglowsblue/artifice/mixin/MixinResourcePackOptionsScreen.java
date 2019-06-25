@@ -7,11 +7,13 @@ import net.minecraft.client.gui.screen.resourcepack.AvailableResourcePackListWid
 import net.minecraft.client.gui.screen.resourcepack.ResourcePackListWidget;
 import net.minecraft.client.gui.screen.resourcepack.ResourcePackOptionsScreen;
 import net.minecraft.client.gui.screen.resourcepack.SelectedResourcePackListWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.ClientResourcePackContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -46,8 +48,11 @@ public abstract class MixinResourcePackOptionsScreen {
         this.hidden.addAll(toRemove);
     }
 
-    @Inject(method = "method_19919(Lnet/minecraft/client/gui/widget/ButtonWidget;)V", at = @At("HEAD"))
-    private void ensureHiddenPacksAreSelected(CallbackInfo cbi) {
-        this.selectedList.children().addAll(hidden);
+    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 1))
+    public ButtonWidget constructDoneButton(int x, int y, int w, int h, String text, ButtonWidget.PressAction onClick) {
+        return new ButtonWidget(x, y, w, h, text, (button) -> {
+           selectedList.children().addAll(hidden);
+           onClick.onPress(button);
+        });
     }
 }

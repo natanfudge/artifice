@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "artifice",
+  "id": "artifice-testmod",
   "version": "${version}",
 
-  "name": "Artifice",
-  "description": "Library for programmatically generated resource files.",
+  "name": "Artifice Test Mod",
+  "description": "Test mod for Artifice",
   "authors": [ "swordglowsblue" ],
 
   "contact": {
@@ -15,8 +15,13 @@
   "license": "MIT",
   "icon": "assets/artifice/icon.png",
 
-  "mixins": [ "artifice.mixins.json" ],
+  "entrypoints": {
+    "main": [ "com.swordglowsblue.artifice.ArtificeTestMod" ],
+    "client": [ "com.swordglowsblue.artifice.ArtificeTestMod" ]
+  },
+
   "depends": {
-    "fabricloader": ">=0.4.0"
+    "fabricloader": ">=0.4.0",
+    "artifice": "*"
   }
 }
