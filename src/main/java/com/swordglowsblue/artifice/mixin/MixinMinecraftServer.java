@@ -19,15 +19,13 @@ import java.util.Map;
 public abstract class MixinMinecraftServer {
     @Shadow private ResourcePackContainerManager<ResourcePackContainer> dataPackContainerManager;
 
+    @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
     private void registerPackCreator(CallbackInfo cbi) {
         this.dataPackContainerManager.addCreator(new ResourcePackCreator() {
             public <T extends ResourcePackContainer> void registerContainer(Map<String, T> packs, ResourcePackContainer.Factory<T> factory) {
-                for(Identifier id : Artifice.DATA.getIds()) {
-                    ArtificeResourcePack pack = Artifice.DATA.get(id);
-                    T cont = ResourcePackContainer.of(id.toString(), false, () -> pack, factory, ResourcePackContainer.InsertionPosition.BOTTOM);
-                    packs.put(id.toString(), cont);
-                }
+                for(Identifier id : Artifice.DATA.getIds())
+                    packs.put(id.toString(), (T)Artifice.DATA.get(id).getDataContainer(factory));
             }
         });
     }

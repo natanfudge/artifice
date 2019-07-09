@@ -17,10 +17,13 @@ import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.IdUtils;
 import com.swordglowsblue.artifice.api.util.Processor;
+import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.language.LanguageDefinition;
+import net.minecraft.resource.ResourcePackContainer;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
@@ -33,7 +36,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-@SuppressWarnings("unchecked")
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final ResourceType type;
     private final Set<String> namespaces = new HashSet<>();
@@ -46,6 +48,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private boolean optional;
     private boolean visible;
 
+    @SuppressWarnings("unchecked")
     public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
         this.type = type;
         registerResources.accept((T)new ArtificeResourcePackBuilder());
@@ -178,12 +181,32 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public void close() {}
 
     public String getName() {
-        if(displayName != null) return displayName;
-        switch(this.type) {
-            case CLIENT_RESOURCES: return displayName = Artifice.ASSETS.getId(this).toString();
-            case SERVER_DATA: return displayName = Artifice.DATA.getId(this).toString();
-            default: return displayName;
+        if(displayName == null) switch(this.type) {
+            case CLIENT_RESOURCES:
+                Identifier aid = Artifice.ASSETS.getId(this);
+                return displayName = aid != null ? aid.toString() : "Generated Resources";
+            case SERVER_DATA:
+                Identifier did = Artifice.DATA.getId(this);
+                return displayName = did != null ? did.toString() : "Generated Data";
         }
+        return displayName;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackContainer.Factory<?> factory) {
+        return new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackContainer.of(
+            Artifice.ASSETS.getId(this).toString(),
+            false, () -> this, factory,
+            this.optional ? ResourcePackContainer.InsertionPosition.TOP : ResourcePackContainer.InsertionPosition.BOTTOM
+        ));
+    }
+
+    public ResourcePackContainer getDataContainer(ResourcePackContainer.Factory<?> factory) {
+        return ResourcePackContainer.of(
+            Artifice.DATA.getId(this).toString(),
+            false, () -> this, factory,
+            ResourcePackContainer.InsertionPosition.BOTTOM
+        );
     }
 
     public void dumpResources(String folderPath) throws IOException, IllegalArgumentException {

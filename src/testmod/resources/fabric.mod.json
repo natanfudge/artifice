@@ -16,8 +16,8 @@
   "icon": "assets/artifice/icon.png",
 
   "entrypoints": {
-    "main": [ "com.swordglowsblue.artifice.ArtificeTestMod" ],
-    "client": [ "com.swordglowsblue.artifice.ArtificeTestMod" ]
+    "main": [ "com.swordglowsblue.artifice.test.ArtificeTestMod" ],
+    "client": [ "com.swordglowsblue.artifice.test.ArtificeTestMod" ]
   },
 
   "depends": {

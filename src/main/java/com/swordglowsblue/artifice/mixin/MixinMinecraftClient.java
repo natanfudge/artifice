@@ -1,8 +1,7 @@
 package com.swordglowsblue.artifice.mixin;
 
 import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.impl.ArtificeResourcePackContainer;
+import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -29,12 +28,8 @@ public abstract class MixinMinecraftClient {
     private void registerPackCreator(CallbackInfo cbi) {
         this.resourcePackContainerManager.addCreator(new ResourcePackCreator() {
             public <T extends ResourcePackContainer> void registerContainer(Map<String, T> packs, ResourcePackContainer.Factory<T> factory) {
-                for(Identifier id : Artifice.ASSETS.getIds()) {
-                    ArtificeResourcePack pack = Artifice.ASSETS.get(id);
-                    T cont = ResourcePackContainer.of(id.toString(), false, () -> pack, factory,
-                        pack.isOptional() ? ResourcePackContainer.InsertionPosition.TOP : ResourcePackContainer.InsertionPosition.BOTTOM);
-                    packs.put(id.toString(), (T)new ArtificeResourcePackContainer(pack.isOptional(), pack.isVisible(), cont));
-                }
+                for(Identifier id : Artifice.ASSETS.getIds())
+                    packs.put(id.toString(), (T)Artifice.ASSETS.get(id).getAssetsContainer(factory));
             }
         });
     }
