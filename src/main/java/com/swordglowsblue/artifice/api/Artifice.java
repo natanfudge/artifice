@@ -109,5 +109,5 @@ public final class Artifice {
     public static ArtificeResourcePack registerData(Identifier id, ArtificeResourcePack pack) {
         if(pack.getType() != ResourceType.SERVER_DATA)
             throw new IllegalArgumentException("Cannot register a client-side pack as data");
-        return Registry.register(ASSETS, id, pack); }
+        return Registry.register(DATA, id, pack); }
 }
