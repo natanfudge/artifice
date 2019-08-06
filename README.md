@@ -8,10 +8,10 @@ A Minecraft 1.14 library mod for programmatically generated resource files.
 Installation: 
 [![](https://jitpack.io/v/artificemc/artifice.svg)](https://jitpack.io/#artificemc/artifice)
 ```gradle
-repositories { maven { url "https://jitpack.io" } }
+repositories { maven { url "https://maven.swordglowsblue.com" } }
 
 dependencies {
-  modImplementation "com.github.artificemc:artifice:{version}"
-  include "com.github.artificemc:artifice:{version}"
+  modImplementation "artificemc:artifice:{version}"
+  include "artificemc:artifice:{version}"
 }
 ```
