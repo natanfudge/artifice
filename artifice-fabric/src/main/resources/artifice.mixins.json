@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "artificemc.artifice.mixin.fabric",
+  "compatibilityLevel": "JAVA_8",
+  "injectors": { "defaultRequire": 1 },
+
+  "mixins": [ "MixinMinecraftServer" ],
+  "client": [ "MixinMinecraftClient", "MixinResourcePackOptionsScreen" ]
+}

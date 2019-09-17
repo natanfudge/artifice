@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "artifice:block/test_block",
+        "weight": 3
+      },
+      {
+        "model": "block/coarse_dirt"
+      }
+    ]
+  }
+}

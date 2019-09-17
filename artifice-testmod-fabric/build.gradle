@@ -1,0 +1,19 @@
+plugins {
+    id 'fabric-loom' version '0.2.5-SNAPSHOT'
+}
+
+archivesBaseName = "artifice-testmod-fabric"
+version = project.getVersion()
+
+repositories { mavenCentral() }
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.14.4"
+    mappings "net.fabricmc:yarn:1.14.4+build.12"
+    modApi "net.fabricmc:fabric-loader:0.6.1+build.165"
+    modApi "net.fabricmc.fabric-api:fabric-registry-sync-v0:0.2.2+f0d5680036"
+
+    api project(path: ":artifice-fabric")
+
+    modRuntime "io.github.prospector:modmenu:1.7.9+build.118"
+}

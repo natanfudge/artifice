@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "block/sand",
+    "layer1": "block/dead_bush"
+  }
+}

@@ -1,0 +1,6 @@
+archivesBaseName = "artifice-builders-client"
+version = project.getVersion()
+
+dependencies {
+  api project(path: ':artifice-api')
+}

@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "diamond"
+    },
+    {
+      "item": "diamond"
+    },
+    {
+      "item": "diamond"
+    },
+    {
+      "item": "diamond"
+    }
+  ],
+  "result": {
+    "item": "artifice:test_item",
+    "count": 1
+  }
+}

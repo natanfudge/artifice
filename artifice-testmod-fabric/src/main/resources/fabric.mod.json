@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "artifice-testmod",
+  "version": "${version}",
+
+  "name": "Artifice Test Mod",
+  "description": "Test mod for Artifice",
+  "authors": [ "swordglowsblue" ],
+
+  "contact": {
+    "homepage": "https://minecraft.curseforge.com/projects/artifice",
+    "sources": "https://github.com/swordglowsblue/artifice"
+  },
+
+  "license": "MIT",
+  "icon": "assets/artifice/icon.png",
+
+  "entrypoints": {
+    "main": [ "artificemc.artifice.test.ArtificeTestMod" ],
+    "client": [ "artificemc.artifice.test.ArtificeTestMod" ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "artifice": "*"
+  }
+}

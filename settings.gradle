@@ -1,0 +1,16 @@
+pluginManagement {
+  repositories {
+    jcenter()
+    maven { url = 'https://maven.fabricmc.net/' }
+    gradlePluginPortal()
+  }
+}
+
+rootProject.name = 'artifice'
+
+include 'artifice-api'
+include 'artifice-builders-client'
+include 'artifice-builders-server'
+include 'artifice-fabric'
+include 'artifice-testmod-fabric'
+

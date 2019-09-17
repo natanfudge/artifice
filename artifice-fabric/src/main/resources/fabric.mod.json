@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "artifice",
+  "version": "${version}",
+
+  "name": "Artifice",
+  "description": "A resource gen / virtual resource pack library.",
+  "authors": [ "swordglowsblue" ],
+
+  "contact": {
+    "homepage": "https://curseforge.com/minecraft/mc-mod/artifice",
+    "sources": "https://github.com/artificemc/artifice-fabric"
+  },
+
+  "license": "MIT",
+  "icon": "assets/artifice/icon.png",
+  "mixins": [ "artifice.mixins.json" ],
+
+  "depends": {
+    "fabricloader": ">=0.4.0"
+  }
+}

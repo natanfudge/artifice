@@ -1,0 +1,13 @@
+{
+  "pack": {
+    "pack_format": 4,
+    "description": "Resources for the Artifice test mod"
+  },
+  "language": {
+    "ar_tm": {
+      "name": "Test Mod",
+      "region": "Artifice",
+      "bidirectional": false
+    }
+  }
+}
