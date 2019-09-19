@@ -36,12 +36,15 @@ dependencies {
 	testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
 
 	testmodImplementation sourceSets.main.output
+	modRuntime("net.fabricmc.fabric-api:fabric-api-base:0.1.0+f1618918") { transitive = false }
+	modRuntime("net.fabricmc.fabric-api:fabric-networking-v0:0.1.3+9f55aa70b4") { transitive = false }
+	modRuntime("net.fabricmc.fabric-api:fabric-registry-sync-v0:0.2.2+f0d5680036") { transitive = false }
 
-	modRuntime "io.github.prospector.modmenu:ModMenu:1.6.2-92"
-	modRuntime "foamfix-for-minecraft:foamfix:0.12.1"
-	modRuntime "me.shedaniel:RoughlyEnoughItems:2.9.4+build.129"
-	modRuntime "me.sargunvohra.mcmods:auto-config:1.1.2+mc1.14.1"
-	modRuntime "informed-load-fabric:informedload:2.1.0:1.14"
+//	modRuntime "io.github.prospector.modmenu:ModMenu:1.6.2-92"
+//	modRuntime "foamfix-for-minecraft:foamfix:0.12.1"
+//	modRuntime "me.shedaniel:RoughlyEnoughItems:2.9.4+build.129"
+//	modRuntime "me.sargunvohra.mcmods:auto-config:1.1.2+mc1.14.1"
+//	modRuntime "informed-load-fabric:informedload:2.1.0:1.14"
 }
 
 test { useJUnitPlatform() }

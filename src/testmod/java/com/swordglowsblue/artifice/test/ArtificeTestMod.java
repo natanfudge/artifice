@@ -4,8 +4,6 @@ import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.resource.StringResource;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -18,12 +16,12 @@ import net.minecraft.util.registry.Registry;
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
 
-    public void onInitialize() {
-        Item.Settings itemSettings = new Item.Settings().group(ItemGroup.MISC);
-        Item testItem = Registry.register(Registry.ITEM, id("test_item"), new Item(itemSettings));
-        Block testBlock = Registry.register(Registry.BLOCK, id("test_block"), new Block(Block.Settings.copy(Blocks.STONE)));
-        Item testBlockItem = Registry.register(Registry.ITEM, id("test_block"), new BlockItem(testBlock, itemSettings));
+    private static final Item.Settings itemSettings = new Item.Settings().group(ItemGroup.MISC);
+    private static final Item testItem = Registry.register(Registry.ITEM, id("test_item"), new Item(itemSettings));
+    private static final Block testBlock = Registry.register(Registry.BLOCK, id("test_block"), new Block(Block.Settings.copy(Blocks.STONE)));
+    private static final Item testBlockItem = Registry.register(Registry.ITEM, id("test_block"), new BlockItem(testBlock, itemSettings));
 
+    public void onInitialize() {
         ArtificeResourcePack dataPack = Artifice.registerData(id("testmod"), pack -> {
             pack.setDisplayName("Artifice Test Data");
             pack.setDescription("Data for the Artifice test mod");
@@ -32,7 +30,6 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
         });
     }
 
-    @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
         ArtificeResourcePack resourcePack = Artifice.registerAssets("artifice:testmod", pack -> {
             pack.setDisplayName("Artifice Test Resources");

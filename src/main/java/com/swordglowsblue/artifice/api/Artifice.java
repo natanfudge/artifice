@@ -17,8 +17,7 @@ public final class Artifice {
 
     /** The {@link Registry} for client-side resource packs. */
     @Environment(EnvType.CLIENT)
-    public static final MutableRegistry<ArtificeResourcePack> ASSETS =
-        Registry.register(Registry.REGISTRIES, "artifice:assets_packs", new SimpleRegistry<>());
+    public static final MutableRegistry<ArtificeResourcePack> ASSETS = new SimpleRegistry<>();
     /** The {@link Registry} for server-side resource packs. */
     public static final MutableRegistry<ArtificeResourcePack> DATA =
         Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());

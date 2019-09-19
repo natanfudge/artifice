@@ -25,3 +25,5 @@ bin/
 run/
 *.log
 *.log.gz
+
+artifacts
