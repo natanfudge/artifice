@@ -6,7 +6,7 @@ A Minecraft 1.14 library mod for programmatically generated resource files.
 - [Project Wiki](https://github.com/swordglowsblue/artifice/wiki)
 
 Installation: 
-[![](https://jitpack.io/v/artificemc/artifice.svg)](https://jitpack.io/#artificemc/artifice)
+[![](https://img.shields.io/github/v/release/artificemc/artifice)](https://github.com/artificemc/artifice/releases)
 ```gradle
 repositories { maven { url "https://maven.swordglowsblue.com" } }
 
