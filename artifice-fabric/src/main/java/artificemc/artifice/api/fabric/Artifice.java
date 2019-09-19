@@ -10,8 +10,7 @@ public final class Artifice {
     private Artifice() {}
 
     @Environment(EnvType.CLIENT)
-    public static final SimpleRegistry<ArtificeResourcePack.Client> ASSETS =
-        Registry.register(Registry.REGISTRIES, "artifice:assets_packs", new SimpleRegistry<>());
+    public static final SimpleRegistry<ArtificeResourcePack.Client> ASSETS = new SimpleRegistry<>();
     public static final SimpleRegistry<ArtificeResourcePack.Server> DATA =
         Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());
 
