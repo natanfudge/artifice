@@ -152,9 +152,11 @@ public abstract class ArtificeResourcePack implements ResourceContainer, Resourc
         public boolean isVisible() { return this.visible; }
         public List<LanguageDefinition> getLanguages() { return new ArrayList<>(this.languages); }
 
+        private static ResourcePackCreator creator = null;
         @SuppressWarnings("ConstantConditions,unchecked")
         public static ResourcePackCreator getCreator() {
-            return new ResourcePackCreator() {
+            if(creator != null) return creator;
+            return creator = new ResourcePackCreator() {
                 public <T extends ResourcePackContainer> void registerContainer(Map<String, T> packs, ResourcePackContainer.Factory<T> factory) {
                     for(Client pack : Artifice.ASSETS)
                         packs.put(pack.id, (T)new ArtificeResourcePackContainer(
@@ -176,9 +178,11 @@ public abstract class ArtificeResourcePack implements ResourceContainer, Resourc
         public Server(String id, Consumer<ResourcePackBuilder.Server> register) { super(id, register); }
         public Resource.Type getType() { return Resource.Type.SERVER; }
 
+        private static ResourcePackCreator creator = null;
         public static ResourcePackCreator getCreator() {
-            return new ResourcePackCreator() {
-                public <T extends ResourcePackContainer> void registerContainer(Map<String, T> packs, ResourcePackContainer.Factory<T> factory) {
+            if(creator != null) return creator;
+            return creator = new ResourcePackCreator() {
+                public <T extends ResourcePackContainer> void registerContainer(Map<String, T> packs, ResourcePackContainer.Factory<T> factory) {                    System.out.println("registerContainer client");
                     for(Server pack : Artifice.DATA)
                         packs.put(pack.id, ResourcePackContainer.of(
                             pack.id,
