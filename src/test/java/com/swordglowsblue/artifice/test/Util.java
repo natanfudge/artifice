@@ -22,8 +22,8 @@ public class Util {
         return readFile(Paths.get(ROOT+path));
     }
 
-    static JsonObject readFile(Path path) throws IOException {
-        return JsonHelper.deserialize(Files.readString(path));
+    private static JsonObject readFile(Path path) throws IOException {
+        return JsonHelper.deserialize(new String(Files.readAllBytes(path)));
     }
 
     static JsonObject getResource(ArtificeResourcePack from, String path) throws IOException {
@@ -42,11 +42,13 @@ public class Util {
         cleanDirectory(Paths.get(dir.toString().replace(ref, dump)));
     }
 
-    static boolean cleanDirectory(Path dir) throws IOException { return cleanDirectory(dir.toFile()); }
-    static boolean cleanDirectory(File dir) throws IOException {
+    private static void cleanDirectory(Path dir) {
+        cleanDirectory(dir.toFile());
+    }
+    private static void cleanDirectory(File dir) {
         File[] contents = dir.listFiles();
         if(contents != null) for(File file : contents) cleanDirectory(file);
-        return dir.delete();
+        dir.delete();
     }
 
     @FunctionalInterface

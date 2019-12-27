@@ -13,9 +13,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePack;
-import net.minecraft.resource.ResourcePackContainer;
-import net.minecraft.resource.ResourcePackCreator;
+import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.resource.VanillaDataPackProvider;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
@@ -40,19 +40,19 @@ public interface ArtificeResourcePack extends ResourcePack {
     void dumpResources(String folderPath) throws IOException;
 
     /**
-     * Create a client-side {@link ResourcePackContainer} for this pack.
-     * @param factory The factory function passed to {@link ResourcePackCreator#registerContainer}.
+     * Create a client-side {@link ResourcePackProfile} for this pack.
+     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Map, ResourcePackProfile.Factory)}.
      * @return The created container.
      */
     @Environment(EnvType.CLIENT)
-    ArtificeResourcePackContainer getAssetsContainer(ResourcePackContainer.Factory<?> factory);
+    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory);
 
     /**
-     * Create a server-side {@link ResourcePackContainer} for this pack.
-     * @param factory The factory function passed to {@link ResourcePackCreator#registerContainer}.
+     * Create a server-side {@link ResourcePackProfile} for this pack.
+     * @param factory The factory function passed to {@link VanillaDataPackProvider#register}.
      * @return The created container.
      */
-    ResourcePackContainer getDataContainer(ResourcePackContainer.Factory<?> factory);
+    ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory);
 
     /**
      * Create a new client-side {@link ArtificeResourcePack} and register resources using the given callback.

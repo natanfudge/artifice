@@ -23,7 +23,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.language.LanguageDefinition;
-import net.minecraft.resource.ResourcePackContainer;
+import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
@@ -157,7 +157,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         return this.resources.get(id).toInputStream();
     }
 
-    public Collection<Identifier> findResources(ResourceType type, String rootFolder, int max, Predicate<String> filter) {
+    @Override
+    public Collection<Identifier> findResources(ResourceType type, String rootFolder, String string2, int max, Predicate<String> filter) {
         if(type != this.type) return new HashSet<>();
         Set<Identifier> keys = new HashSet<>(this.resources.keySet());
         keys.removeIf(id -> !id.getPath().startsWith(rootFolder) || !filter.test(id.getPath()));
@@ -193,24 +194,24 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     @Environment(EnvType.CLIENT)
-    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackContainer.Factory<?> factory) {
-        return new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackContainer.of(
+    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory) {
+        return new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
             Artifice.ASSETS.getId(this).toString(),
             false, () -> this, factory,
-            this.optional ? ResourcePackContainer.InsertionPosition.TOP : ResourcePackContainer.InsertionPosition.BOTTOM
+            this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM
         ));
     }
 
-    public ResourcePackContainer getDataContainer(ResourcePackContainer.Factory<?> factory) {
-        return ResourcePackContainer.of(
+    public ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory) {
+        return ResourcePackProfile.of(
             Artifice.DATA.getId(this).toString(),
             false, () -> this, factory,
-            ResourcePackContainer.InsertionPosition.BOTTOM
+            ResourcePackProfile.InsertionPosition.BOTTOM
         );
     }
 
     public void dumpResources(String folderPath) throws IOException, IllegalArgumentException {
-        LogManager.getLogger().info("[Artifice] Dumping "+getName()+" "+type.getName()+" to "+folderPath+", this may take a while.");
+        LogManager.getLogger().info("[Artifice] Dumping "+getName()+" "+type.getDirectory()+" to "+folderPath+", this may take a while.");
 
         File dir = new File(folderPath);
         if(!dir.exists() && !dir.mkdirs())
@@ -222,11 +223,11 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         writeResourceFile(new File(folderPath+"/pack.mcmeta"), metadata);
         resources.forEach((id, resource) -> {
-            String path = String.format("./%s/%s/%s/%s", folderPath, this.type.getName(), id.getNamespace(), id.getPath());
+            String path = String.format("./%s/%s/%s/%s", folderPath, this.type.getDirectory(), id.getNamespace(), id.getPath());
             writeResourceFile(new File(path), resource);
         });
 
-        LogManager.getLogger().info("[Artifice] Finished dumping "+getName()+" "+type.getName()+".");
+        LogManager.getLogger().info("[Artifice] Finished dumping "+getName()+" "+type.getDirectory()+".");
     }
 
     private void writeResourceFile(File output, ArtificeResource resource) {

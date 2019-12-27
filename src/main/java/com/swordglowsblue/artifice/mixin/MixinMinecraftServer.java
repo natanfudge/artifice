@@ -2,11 +2,14 @@ package com.swordglowsblue.artifice.mixin;
 
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import net.minecraft.resource.ResourcePackContainer;
-import net.minecraft.resource.ResourcePackContainerManager;
-import net.minecraft.resource.ResourcePackCreator;
+import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourcePackProfile;
+import net.minecraft.resource.ResourcePackProvider;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
+
+import com.swordglowsblue.artifice.impl.ArtificeDataResourcePackProvider;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,16 +20,10 @@ import java.util.Map;
 
 @Mixin(MinecraftServer.class)
 public abstract class MixinMinecraftServer {
-    @Shadow private ResourcePackContainerManager<ResourcePackContainer> dataPackContainerManager;
+    @Final @Shadow private ResourcePackManager<ResourcePackProfile> dataPackManager;
 
-    @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
     private void registerPackCreator(CallbackInfo cbi) {
-        this.dataPackContainerManager.addCreator(new ResourcePackCreator() {
-            public <T extends ResourcePackContainer> void registerContainer(Map<String, T> packs, ResourcePackContainer.Factory<T> factory) {
-                for(Identifier id : Artifice.DATA.getIds())
-                    packs.put(id.toString(), (T)Artifice.DATA.get(id).getDataContainer(factory));
-            }
-        });
+        this.dataPackManager.registerProvider(new ArtificeDataResourcePackProvider());
     }
 }

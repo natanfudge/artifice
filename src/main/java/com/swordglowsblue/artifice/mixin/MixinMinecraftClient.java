@@ -1,45 +1,36 @@
 package com.swordglowsblue.artifice.mixin;
 
-import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.resource.ClientResourcePackContainer;
-import net.minecraft.resource.ResourcePackContainer;
-import net.minecraft.resource.ResourcePackContainerManager;
-import net.minecraft.resource.ResourcePackCreator;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.resource.ClientResourcePackProfile;
+import net.minecraft.resource.ResourcePackManager;
+
+import com.swordglowsblue.artifice.impl.ArtificeAssetsResourcePackProvider;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Map;
-
 @Environment(EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
-    @Shadow private ResourcePackContainerManager<ClientResourcePackContainer> resourcePackContainerManager;
+    @Final @Shadow private ResourcePackManager<ClientResourcePackProfile> resourcePackManager;
 
-    @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
     private void registerPackCreator(CallbackInfo cbi) {
-        this.resourcePackContainerManager.addCreator(new ResourcePackCreator() {
-            public <T extends ResourcePackContainer> void registerContainer(Map<String, T> packs, ResourcePackContainer.Factory<T> factory) {
-                for(Identifier id : Artifice.ASSETS.getIds())
-                    packs.put(id.toString(), (T)Artifice.ASSETS.get(id).getAssetsContainer(factory));
-            }
-        });
+        this.resourcePackManager.registerProvider(new ArtificeAssetsResourcePackProvider());
     }
 
-    @Inject(method = "init", at = @At(value = "INVOKE",
-            target = "net/minecraft/resource/ResourcePackContainerManager.callCreators()V"))
+    @Inject(method = "<init>", at = @At(value = "INVOKE",
+            target = "net/minecraft/resource/ResourcePackManager.scanPacks()V"))
     private void enableNonOptional(CallbackInfo cbi) {
-        this.resourcePackContainerManager.getDisabledContainers().forEach(c -> {
+        this.resourcePackManager.getDisabledProfiles().forEach(c -> {
             if(c instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)c).isOptional())
-                this.resourcePackContainerManager.getEnabledContainers().add(c);
+                this.resourcePackManager.getEnabledProfiles().add(c);
         });
     }
 }
