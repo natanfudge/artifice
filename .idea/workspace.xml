@@ -2,18 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c0dfbe2-90e8-409c-a0ed-6127aa42cc8f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/impl/ArtificeAssetsResourcePackProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/impl/ArtificeDataResourcePackProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.template.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/api/ArtificeResourcePack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/api/ArtificeResourcePack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/api/virtualpack/ArtificeResourcePackContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/api/virtualpack/ArtificeResourcePackContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/impl/ArtificeResourcePackImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/impl/ArtificeResourcePackImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/mixin/MixinMinecraftClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/mixin/MixinMinecraftClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/mixin/MixinMinecraftServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/mixin/MixinMinecraftServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/mixin/MixinResourcePackOptionsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swordglowsblue/artifice/mixin/MixinResourcePackOptionsScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/swordglowsblue/artifice/test/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/swordglowsblue/artifice/test/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/com/swordglowsblue/artifice/test/assets_ref/pack.mcmeta" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/com/swordglowsblue/artifice/test/assets_ref/pack.mcmeta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/com/swordglowsblue/artifice/test/data_ref/pack.mcmeta" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/com/swordglowsblue/artifice/test/data_ref/pack.mcmeta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/com/swordglowsblue/artifice/test/recipes_ref/pack.mcmeta" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/com/swordglowsblue/artifice/test/recipes_ref/pack.mcmeta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +28,32 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="artifice" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="artifice" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="artifice" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="fabric" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="artifice" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="publishing" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -64,8 +84,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java" />
+    <property name="last_opened_file_path" value="$USER_HOME$/.gradle/caches/jars-3/1f1f6c104da3aa3ae13e91489545a98a/fabric-loom-0.2.7-SNAPSHOT.jar!/" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -82,11 +103,96 @@
       <recent name="C:\Users\natan\Desktop\artifice\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Minecraft Client">
+  <component name="RunManager" selected="Gradle.artifice [bintrayUpload]">
+    <configuration name="artifice [bintrayUpload]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bintrayUpload" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="artifice [genSources]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="genSources" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="artifice [generatePomFileForMavenPublicationPublication]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="generatePomFileForMavenPublicationPublication" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="ArtificeAssetsTest.testAssetFiles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="artifice.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.swordglowsblue.artifice.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.swordglowsblue.artifice.test" />
+      <option name="MAIN_CLASS_NAME" value="com.swordglowsblue.artifice.test.ArtificeAssetsTest" />
+      <option name="METHOD_NAME" value="testAssetFiles" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="Gradle.artifice [bintrayUpload]" />
+      <item itemvalue="Gradle.artifice [genSources]" />
+      <item itemvalue="Gradle.artifice [generatePomFileForMavenPublicationPublication]" />
+      <item itemvalue="JUnit.ArtificeAssetsTest.testAssetFiles" />
       <item itemvalue="Application.Minecraft Client" />
       <item itemvalue="Application.Minecraft Server" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.artifice [generatePomFileForMavenPublicationPublication]" />
+        <item itemvalue="Gradle.artifice [bintrayUpload]" />
+        <item itemvalue="JUnit.ArtificeAssetsTest.testAssetFiles" />
+        <item itemvalue="Gradle.artifice [genSources]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -110,22 +216,36 @@
       <workItem from="1577281516827" duration="1362000" />
       <workItem from="1577449793968" duration="2683000" />
       <workItem from="1577455351914" duration="494000" />
-      <workItem from="1577472985819" duration="2713000" />
+      <workItem from="1577472985819" duration="9150000" />
     </task>
+    <task id="LOCAL-00001" summary="study idea modules">
+      <created>1577476556298</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1577476556298</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="study idea modules" />
+    <option name="LAST_COMMIT_MESSAGE" value="study idea modules" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" key="#Project_Structure" timestamp="1577455384078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="178" key="#Project_Structure/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577455384078" />
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1577455397140">
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1577481783836">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577455397140" />
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577481783836" />
     <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1577475863531">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -134,33 +254,37 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="756" y="379" width="422" height="291" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577451110561" />
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1577455383007">
+    <state x="614" y="112" key="CommitChangelistDialog2" timestamp="1577476552563">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577455383007" />
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1577299160904">
+    <state x="614" y="112" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577476552563" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1577479728755">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577299160904" />
-    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1577299160904">
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577479728755" />
+    <state width="1875" height="281" key="GridCell.Tab.0.bottom" timestamp="1577484936778">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577299160904" />
-    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1577299160904">
+    <state width="1875" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577484936778" />
+    <state width="1875" height="281" key="GridCell.Tab.0.center" timestamp="1577484936778">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577299160904" />
-    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1577299160904">
+    <state width="1875" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577484936778" />
+    <state width="1875" height="281" key="GridCell.Tab.0.left" timestamp="1577484936778">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577299160904" />
-    <state x="429" y="224" key="SettingsEditor" timestamp="1577476482766">
+    <state width="1875" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577484936778" />
+    <state width="1875" height="281" key="GridCell.Tab.0.right" timestamp="1577484936778">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="429" y="224" key="SettingsEditor/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577476482766" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1577474377566">
+    <state width="1875" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577484936778" />
+    <state x="438" y="319" key="SettingsEditor" timestamp="1577479882331">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577474377566" />
+    <state x="438" y="319" key="SettingsEditor/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577479882331" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1577479711663">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1536.824@0.0.1920.1040" timestamp="1577479711663" />
   </component>
 </project>

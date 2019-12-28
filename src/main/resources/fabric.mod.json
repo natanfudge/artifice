@@ -5,11 +5,12 @@
 
   "name": "Artifice",
   "description": "Library for programmatically generated resource files.",
-  "authors": [ "swordglowsblue" ],
+  "authors": [ "swordglowsblue","Fudge" ],
 
   "contact": {
-    "homepage": "https://minecraft.curseforge.com/projects/artifice",
-    "sources": "https://github.com/swordglowsblue/artifice"
+    "homepage": "https://github.com/natanfudge/artifice",
+    "sources": "https://github.com/natanfudge/artifice",
+    "issues": "https://github.com/natanfudge/artifice/issues"
   },
 
   "license": "MIT",
@@ -17,6 +18,10 @@
 
   "mixins": [ "artifice.mixins.json" ],
   "depends": {
-    "fabricloader": ">=0.4.0"
+    "minecraft": "1.15.x",
+    "fabricloader": ">=0.7.1"
+  },
+  "custom": {
+    "modmenu:api": true
   }
 }

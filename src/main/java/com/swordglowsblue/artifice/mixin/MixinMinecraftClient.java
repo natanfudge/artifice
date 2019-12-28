@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
@@ -20,17 +21,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinMinecraftClient {
     @Final @Shadow private ResourcePackManager<ClientResourcePackProfile> resourcePackManager;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void registerPackCreator(CallbackInfo cbi) {
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;currentThread()Ljava/lang/Thread;"))
+    private Thread registerPackCreator() {
         this.resourcePackManager.registerProvider(new ArtificeAssetsResourcePackProvider());
+        return Thread.currentThread();
     }
 
-    @Inject(method = "<init>", at = @At(value = "INVOKE",
-            target = "net/minecraft/resource/ResourcePackManager.scanPacks()V"))
-    private void enableNonOptional(CallbackInfo cbi) {
+    @Redirect(method = "<init>", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V"))
+    private void enableNonOptional(ResourcePackManager resourcePackManager) {
         this.resourcePackManager.getDisabledProfiles().forEach(c -> {
             if(c instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)c).isOptional())
                 this.resourcePackManager.getEnabledProfiles().add(c);
         });
+
+        resourcePackManager.scanPacks();
     }
 }
