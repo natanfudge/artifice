@@ -7,8 +7,8 @@ classes/
 
 # idea
 
-#.idea/
-#*.iml
+.idea/
+*.iml
 *.ipr
 *.iws
 
