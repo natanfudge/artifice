@@ -1,7 +1,7 @@
 # Artifice
 [![Discord](https://img.shields.io/discord/219787567262859264?color=blue&label=Discord)](https://discord.gg/CFaCu97)
 [![Bintray](https://api.bintray.com/packages/natanfudge/libs/artifice/images/download.svg)](https://bintray.com/beta/#/natanfudge/libs/artifice?tab=overview)
-[![Latest Commit](https://img.shields.io/github/last-commit/natanfudge/fabric-drawer)](https://github.com/natanfudge/artifice/commits/master)
+[![Latest Commit](https://img.shields.io/github/last-commit/natanfudge/artifice)](https://github.com/natanfudge/artifice/commits/master)
 
 A fork of a Minecraft 1.14 library mod for 1.15, for programmatically generated resource files.
 
