@@ -26,7 +26,24 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.setDisplayName("Artifice Test Data");
             pack.setDescription("Data for the Artifice test mod");
 
-            pack.add(id("recipes/test_item.json"), new StringResource("{}"));
+            pack.add(id("recipes/test_item.json"), new StringResource("{\n" +
+                            "  \"type\": \"minecraft:crafting_shaped\",\n" +
+                            "  \"group\": \"wooden_door\",\n" +
+                            "  \"pattern\": [\n" +
+                            "    \"##\",\n" +
+                            "    \"##\",\n" +
+                            "    \"##\"\n" +
+                            "  ],\n" +
+                            "  \"key\": {\n" +
+                            "    \"#\": {\n" +
+                            "      \"item\": \"minecraft:acacia_planks\"\n" +
+                            "    }\n" +
+                            "  },\n" +
+                            "  \"result\": {\n" +
+                            "    \"item\": \"artifice:test_item\",\n" +
+                            "    \"count\": 3\n" +
+                            "  }\n" +
+                            "}"));
         });
     }
 

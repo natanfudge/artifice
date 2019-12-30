@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-  modImplementation "com.lettuce.fudge:artifice:0.4.0+1.15.1"
-  include "com.lettuce.fudge:artifice:0.4.0+1.15.1"
+  modImplementation "com.lettuce.fudge:artifice:0.4.1+1.15.1"
+  include "com.lettuce.fudge:artifice:0.4.1+1.15.1"
 }
 ```

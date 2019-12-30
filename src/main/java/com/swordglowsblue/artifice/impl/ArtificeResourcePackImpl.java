@@ -158,10 +158,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     @Override
-    public Collection<Identifier> findResources(ResourceType type, String rootFolder, String string2, int max, Predicate<String> filter) {
+    public Collection<Identifier> findResources(ResourceType type, String namespace, String prefix, int maxDepth, Predicate<String> pathFilter) {
         if(type != this.type) return new HashSet<>();
         Set<Identifier> keys = new HashSet<>(this.resources.keySet());
-        keys.removeIf(id -> !id.getPath().startsWith(rootFolder) || !filter.test(id.getPath()));
+        keys.removeIf(id -> !id.getPath().startsWith(prefix) || !pathFilter.test(id.getPath()));
         return keys;
     }
 
