@@ -3,6 +3,8 @@ package com.swordglowsblue.artifice.api;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack.ClientResourcePackBuilder;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack.ServerResourcePackBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
+import com.swordglowsblue.artifice.common.ArtificeRegistry;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resource.ResourceType;
@@ -12,15 +14,24 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
 
 /** Registry methods for Artifice's virtual resource pack support. */
+@SuppressWarnings("DeprecatedIsStillUsed")
 public final class Artifice {
     private Artifice() {}
 
-    /** The {@link Registry} for client-side resource packs. */
+    /**
+     * @deprecated Best to not use it at all, but if you need to use {@link com.swordglowsblue.artifice.common.ArtificeRegistry#ASSETS} instead
+     * The {@link Registry} for client-side resource packs. */
     @Environment(EnvType.CLIENT)
+    @Deprecated
     public static final MutableRegistry<ArtificeResourcePack> ASSETS = new SimpleRegistry<>();
-    /** The {@link Registry} for server-side resource packs. */
+    /**
+     * @deprecated Best to not use it at all, but if you need to use {@link com.swordglowsblue.artifice.common.ArtificeRegistry#DATA} instead
+     * The {@link Registry} for server-side resource packs. */
+    @Deprecated
     public static final MutableRegistry<ArtificeResourcePack> DATA =
         Registry.register(Registry.REGISTRIES, "artifice:data_packs", new SimpleRegistry<>());
+
+
 
     /**
      * Register a new client-side resource pack, creating resources with the given callback.
@@ -52,7 +63,7 @@ public final class Artifice {
      */
     @Environment(EnvType.CLIENT)
     public static ArtificeResourcePack registerAssets(Identifier id, Processor<ClientResourcePackBuilder> register) {
-        return Registry.register(ASSETS, id, ArtificeResourcePack.ofAssets(register)); }
+        return Registry.register(ArtificeRegistry.ASSETS, id, ArtificeResourcePack.ofAssets(register)); }
 
     /**
      * Register a new server-side resource pack, creating resources with the given callback.
@@ -62,7 +73,7 @@ public final class Artifice {
      * @see ArtificeResourcePack#ofData
      */
     public static ArtificeResourcePack registerData(Identifier id, Processor<ServerResourcePackBuilder> register) {
-        return Registry.register(DATA, id, ArtificeResourcePack.ofData(register)); }
+        return Registry.register(ArtificeRegistry.DATA, id, ArtificeResourcePack.ofData(register)); }
 
     /**
      * Register a new client-side resource pack.
@@ -96,7 +107,7 @@ public final class Artifice {
     public static ArtificeResourcePack registerAssets(Identifier id, ArtificeResourcePack pack) {
         if(pack.getType() != ResourceType.CLIENT_RESOURCES)
             throw new IllegalArgumentException("Cannot register a server-side pack as assets");
-        return Registry.register(ASSETS, id, pack); }
+        return Registry.register(ArtificeRegistry.ASSETS, id, pack); }
 
     /**
      * Register a new server-side resource pack.
@@ -108,5 +119,5 @@ public final class Artifice {
     public static ArtificeResourcePack registerData(Identifier id, ArtificeResourcePack pack) {
         if(pack.getType() != ResourceType.SERVER_DATA)
             throw new IllegalArgumentException("Cannot register a client-side pack as data");
-        return Registry.register(DATA, id, pack); }
+        return Registry.register(ArtificeRegistry.DATA, id, pack); }
 }
