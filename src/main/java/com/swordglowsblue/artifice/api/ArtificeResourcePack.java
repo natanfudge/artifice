@@ -39,7 +39,7 @@ import net.fabricmc.api.Environment;
  * {@link ArtificeResourcePack#dumpResources}, or as a virtual resource pack with {@link Artifice#registerAssets}
  * or {@link Artifice#registerData}.
  */
-@SuppressWarnings("DeprecatedIsStillUsed")
+@SuppressWarnings( {"DeprecatedIsStillUsed"})
 public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackProfileLike, ClientResourcePackProfileLike {
     /**
      * @return The {@link ResourceType} this pack contains.
@@ -73,7 +73,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<?> factory) {
+    default  <T extends ResourcePackProfile> ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         return getAssetsContainer(factory);
     }
 
@@ -84,7 +84,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<?> factory) {
+    default <T extends ResourcePackProfile> ResourcePackProfile  toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         return getDataContainer(factory);
     }
 

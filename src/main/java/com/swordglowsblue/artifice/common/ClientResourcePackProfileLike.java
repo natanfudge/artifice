@@ -4,5 +4,5 @@ import net.minecraft.client.resource.ClientResourcePackProfile;
 import net.minecraft.resource.ResourcePackProfile;
 
 public interface ClientResourcePackProfileLike {
-    ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<?> factory);
+    <T extends ResourcePackProfile> ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory);
 }

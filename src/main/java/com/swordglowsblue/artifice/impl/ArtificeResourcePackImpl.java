@@ -288,7 +288,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @SuppressWarnings("deprecation")
     @Override
-    public ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<?> factory) {
+    public <T extends ResourcePackProfile> ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
         if (id == null) id = Artifice.ASSETS.getId(this); //TODO: remove
         assert id != null;
@@ -307,7 +307,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @SuppressWarnings("deprecation")
     @Override
-    public ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<?> factory) {
+    public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         Identifier id = ArtificeRegistry.DATA.getId(this);
         if (id == null) id = Artifice.DATA.getId(this); //TODO: remove
         assert id != null;
