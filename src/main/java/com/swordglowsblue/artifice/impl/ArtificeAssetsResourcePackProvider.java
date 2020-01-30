@@ -18,7 +18,7 @@ public final class ArtificeAssetsResourcePackProvider implements ResourcePackPro
             packs.put(id.toString(), (T) Artifice.ASSETS.get(id).getAssetsContainer(factory));
         }
         for (Identifier id : ArtificeRegistry.ASSETS.getIds()) {
-            packs.put(id.toString(), (T) ArtificeRegistry.ASSETS.get(id).toClientResourcePackProfile(factory));
+            packs.put(id.toString(), (T) ArtificeRegistry.ASSETS.get(id).toClientResourcePackProfile(factory).get());
         }
     }
 }

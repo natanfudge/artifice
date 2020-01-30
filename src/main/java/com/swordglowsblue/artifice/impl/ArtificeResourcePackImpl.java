@@ -42,6 +42,7 @@ import com.swordglowsblue.artifice.api.util.IdUtils;
 import com.swordglowsblue.artifice.api.util.Processor;
 import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
 import com.swordglowsblue.artifice.common.ArtificeRegistry;
+import com.swordglowsblue.artifice.common.ClientOnly;
 import org.apache.commons.io.input.NullInputStream;
 import org.apache.logging.log4j.LogManager;
 
@@ -288,21 +289,23 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @SuppressWarnings("deprecation")
     @Override
-    public <T extends ResourcePackProfile> ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    public <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
         if (id == null) id = Artifice.ASSETS.getId(this); //TODO: remove
         assert id != null;
-        return new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
+        ClientResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
                         id.toString(),
                         false, () -> this, factory,
                         this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM
         ));
+
+        return new ClientOnly<>(profile);
     }
 
     @Environment(EnvType.CLIENT)
     @SuppressWarnings("deprecation")
     public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory) {
-        return (ArtificeResourcePackContainer) toClientResourcePackProfile(factory);
+        return (ArtificeResourcePackContainer) toClientResourcePackProfile(factory).get();
     }
 
     @SuppressWarnings("deprecation")

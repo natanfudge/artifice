@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.api;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import com.swordglowsblue.artifice.api.builder.assets.AnimationBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.BlockStateBuilder;
@@ -19,6 +20,7 @@ import com.swordglowsblue.artifice.api.builder.data.recipe.StonecuttingRecipeBui
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.util.Processor;
 import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
+import com.swordglowsblue.artifice.common.ClientOnly;
 import com.swordglowsblue.artifice.common.ClientResourcePackProfileLike;
 import com.swordglowsblue.artifice.common.ServerResourcePackProfileLike;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
@@ -73,8 +75,8 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default  <T extends ResourcePackProfile> ClientResourcePackProfile toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
-        return getAssetsContainer(factory);
+    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+        return new ClientOnly<>(getAssetsContainer(factory));
     }
 
     /**
@@ -84,27 +86,25 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default <T extends ResourcePackProfile> ResourcePackProfile  toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         return getDataContainer(factory);
     }
 
     /**
-     * @deprecated use {@link ArtificeResourcePack#toClientResourcePackProfile(ResourcePackProfile.Factory)}
-     * Create a client-side {@link ResourcePackProfile} for this pack.
-     *
      * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Map, ResourcePackProfile.Factory)}.
      * @return The created container.
+     * @deprecated use {@link ArtificeResourcePack#toClientResourcePackProfile(ResourcePackProfile.Factory)}
+     * Create a client-side {@link ResourcePackProfile} for this pack.
      */
     @Environment(EnvType.CLIENT)
     @Deprecated
     ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory);
 
     /**
-     * @deprecated use {@link ArtificeResourcePack#toServerResourcePackProfile(ResourcePackProfile.Factory)}
-     * Create a server-side {@link ResourcePackProfile} for this pack.
-     *
      * @param factory The factory function passed to {@link VanillaDataPackProvider#register}.
      * @return The created container.
+     * @deprecated use {@link ArtificeResourcePack#toServerResourcePackProfile(ResourcePackProfile.Factory)}
+     * Create a server-side {@link ResourcePackProfile} for this pack.
      */
     @Deprecated
     ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory);

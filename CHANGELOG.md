@@ -6,3 +6,5 @@ Fixed datapacks (recipe etc) not working.
 Deprecated some API to make it more generic.
 ### 0.5.1
 Fix some methods to use generic argument.
+### 0.6.0
+Now works for 1.15.2
