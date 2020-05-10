@@ -8,6 +8,10 @@
       { "condition": "artifice:condition1", "test": 1 }
     ],
     "entries": [{ "name": "artifice:entry0" }, {
+      "conditions": [
+        { "condition": "artifice:condition0", "test": 0 },
+        { "condition": "artifice:condition1", "test": 1 }
+      ],
       "type": "artifice:type",
       "name": "artifice:entry1",
       "expand": false,

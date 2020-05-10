@@ -24,10 +24,48 @@ public abstract class TypedJsonBuilder<T> {
     }
 
     @SuppressWarnings("unchecked")
-    protected <J extends JsonElement> void with(JsonObject in, String key, Supplier<J> ctor, Processor<J> run) {
+    protected  <J extends JsonElement> void with(JsonObject in, String key, Supplier<J> ctor, Processor<J> run) {
         in.add(key, run.process(in.has(key) ? (J)in.get(key) : ctor.get())); }
-    protected <J extends JsonElement> void with(String key, Supplier<J> ctor, Processor<J> run) {
-        this.with(root, key, ctor, run); }
+
+
+    public <J extends JsonElement> void with(String key, Supplier<J> ctor, Processor<J> run) {
+        this.with(root, key, ctor, run);
+    }
+
+    public TypedJsonBuilder<T> jsonElement(String name, JsonElement value) {
+        root.add(name, value);
+        return this;
+    }
+
+    public TypedJsonBuilder<T> jsonString(String name, String value) {
+        root.addProperty(name, value);
+        return this;
+    }
+
+    public TypedJsonBuilder<T> jsonBoolean(String name, boolean value) {
+        root.addProperty(name, value);
+        return this;
+    }
+
+    public TypedJsonBuilder<T> jsonNumber(String name, Number value) {
+        root.addProperty(name, value);
+        return this;
+    }
+
+    public TypedJsonBuilder<T> jsonChar(String name, Character value) {
+        root.addProperty(name, value);
+        return this;
+    }
+
+    public TypedJsonBuilder<T> jsonObject(String name, Processor<JsonObjectBuilder> settings) {
+        root.add(name, settings.process(new JsonObjectBuilder()).build());
+        return this;
+    }
+
+    public TypedJsonBuilder<T> jsonArray(String name, Processor<JsonArrayBuilder> settings) {
+        root.add(name, settings.process(new JsonArrayBuilder()).build());
+        return this;
+    }
 
     protected JsonArray arrayOf(boolean... values) {
         JsonArray array = new JsonArray();

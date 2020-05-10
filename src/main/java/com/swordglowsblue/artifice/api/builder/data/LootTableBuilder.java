@@ -191,6 +191,21 @@ public final class LootTableBuilder extends TypedJsonBuilder<JsonResource<JsonOb
             }
 
             /**
+             * Add a condition to this entry. All conditions must pass for the entry to be used.
+             * The specific properties of this vary by condition, so this falls through to direct JSON building.
+             *
+             * @param id The condition ID.
+             * @param settings A callback which will be passed a {@link JsonObjectBuilder}.
+             * @return this
+             * @see <a href="https://minecraft.gamepedia.com/Loot_table#Conditions" target="_blank">Minecraft Wiki</a>
+             */
+            public Entry condition(Identifier id, Processor<JsonObjectBuilder> settings) {
+                with("conditions", JsonArray::new, conditions ->
+                        conditions.add(settings.process(new JsonObjectBuilder().add("condition", id.toString())).build()));
+                return this;
+            }
+
+            /**
              * Builder for loot table entry functions.
              * @see Entry
              * @see <a href="https://minecraft.gamepedia.com/Loot_table#Functions" target="_blank">Minecraft Wiki</a>
