@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screen.resourcepack.ResourcePackOptionsScreen;
 import net.minecraft.client.gui.screen.resourcepack.SelectedResourcePackListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.ClientResourcePackProfile;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,7 +42,7 @@ public abstract class MixinResourcePackOptionsScreen {
     }
 
     @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 1))
-    private ButtonWidget constructDoneButton(int x, int y, int w, int h, String text, ButtonWidget.PressAction onClick) {
+    private ButtonWidget constructDoneButton(int x, int y, int w, int h, Text text, ButtonWidget.PressAction onClick) {
         return new ButtonWidget(x, y, w, h, text, (button) -> {
            this.enabledPacks.children().addAll(hidden);
            onClick.onPress(button);

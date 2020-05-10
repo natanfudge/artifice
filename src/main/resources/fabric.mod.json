@@ -18,7 +18,7 @@
 
   "mixins": [ "artifice.mixins.json" ],
   "depends": {
-    "minecraft": ">=1.15.1",
+    "minecraft": ">=1.16-alpha.20.19.a",
     "fabricloader": ">=0.7.1"
   },
   "custom": {
