@@ -57,7 +57,7 @@ import net.minecraft.util.Identifier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
-
+@Environment(EnvType.CLIENT)
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final ResourceType type;
     private final Set<String> namespaces = new HashSet<>();
@@ -270,28 +270,23 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public void close() {
     }
 
-    @SuppressWarnings("deprecation")
     public String getName() {
         if (displayName == null) {
             switch (this.type) {
             case CLIENT_RESOURCES:
                 Identifier aid = ArtificeRegistry.ASSETS.getId(this);
-                if (aid == null) aid = Artifice.ASSETS.getId(this); //TODO: remove
                 return displayName = aid != null ? aid.toString() : "Generated Resources";
             case SERVER_DATA:
                 Identifier did = ArtificeRegistry.DATA.getId(this);
-                if (did == null) Artifice.DATA.getId(this); //TODO: remove
                 return displayName = did != null ? did.toString() : "Generated Data";
             }
         }
         return displayName;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
-        if (id == null) id = Artifice.ASSETS.getId(this); //TODO: remove
         assert id != null;
         ClientResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
                         id.toString(),
@@ -302,17 +297,13 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         return new ClientOnly<>(profile);
     }
 
-    @Environment(EnvType.CLIENT)
-    @SuppressWarnings("deprecation")
     public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory) {
         return (ArtificeResourcePackContainer) toClientResourcePackProfile(factory).get();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         Identifier id = ArtificeRegistry.DATA.getId(this);
-        if (id == null) id = Artifice.DATA.getId(this); //TODO: remove
         assert id != null;
         return ResourcePackProfile.of(
                         id.toString(),
@@ -321,7 +312,6 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         );
     }
 
-    @SuppressWarnings("deprecation")
     public ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory) {
         return toServerResourcePackProfile(factory);
     }

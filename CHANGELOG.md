@@ -10,3 +10,5 @@ Fix some methods to use generic argument.
 Now works for 1.15.2.
 ### 0.6.1 
 Added new json* api to the json builders to add custom fields, and added missing entry conditions API
+### 0.7.0
+Some deprecated API was removed

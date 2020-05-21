@@ -11,12 +11,8 @@ import net.minecraft.util.Identifier;
 
 public final class ArtificeDataResourcePackProvider implements ResourcePackProvider {
     @Override
-    @SuppressWarnings( {"ConstantConditions", "unchecked", "deprecation"})
+    @SuppressWarnings( {"ConstantConditions", "unchecked"})
     public <T extends ResourcePackProfile> void register(Map<String, T> packs, ResourcePackProfile.Factory<T> factory) {
-        //TODO: remove
-        for (Identifier id : Artifice.DATA.getIds()) {
-            packs.put(id.toString(), (T) Artifice.DATA.get(id).getDataContainer(factory));
-        }
         for (Identifier id : ArtificeRegistry.DATA.getIds()) {
             packs.put(id.toString(), (T) ArtificeRegistry.DATA.get(id).toServerResourcePackProfile(factory));
         }
