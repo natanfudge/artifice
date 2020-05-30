@@ -1,29 +1,22 @@
 package com.swordglowsblue.artifice.mixin;
 
-import com.swordglowsblue.artifice.api.Artifice;
-import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import net.minecraft.resource.ResourcePackManager;
-import net.minecraft.resource.ResourcePackProfile;
-import net.minecraft.resource.ResourcePackProvider;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Identifier;
-
 import com.swordglowsblue.artifice.impl.ArtificeDataResourcePackProvider;
+import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import java.util.Map;
+import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourcePackProfile;
+import net.minecraft.resource.ResourcePackProvider;
+import net.minecraft.server.MinecraftServer;
 
 @Mixin(MinecraftServer.class)
 public abstract class MixinMinecraftServer {
-    @Final @Shadow private ResourcePackManager<ResourcePackProfile> dataPackManager;
-
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void registerPackCreator(CallbackInfo cbi) {
-        this.dataPackManager.registerProvider(new ArtificeDataResourcePackProvider());
+    @ModifyArg(method = "method_29438", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;<init>(Lnet/minecraft/resource/ResourcePackProfile$Factory;[Lnet/minecraft/resource/ResourcePackProvider;)V"), index = 1)
+    private static ResourcePackProvider[] appendArtificeDataPacks(ResourcePackProvider[] vanillaProviders) {
+        return ArrayUtils.add(vanillaProviders, new ArtificeDataResourcePackProvider());
     }
 }

@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
+
 public final class ArtificeAssetsResourcePackProvider implements ResourcePackProvider {
     @Override
     @SuppressWarnings( {"unchecked", "ConstantConditions"})

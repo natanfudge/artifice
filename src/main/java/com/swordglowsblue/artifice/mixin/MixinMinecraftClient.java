@@ -1,40 +1,45 @@
 package com.swordglowsblue.artifice.mixin;
 
-import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.resource.ClientResourcePackProfile;
-import net.minecraft.resource.ResourcePackManager;
+import java.util.Collection;
 
+import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
 import com.swordglowsblue.artifice.impl.ArtificeAssetsResourcePackProvider;
+import com.swordglowsblue.artifice.impl.ArtificeDataResourcePackProvider;
+import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.ClientResourcePackProfile;
+import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourcePackProvider;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
-    @Final @Shadow private ResourcePackManager<ClientResourcePackProfile> resourcePackManager;
 
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/lang/Thread;currentThread()Ljava/lang/Thread;"))
-    private Thread registerPackCreator() {
-        this.resourcePackManager.registerProvider(new ArtificeAssetsResourcePackProvider());
-        return Thread.currentThread();
-    }
+	@ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;<init>(Lnet/minecraft/resource/ResourcePackProfile$Factory;[Lnet/minecraft/resource/ResourcePackProvider;)V"), index = 1)
+	private ResourcePackProvider[] appendArtificeAssets(ResourcePackProvider[] vanillaProviders) {
+		return ArrayUtils.add(vanillaProviders, new ArtificeAssetsResourcePackProvider());
+	}
 
-    @Redirect(method = "<init>", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V"))
-    private void enableNonOptional(ResourcePackManager resourcePackManager) {
-        this.resourcePackManager.getDisabledProfiles().forEach(c -> {
-            if(c instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)c).isOptional())
-                this.resourcePackManager.getEnabledProfiles().add(c);
-        });
+	@Redirect(method = "<init>", at = @At(value = "INVOKE",
+					target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V"))
+	private void enableNonOptional(ResourcePackManager<ClientResourcePackProfile> resourcePackManager) {
+		Collection<ClientResourcePackProfile> enabled = resourcePackManager.getEnabledProfiles();
+		for (ClientResourcePackProfile profile : resourcePackManager.getProfiles()) {
+			if (profile instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer) profile).isOptional()) {
+				if (!enabled.contains(profile)) enabled.add(profile);
+			}
+		}
 
-        resourcePackManager.scanPacks();
-    }
+		resourcePackManager.scanPacks();
+	}
 }

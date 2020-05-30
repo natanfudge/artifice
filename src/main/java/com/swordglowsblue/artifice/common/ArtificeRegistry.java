@@ -17,7 +17,7 @@ public class ArtificeRegistry {
      */
     @Environment(EnvType.CLIENT)
     public static final MutableRegistry<ClientResourcePackProfileLike> ASSETS = new SimpleRegistry<>(
-                    RegistryKey.getOrCreateRootKey(new Identifier("artifice", "common_assets")),
+                    RegistryKey.ofRegistry(new Identifier("artifice", "common_assets")),
                     Lifecycle.stable()
     );
     /**
@@ -25,7 +25,7 @@ public class ArtificeRegistry {
      */
     public static final MutableRegistry<ServerResourcePackProfileLike> DATA = Registry.register((Registry) Registry.REGISTRIES,
                     new Identifier("artifice", "common_data_packs"), new SimpleRegistry<>(
-                    RegistryKey.getOrCreateRootKey(new Identifier("artifice", "data")),
+                    RegistryKey.ofRegistry(new Identifier("artifice", "data")),
                     Lifecycle.stable()
     ));
 }

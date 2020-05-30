@@ -10,5 +10,6 @@
   ],
   "client": [
     "MixinMinecraftClient",
-    "MixinResourcePackOptionsScreen" ]
+    "MixinResourcePackOptionsScreen"
+  ]
 }

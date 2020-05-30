@@ -4,6 +4,8 @@ import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.resource.StringResource;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -36,7 +38,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                             "  ],\n" +
                             "  \"key\": {\n" +
                             "    \"#\": {\n" +
-                            "      \"item\": \"minecraft:acacia_planks\"\n" +
+                            "      \"item\": \"minecraft:stone\"\n" +
                             "    }\n" +
                             "  },\n" +
                             "  \"result\": {\n" +
@@ -47,6 +49,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
         });
     }
 
+    @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
         ArtificeResourcePack resourcePack = Artifice.registerAssets("artifice:testmod", pack -> {
             pack.setDisplayName("Artifice Test Resources");
