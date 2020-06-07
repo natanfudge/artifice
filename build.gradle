@@ -1,3 +1,9 @@
+buildscript {
+	repositories { jcenter() }
+	dependencies {
+		classpath("io.github.fudge:forgedflowerloom:1.0.0")
+	}
+}
 plugins {
 	id 'fabric-loom'
 	id 'maven-publish'
@@ -20,7 +26,10 @@ repositories {
     maven { url "https://minecraft.curseforge.com/api/maven/" }
 	maven { url 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
 }
-minecraft {}
+minecraft {
+	addDecompiler(new ForgedFlowerDecompiler(project))
+	accessWidener = file("src/main/resources/artifice.accesswidener")
+}
 
 sourceSets {
 	testmod {

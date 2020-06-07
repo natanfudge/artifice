@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
@@ -50,6 +49,7 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.ClientResourcePackProfile;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePackProfile;
+import net.minecraft.resource.ResourcePackSource;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
@@ -57,7 +57,8 @@ import net.minecraft.util.Identifier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvironmentInterface;
-@Environment(EnvType.CLIENT)
+import net.fabricmc.loader.api.FabricLoader;
+
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final ResourceType type;
     private final Set<String> namespaces = new HashSet<>();
@@ -81,6 +82,26 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
                         .build();
 
         JsonObject languageMeta = new JsonObject();
+        if (isClient()) {
+            addLanguages(languageMeta);
+        }
+
+        JsonObjectBuilder builder = new JsonObjectBuilder();
+        builder.add("pack", packMeta);
+        if (languages.size() > 0) builder.add("language", languageMeta);
+        this.metadata = new JsonResource<>(builder.build());
+    }
+
+    private boolean isClient() {
+        try {
+            return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+        } catch (NullPointerException e) {
+            return true;
+        }
+    }
+
+    @SuppressWarnings("MethodCallSideOnly")
+    private void addLanguages(JsonObject languageMeta) {
         for (LanguageDefinition def : languages) {
             languageMeta.add(def.getCode(), new JsonObjectBuilder()
                             .add("name", def.getName())
@@ -88,11 +109,6 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
                             .add("bidirectional", def.isRightToLeft())
                             .build());
         }
-
-        JsonObjectBuilder builder = new JsonObjectBuilder();
-        builder.add("pack", packMeta);
-        if (languages.size() > 0) builder.add("language", languageMeta);
-        this.metadata = new JsonResource<>(builder.build());
     }
 
     @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourcePackBuilder.class)
@@ -154,6 +170,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             ArtificeResourcePackImpl.this.languages.add(def);
         }
 
+        @Environment(EnvType.CLIENT)
         public void addLanguage(String code, String region, String name, boolean rtl) {
             this.addLanguage(new LanguageDefinition(code, region, name, rtl));
         }
@@ -284,35 +301,41 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         return displayName;
     }
 
+    public static ResourcePackSource ARTIFICE_RESOURCE_PACK_SOURCE = ResourcePackSource.method_29486("pack.source.artifice");
+
     @Override
-    public <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    @Environment(EnvType.CLIENT)
+    public <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
         assert id != null;
         ClientResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
                         id.toString(),
                         false, () -> this, factory,
-                        this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM
+                        this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
+                        ARTIFICE_RESOURCE_PACK_SOURCE
         ));
 
         return new ClientOnly<>(profile);
     }
 
-    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory) {
+    @Environment(EnvType.CLIENT)
+    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.class_5351<?> factory) {
         return (ArtificeResourcePackContainer) toClientResourcePackProfile(factory).get();
     }
 
     @Override
-    public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
         Identifier id = ArtificeRegistry.DATA.getId(this);
         assert id != null;
         return ResourcePackProfile.of(
                         id.toString(),
                         false, () -> this, factory,
-                        ResourcePackProfile.InsertionPosition.BOTTOM
+                        ResourcePackProfile.InsertionPosition.BOTTOM,
+                        ARTIFICE_RESOURCE_PACK_SOURCE
         );
     }
 
-    public ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory) {
+    public ResourcePackProfile getDataContainer(ResourcePackProfile.class_5351<?> factory) {
         return toServerResourcePackProfile(factory);
     }
 

@@ -1,15 +1,9 @@
 package com.swordglowsblue.artifice.mixin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screen.resourcepack.AvailableResourcePackListWidget;
-import net.minecraft.client.gui.screen.resourcepack.ResourcePackListWidget;
-import net.minecraft.client.gui.screen.resourcepack.ResourcePackOptionsScreen;
-import net.minecraft.client.gui.screen.resourcepack.SelectedResourcePackListWidget;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.resource.ClientResourcePackProfile;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,35 +11,50 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
+import net.minecraft.class_5369;
+import net.minecraft.client.gui.screen.pack.AbstractPackScreen;
+import net.minecraft.client.gui.screen.pack.PackListWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.resource.ResourcePackProfile;
+import net.minecraft.text.Text;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
-@Mixin(ResourcePackOptionsScreen.class)
+@Mixin(AbstractPackScreen.class)
 public abstract class MixinResourcePackOptionsScreen {
-    @Shadow private AvailableResourcePackListWidget availablePacks;
-    @Shadow private SelectedResourcePackListWidget enabledPacks;
-    private final List<ResourcePackListWidget.ResourcePackEntry> hidden = new ArrayList<>();
+    @Shadow
+    private PackListWidget availablePackList;
+    @Shadow
+    private PackListWidget selectedPackList;
+    private final List<PackListWidget.ResourcePackEntry> hidden = new ArrayList<>();
 
-    private void tryHideEntry(ResourcePackListWidget.ResourcePackEntry entry) {
-        ClientResourcePackProfile container = entry.getPack();
-        if(container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer)container).isVisible()) hidden.add(entry);
-    };
+    private void tryHideEntry(PackListWidget.ResourcePackEntry entry) {
+        class_5369.class_5371 info = ((MixinResourcePackEntry) entry).getResourcePackInfo();
+        if (info instanceof class_5369.class_5372) {
+            class_5369.class_5372 extendedInfo = (class_5369.class_5372) info;
+            ResourcePackProfile container = ((MixinExtendedResourcePackEntryInfo) extendedInfo).getResourcePackProfile();
+            if (container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer) container).isVisible()) {
+                hidden.add(entry);
+            }
+
+        }
+    }
 
     @Inject(method = "init", at = @At("RETURN"))
     private void hideNoDisplayPacks(CallbackInfo cbi) {
-        this.availablePacks.children().forEach(this::tryHideEntry);
-        this.enabledPacks.children().forEach(this::tryHideEntry);
-        this.availablePacks.children().removeAll(hidden);
-        this.enabledPacks.children().removeAll(hidden);
+        this.availablePackList.children().forEach(this::tryHideEntry);
+        this.selectedPackList.children().forEach(this::tryHideEntry);
+        this.availablePackList.children().removeAll(hidden);
+        this.selectedPackList.children().removeAll(hidden);
     }
 
-    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 1))
-    private ButtonWidget constructDoneButton(int x, int y, int w, int h, Text text, ButtonWidget.PressAction onClick) {
-        return new ButtonWidget(x, y, w, h, text, (button) -> {
-           this.enabledPacks.children().addAll(hidden);
-           onClick.onPress(button);
+    @Redirect(method = "init", at = @At(value = "NEW", target = "(IIIILnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)Lnet/minecraft/client/gui/widget/ButtonWidget;"/*, ordinal = 1*/))
+    private ButtonWidget constructDoneButton(int x, int y, int width, int height, Text message, ButtonWidget.PressAction onPress) {
+        return new ButtonWidget(x, y, width, height, message, (button) -> {
+            this.selectedPackList.children().addAll(hidden);
+            onPress.onPress(button);
         });
     }
 }

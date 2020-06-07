@@ -25,10 +25,10 @@ import net.fabricmc.api.Environment;
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
 
-	@ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;<init>(Lnet/minecraft/resource/ResourcePackProfile$Factory;[Lnet/minecraft/resource/ResourcePackProvider;)V"), index = 1)
-	private ResourcePackProvider[] appendArtificeAssets(ResourcePackProvider[] vanillaProviders) {
-		return ArrayUtils.add(vanillaProviders, new ArtificeAssetsResourcePackProvider());
-	}
+//	@ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;<init>(Lnet/minecraft/resource/ResourcePackProfile$class_5351;[Lnet/minecraft/resource/ResourcePackProvider;)V"), index = 1)
+//	private ResourcePackProvider[] appendArtificeAssets(ResourcePackProvider[] vanillaProviders) {
+//		return ArrayUtils.add(vanillaProviders, new ArtificeAssetsResourcePackProvider());
+//	}
 
 	@Redirect(method = "<init>", at = @At(value = "INVOKE",
 					target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V"))

@@ -75,7 +75,8 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    @Environment(EnvType.CLIENT)
+    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
         return new ClientOnly<>(getAssetsContainer(factory));
     }
 
@@ -86,7 +87,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
         return getDataContainer(factory);
     }
 
@@ -98,7 +99,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     @Environment(EnvType.CLIENT)
     @Deprecated
-    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory);
+    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.class_5351<?> factory);
 
     /**
      * @param factory The factory function passed to {@link VanillaDataPackProvider#register}.
@@ -107,7 +108,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * Create a server-side {@link ResourcePackProfile} for this pack.
      */
     @Deprecated
-    ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory);
+    ResourcePackProfile getDataContainer(ResourcePackProfile.class_5351<?> factory);
 
     /**
      * Create a new client-side {@link ArtificeResourcePack} and register resources using the given callback.

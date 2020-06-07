@@ -7,5 +7,5 @@ import net.minecraft.resource.ResourcePackProfile;
 
 public interface ClientResourcePackProfileLike {
     // Supplier to avoid loading ClientResourcePackProfile on the server
-    <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory);
+    <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.class_5351<T> factory);
 }
