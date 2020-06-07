@@ -21,7 +21,7 @@ public class MixinResourcePackManager {
     private static final ArtificeDataResourcePackProvider serverProvider = new ArtificeDataResourcePackProvider();
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableSet;copyOf([Ljava/lang/Object;)Lcom/google/common/collect/ImmutableSet;"))
-    public <E> ImmutableSet<Object> appendArtificePacks(E[] elements) {
+    private <E> ImmutableSet<Object> appendArtificePacks(E[] elements) {
         Object addedPack;
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
             addedPack = serverProvider;
