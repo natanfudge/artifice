@@ -7,6 +7,7 @@ import com.swordglowsblue.artifice.impl.ArtificeAssetsResourcePackProvider;
 import com.swordglowsblue.artifice.impl.ArtificeDataResourcePackProvider;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.resource.ClientBuiltinResourcePackProvider;
 import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,14 +27,8 @@ public class MixinResourcePackManager {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
             addedPack = serverProvider;
         } else {
-            try {
-                Class clientBuiltinResourcePackProvider = Class.forName("net.minecraft.client.resource.ClientBuiltinResourcePackProvider");
-                boolean isForClient = Arrays.stream(elements).anyMatch(element -> element.getClass().isAssignableFrom(clientBuiltinResourcePackProvider));
-                addedPack = isForClient ? clientProvider : serverProvider;
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                addedPack = serverProvider;
-            }
+            boolean isForClient = Arrays.stream(elements).anyMatch(element -> element instanceof ClientBuiltinResourcePackProvider);
+            addedPack = isForClient ? clientProvider : serverProvider;
         }
         return ImmutableSet.copyOf(ArrayUtils.add(elements, addedPack));
     }
