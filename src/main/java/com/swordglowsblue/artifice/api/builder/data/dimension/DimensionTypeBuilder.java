@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.api.builder.data;
+package com.swordglowsblue.artifice.api.builder.data.dimension;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;

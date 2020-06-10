@@ -1,9 +1,7 @@
 package com.swordglowsblue.artifice.api;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import com.swordglowsblue.artifice.api.builder.assets.AnimationBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.BlockStateBuilder;
@@ -11,7 +9,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
-import com.swordglowsblue.artifice.api.builder.data.DimensionTypeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
