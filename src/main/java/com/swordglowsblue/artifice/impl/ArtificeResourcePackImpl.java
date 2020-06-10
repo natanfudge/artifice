@@ -28,6 +28,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
@@ -177,6 +178,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void addAdvancement(Identifier id, Processor<AdvancementBuilder> f) {
             this.add("advancements/", id, ".json", f, AdvancementBuilder::new);
+        }
+
+        public void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f) {
+            this.add("dimension_type/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionTypeBuilder::new);
         }
 
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {

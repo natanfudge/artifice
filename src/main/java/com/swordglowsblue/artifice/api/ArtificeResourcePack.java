@@ -11,6 +11,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
@@ -259,6 +260,14 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param f  A callback which will be passed an {@link AdvancementBuilder} to create the advancement.
          */
         void addAdvancement(Identifier id, Processor<AdvancementBuilder> f);
+
+        /**
+         * Add a Dimension Type with the given ID.
+         *
+         * @param id The ID of the dimension type, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link DimensionTypeBuilder} to create the dimension type.
+         */
+        void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f);
 
         /**
          * Add a loot table with the given ID.
