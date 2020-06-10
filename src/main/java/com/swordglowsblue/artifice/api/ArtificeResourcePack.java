@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.api;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.swordglowsblue.artifice.api.builder.assets.AnimationBuilder;
@@ -71,12 +72,12 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
     /**
      * Create a client-side {@link ResourcePackProfile} for this pack.
      *
-     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Map, ResourcePackProfile.Factory)}.
+     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Consumer, ResourcePackProfile.Factory)}.
      * @return The created container.
      */
     @Override
     @Environment(EnvType.CLIENT)
-    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
+    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         return new ClientOnly<>(getAssetsContainer(factory));
     }
 
@@ -87,19 +88,19 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
+    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         return getDataContainer(factory);
     }
 
     /**
-     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Map, ResourcePackProfile.Factory)}.
+     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Consumer, ResourcePackProfile.Factory)}.
      * @return The created container.
      * @deprecated use {@link ArtificeResourcePack#toClientResourcePackProfile(ResourcePackProfile.Factory)}
      * Create a client-side {@link ResourcePackProfile} for this pack.
      */
     @Environment(EnvType.CLIENT)
     @Deprecated
-    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.class_5351<?> factory);
+    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory);
 
     /**
      * @param factory The factory function passed to {@link VanillaDataPackProvider#register}.
@@ -108,7 +109,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * Create a server-side {@link ResourcePackProfile} for this pack.
      */
     @Deprecated
-    ResourcePackProfile getDataContainer(ResourcePackProfile.class_5351<?> factory);
+    ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory);
 
     /**
      * Create a new client-side {@link ArtificeResourcePack} and register resources using the given callback.

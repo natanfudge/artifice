@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public final class ArtificeAssetsResourcePackProvider implements ResourcePackProvider {
     @Override
-    public <T extends ResourcePackProfile> void register(Consumer<T> consumer, ResourcePackProfile.class_5351<T> factory) {
+    public <T extends ResourcePackProfile> void register(Consumer<T> consumer, ResourcePackProfile.Factory<T> factory) {
         for (Identifier id : ArtificeRegistry.ASSETS.getIds()) {
             consumer.accept((T) ArtificeRegistry.ASSETS.get(id).toClientResourcePackProfile(factory).get());
         }
