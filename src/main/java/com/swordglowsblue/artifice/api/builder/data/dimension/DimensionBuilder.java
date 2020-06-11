@@ -24,7 +24,17 @@ public class DimensionBuilder extends TypedJsonBuilder<JsonResource<JsonObject>>
     }
 
     public DimensionBuilder noiseGenerator(Processor<ChunkGeneratorTypeBuilder.NoiseChunkGeneratorTypeBuilder> generatorBuilder) {
-        generator(generatorBuilder, new ChunkGeneratorTypeBuilder.NoiseChunkGeneratorTypeBuilder());
+        return this.generator(generatorBuilder, new ChunkGeneratorTypeBuilder.NoiseChunkGeneratorTypeBuilder());
+    }
+
+    public DimensionBuilder flatGenerator(Processor<ChunkGeneratorTypeBuilder.FlatChunkGeneratorTypeBuilder> generatorBuilder) {
+        return this.generator(generatorBuilder, new ChunkGeneratorTypeBuilder.FlatChunkGeneratorTypeBuilder());
+    }
+
+    public DimensionBuilder simpleGenerator(String generatorId) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", generatorId);
+        this.root.add("generator", jsonObject);
         return this;
     }
 }

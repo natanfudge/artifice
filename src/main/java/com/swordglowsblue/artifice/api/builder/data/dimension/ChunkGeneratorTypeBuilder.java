@@ -1,8 +1,11 @@
 package com.swordglowsblue.artifice.api.builder.data.dimension;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
+
+import java.util.function.Function;
 
 public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
 
@@ -65,6 +68,45 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
         public NoiseChunkGeneratorTypeBuilder simpleBiomeSource(String id) {
             this.root.addProperty("biome_source", id);
             return this;
+        }
+    }
+
+    public static class FlatChunkGeneratorTypeBuilder extends ChunkGeneratorTypeBuilder {
+        public FlatChunkGeneratorTypeBuilder() {
+            super();
+            this.type("minecraft:flat");
+        }
+
+        public FlatChunkGeneratorTypeBuilder structureManager(Processor<StructureManagerBuilder> structureManagerBuilder) {
+            with("structures", JsonObject::new, jsonObject -> structureManagerBuilder.process(new StructureManagerBuilder()).buildTo(jsonObject));
+            return this;
+        }
+
+        public FlatChunkGeneratorTypeBuilder biome(String biomeId) {
+            this.root.addProperty("biome", biomeId);
+            return this;
+        }
+
+        public FlatChunkGeneratorTypeBuilder addLayer(Processor<LayersBuilder> layersBuilder) {
+            with("layers", JsonArray::new, jsonElements -> layersBuilder.process(new LayersBuilder()).buildTo(jsonElements.getAsJsonObject()));
+            return this;
+        }
+
+        public static class LayersBuilder extends TypedJsonBuilder<JsonObject> {
+
+            protected LayersBuilder() {
+                super(new JsonObject(), j->j);
+            }
+
+            public LayersBuilder height(int height) {
+                this.root.addProperty("height", height);
+                return this;
+            }
+
+            public LayersBuilder block(String blockId) {
+                this.root.addProperty("block", blockId);
+                return this;
+            }
         }
     }
 }
