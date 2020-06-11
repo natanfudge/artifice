@@ -12,8 +12,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
@@ -22,6 +27,8 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static final Item testItem = Registry.register(Registry.ITEM, id("test_item"), new Item(itemSettings));
     private static final Block testBlock = Registry.register(Registry.BLOCK, id("test_block"), new Block(Block.Settings.copy(Blocks.STONE)));
     private static final Item testBlockItem = Registry.register(Registry.ITEM, id("test_block"), new BlockItem(testBlock, itemSettings));
+
+    private static final RegistryKey<DimensionType> testDimension = RegistryKey.of(Registry.DIMENSION_TYPE_KEY,id("test_dimension_type"));
 
     public void onInitialize() {
         ArtificeResourcePack dataPack = Artifice.registerData(id("testmod"), pack -> {
@@ -46,6 +53,18 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                             "    \"count\": 3\n" +
                             "  }\n" +
                             "}"));
+
+            pack.addDimensionType(testDimension.getValue(), dimensionTypeBuilder -> {
+                dimensionTypeBuilder
+                        .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
+                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
+                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
+            });
+            pack.addDimension(id("test_dimension"), dimensionBuilder -> {
+                dimensionBuilder.dimensionType(testDimension.getValue()).generator(chunkGeneratorTypeBuilder -> {
+                    chunkGeneratorTypeBuilder.with("minecraft:noise", SurfaceChunkGenerator.CODEC);
+                });
+            });
         });
     }
 
