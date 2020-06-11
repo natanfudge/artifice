@@ -6,7 +6,9 @@ import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
 import net.minecraft.util.Identifier;
 
-public final class DimensionBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
+import java.util.function.Function;
+
+public class DimensionBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public DimensionBuilder() {
         super(new JsonObject(), JsonResource::new);
     }
@@ -16,8 +18,13 @@ public final class DimensionBuilder extends TypedJsonBuilder<JsonResource<JsonOb
         return this;
     }
 
-    public DimensionBuilder generator(Processor<ChunkGeneratorTypeBuilder> generatorBuilder) {
-        with("generator", JsonObject::new, generator -> generatorBuilder.process(new ChunkGeneratorTypeBuilder()).buildTo(generator));
+    public <T extends ChunkGeneratorTypeBuilder> DimensionBuilder generator(Processor<T> generatorBuilder, T generatorBuilderInstance) {
+        with("generator", JsonObject::new, generator -> generatorBuilder.process(generatorBuilderInstance).buildTo(generator));
+        return this;
+    }
+
+    public DimensionBuilder noiseGenerator(Processor<ChunkGeneratorTypeBuilder.NoiseChunkGeneratorTypeBuilder> generatorBuilder) {
+        generator(generatorBuilder, new ChunkGeneratorTypeBuilder.NoiseChunkGeneratorTypeBuilder());
         return this;
     }
 }

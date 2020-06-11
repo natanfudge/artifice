@@ -1,22 +1,40 @@
 package com.swordglowsblue.artifice.api.builder.data.dimension;
 
 import com.google.gson.JsonObject;
-import com.mojang.serialization.Codec;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
+import com.swordglowsblue.artifice.api.util.Processor;
 
-public final class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
-    public ChunkGeneratorTypeBuilder() {
+public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
+
+    protected ChunkGeneratorTypeBuilder() {
         super(new JsonObject(), j->j);
     }
 
-    public ChunkGeneratorTypeBuilder with(String type, Codec<? extends ChunkGenerator> codec) {
+    public <T extends ChunkGeneratorTypeBuilder> T type(String type) {
         this.root.addProperty("type", type);
-        System.out.println(codec.toString());
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", "minecraft:fixed");
-        jsonObject.addProperty("biome","minecraft:plains");
-        this.root.add("biome_source", jsonObject);
-        return this;
+        return (T) this;
+    }
+
+
+    public static class NoiseChunkGeneratorTypeBuilder extends ChunkGeneratorTypeBuilder {
+        public NoiseChunkGeneratorTypeBuilder() {
+            super();
+            this.type("minecraft:noise");
+        }
+
+        public NoiseChunkGeneratorTypeBuilder seed(long seed) {
+            this.root.addProperty("seed", seed);
+            return this;
+        }
+
+        public <T extends BiomeSourceBuilder> NoiseChunkGeneratorTypeBuilder biomeSource(Processor<T> biomeSourceBuilder, T biomeSourceBuilderInstance) {
+            with("biome_source", JsonObject::new, biomeSource -> biomeSourceBuilder.process(biomeSourceBuilderInstance).buildTo(biomeSource));
+            return this;
+        }
+
+        public NoiseChunkGeneratorTypeBuilder vanillaLayeredBiomeSource(Processor<BiomeSourceBuilder.VanillaLayeredBiomeSourceBuilder> biomeSourceBuilder) {
+            biomeSource(biomeSourceBuilder, new BiomeSourceBuilder.VanillaLayeredBiomeSourceBuilder());
+            return this;
+        }
     }
 }

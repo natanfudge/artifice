@@ -71,8 +71,9 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
             });
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
-                dimensionBuilder.dimensionType(testDimension.getValue()).generator(chunkGeneratorTypeBuilder -> {
-                    chunkGeneratorTypeBuilder.with(id("test_dimension").toString(), SurfaceChunkGenerator.CODEC);
+                dimensionBuilder.dimensionType(testDimension.getValue())
+                        .noiseGenerator(chunkGeneratorTypeBuilder -> {
+
                 });
             });
         });
