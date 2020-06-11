@@ -22,7 +22,7 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
             this.type("minecraft:noise");
         }
 
-        public NoiseChunkGeneratorTypeBuilder seed(long seed) {
+        public NoiseChunkGeneratorTypeBuilder seed(int seed) {
             this.root.addProperty("seed", seed);
             return this;
         }
@@ -34,6 +34,26 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
 
         public NoiseChunkGeneratorTypeBuilder vanillaLayeredBiomeSource(Processor<BiomeSourceBuilder.VanillaLayeredBiomeSourceBuilder> biomeSourceBuilder) {
             biomeSource(biomeSourceBuilder, new BiomeSourceBuilder.VanillaLayeredBiomeSourceBuilder());
+            return this;
+        }
+
+        public NoiseChunkGeneratorTypeBuilder multiNoiseBiomeSource(Processor<BiomeSourceBuilder.MultiNoiseBiomeSourceBuilder> biomeSourceBuilder) {
+            biomeSource(biomeSourceBuilder, new BiomeSourceBuilder.MultiNoiseBiomeSourceBuilder());
+            return this;
+        }
+
+        public NoiseChunkGeneratorTypeBuilder checkerboardBiomeSource(Processor<BiomeSourceBuilder.CheckerboardBiomeSourceBuilder> biomeSourceBuilder) {
+            biomeSource(biomeSourceBuilder, new BiomeSourceBuilder.CheckerboardBiomeSourceBuilder());
+            return this;
+        }
+
+        public NoiseChunkGeneratorTypeBuilder fixedBiomeSource(Processor<BiomeSourceBuilder.FixedBiomeSourceBuilder> biomeSourceBuilder) {
+            biomeSource(biomeSourceBuilder, new BiomeSourceBuilder.FixedBiomeSourceBuilder());
+            return this;
+        }
+
+        public NoiseChunkGeneratorTypeBuilder simpleBiomeSource(String id) {
+            this.root.addProperty("biome_source", id);
             return this;
         }
     }
