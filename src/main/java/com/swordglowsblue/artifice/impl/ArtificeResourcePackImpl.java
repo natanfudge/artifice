@@ -183,7 +183,6 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f) {
             this.add("dimension_type/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionTypeBuilder::new);
-            this.add("dimension_type/" + id.getNamespace() + "/", id, ".json", f, DimensionTypeBuilder::new);
         }
 
         public void addDimension(Identifier id, Processor<DimensionBuilder> f) {

@@ -1,5 +1,7 @@
 package com.swordglowsblue.artifice.test;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.resource.StringResource;
@@ -8,6 +10,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -16,9 +19,15 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
+import net.minecraft.world.biome.source.BiomeSource;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.StructureAccessor;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
+import net.minecraft.world.gen.chunk.VerticalBlockSample;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
@@ -31,6 +40,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static final RegistryKey<DimensionType> testDimension = RegistryKey.of(Registry.DIMENSION_TYPE_KEY,id("test_dimension_type"));
 
     public void onInitialize() {
+        Registry.register(Registry.CHUNK_GENERATOR, RegistryKey.of(Registry.DIMENSION,id("test_dimension")).getValue(), TestChunkGenerator.CODEC);
         ArtificeResourcePack dataPack = Artifice.registerData(id("testmod"), pack -> {
             pack.setDisplayName("Artifice Test Data");
             pack.setDescription("Data for the Artifice test mod");
@@ -62,7 +72,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             });
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimension.getValue()).generator(chunkGeneratorTypeBuilder -> {
-                    chunkGeneratorTypeBuilder.with("minecraft:noise", SurfaceChunkGenerator.CODEC);
+                    chunkGeneratorTypeBuilder.with(id("test_dimension").toString(), SurfaceChunkGenerator.CODEC);
                 });
             });
         });
@@ -104,5 +114,47 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
         Artifice.registerAssets(id("testmod2"), pack -> {
             pack.setOptional();
         });
+    }
+
+    public static class TestChunkGenerator extends ChunkGenerator {
+        public static final Codec<TestChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
+                instance.group(
+                        BiomeSource.field_24713.fieldOf("biome_source")
+                                .forGetter((generator) -> generator.biomeSource)
+                )
+                        .apply(instance, instance.stable(TestChunkGenerator::new))
+        );
+
+        public TestChunkGenerator(BiomeSource biomeSource) {
+            super(biomeSource, new StructuresConfig(false));
+        }
+
+        @Override
+        protected Codec<? extends ChunkGenerator> method_28506() {
+            return CODEC;
+        }
+
+        @Override
+        public ChunkGenerator withSeed(long seed) {
+            return this;
+        }
+
+        @Override
+        public void buildSurface(ChunkRegion region, Chunk chunk) {
+        }
+
+        @Override
+        public void populateNoise(WorldAccess world, StructureAccessor accessor, Chunk chunk) {
+        }
+
+        @Override
+        public int getHeight(int x, int z, Heightmap.Type heightmapType) {
+            return 0;
+        }
+
+        @Override
+        public BlockView getColumnSample(int x, int z) {
+            return new VerticalBlockSample(new BlockState[0]);
+        }
     }
 }

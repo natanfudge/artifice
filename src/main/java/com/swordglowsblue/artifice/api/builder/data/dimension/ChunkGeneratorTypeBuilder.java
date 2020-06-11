@@ -13,6 +13,10 @@ public final class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject
     public ChunkGeneratorTypeBuilder with(String type, Codec<? extends ChunkGenerator> codec) {
         this.root.addProperty("type", type);
         System.out.println(codec.toString());
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "minecraft:fixed");
+        jsonObject.addProperty("biome","minecraft:plains");
+        this.root.add("biome_source", jsonObject);
         return this;
     }
 }
