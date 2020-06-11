@@ -150,7 +150,7 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * @return
      */
     public DimensionTypeBuilder respawnAnchorWorks(boolean respawnAnchorWork) {
-        root.addProperty("respawn_anchor_work", respawnAnchorWork);
+        root.addProperty("respawn_anchor_works", respawnAnchorWork);
         return this;
     }
 

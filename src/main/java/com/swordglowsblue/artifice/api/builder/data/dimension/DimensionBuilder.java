@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
-import sun.tools.java.Identifier;
+import net.minecraft.util.Identifier;
 
 public final class DimensionBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public DimensionBuilder() {
@@ -16,8 +16,8 @@ public final class DimensionBuilder extends TypedJsonBuilder<JsonResource<JsonOb
         return this;
     }
 
-    public DimensionBuilder generator(Identifier identifier, Processor<ChunkGeneratorTypeBuilder> generatorBuilder) {
-        with("generator", JsonObject::new, generator -> with(generator, identifier.toString(), JsonObject::new, gen -> generatorBuilder.process(new ChunkGeneratorTypeBuilder()).buildTo(gen)));
+    public DimensionBuilder generator(Processor<ChunkGeneratorTypeBuilder> generatorBuilder) {
+        with("generator", JsonObject::new, generator -> generatorBuilder.process(new ChunkGeneratorTypeBuilder()).buildTo(generator));
         return this;
     }
 }

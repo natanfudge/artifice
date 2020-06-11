@@ -9,6 +9,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
@@ -266,6 +267,14 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param f A callback which will be passed an {@link DimensionTypeBuilder} to create the dimension type.
          */
         void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f);
+
+        /**
+         * Add a Dimension with the given ID.
+         *
+         * @param id The ID of the dimension, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder} to create the dimension .
+         */
+        void addDimension(Identifier id, Processor<DimensionBuilder> f);
 
         /**
          * Add a loot table with the given ID.
