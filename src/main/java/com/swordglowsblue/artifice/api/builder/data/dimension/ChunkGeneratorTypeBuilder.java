@@ -75,20 +75,21 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
         public FlatChunkGeneratorTypeBuilder() {
             super();
             this.type("minecraft:flat");
+            this.root.add("settings", new JsonObject());
         }
 
         public FlatChunkGeneratorTypeBuilder structureManager(Processor<StructureManagerBuilder> structureManagerBuilder) {
-            with("structures", JsonObject::new, jsonObject -> structureManagerBuilder.process(new StructureManagerBuilder()).buildTo(jsonObject));
+            with(this.root.getAsJsonObject("settings"),"structures", JsonObject::new, jsonObject -> structureManagerBuilder.process(new StructureManagerBuilder()).buildTo(jsonObject));
             return this;
         }
 
         public FlatChunkGeneratorTypeBuilder biome(String biomeId) {
-            this.root.addProperty("biome", biomeId);
+            this.root.getAsJsonObject("settings").addProperty("biome", biomeId);
             return this;
         }
 
         public FlatChunkGeneratorTypeBuilder addLayer(Processor<LayersBuilder> layersBuilder) {
-            with("layers", JsonArray::new, jsonElements -> layersBuilder.process(new LayersBuilder()).buildTo(jsonElements.getAsJsonObject()));
+            with(this.root.getAsJsonObject("settings"),"layers", JsonArray::new, jsonElements -> jsonElements.add(layersBuilder.process(new LayersBuilder()).buildTo(new JsonObject())));
             return this;
         }
 

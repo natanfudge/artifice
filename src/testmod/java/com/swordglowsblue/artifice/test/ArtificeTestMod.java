@@ -20,6 +20,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.*;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
@@ -28,6 +29,7 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
+import net.minecraft.world.gen.feature.StructureFeature;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
@@ -71,9 +73,21 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
             });
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
-                dimensionBuilder.dimensionType(testDimension.getValue())
-                        .noiseGenerator(chunkGeneratorTypeBuilder -> {
-
+                dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
+                    flatChunkGeneratorTypeBuilder.addLayer(layersBuilder -> {
+                        layersBuilder.block("minecraft:bedrock").height(2);
+                    }).addLayer(layersBuilder -> {
+                        layersBuilder.block("minecraft:stone").height(2);
+                    }).addLayer(layersBuilder -> {
+                        layersBuilder.block("minecraft:cobblestone").height(2);
+                    }).biome(Registry.BIOME.getId(Biomes.DARK_FOREST).toString())
+                            .structureManager(structureManagerBuilder -> {
+                        structureManagerBuilder.addStructure(Registry.STRUCTURE_FEATURE.getId(StructureFeature.MINESHAFT).toString(),
+                                structureConfigBuilder -> {
+                            structureConfigBuilder.salt(1999999).separation(1).spacing(2);
+                        });
+                    })
+                    ;
                 });
             });
         });
