@@ -18,6 +18,11 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
         return (T) this;
     }
 
+    public <T extends BiomeSourceBuilder> ChunkGeneratorTypeBuilder biomeSource(Processor<T> biomeSourceBuilder, T biomeSourceBuilderInstance) {
+        with("biome_source", JsonObject::new, biomeSource -> biomeSourceBuilder.process(biomeSourceBuilderInstance).buildTo(biomeSource));
+        return this;
+    }
+
 
     public static class NoiseChunkGeneratorTypeBuilder extends ChunkGeneratorTypeBuilder {
         public NoiseChunkGeneratorTypeBuilder() {
@@ -37,11 +42,6 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
 
         public NoiseChunkGeneratorTypeBuilder customSettings(Processor<GeneratorSettingsBuilder> generatorSettingsBuilder) {
             with("settings", JsonObject::new, generatorSettings -> generatorSettingsBuilder.process(new GeneratorSettingsBuilder()).buildTo(generatorSettings));
-            return this;
-        }
-
-        public <T extends BiomeSourceBuilder> NoiseChunkGeneratorTypeBuilder biomeSource(Processor<T> biomeSourceBuilder, T biomeSourceBuilderInstance) {
-            with("biome_source", JsonObject::new, biomeSource -> biomeSourceBuilder.process(biomeSourceBuilderInstance).buildTo(biomeSource));
             return this;
         }
 
