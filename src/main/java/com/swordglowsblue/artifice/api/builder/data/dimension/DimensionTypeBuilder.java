@@ -120,6 +120,7 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
     }
 
     /**
+     * Set the fixed time of a dimension, do not set if you want a day-night cycle.
      * Nether -> 18000
      * End -> 6000
      * @param fixedTime Time of the days in ticks

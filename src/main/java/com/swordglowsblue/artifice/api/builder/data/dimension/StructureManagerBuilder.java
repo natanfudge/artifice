@@ -12,11 +12,22 @@ public class StructureManagerBuilder extends TypedJsonBuilder<JsonObject> {
         this.root.add("structures", new JsonObject());
     }
 
+    /**
+     * Build stronghold settings.
+     * @param strongholdSettingsBuilder
+     * @return
+     */
     public StructureManagerBuilder strongholdSettings(Processor<StrongholdSettingsBuilder> strongholdSettingsBuilder) {
         with("stronghold", JsonObject::new, jsonObject -> strongholdSettingsBuilder.process(new StrongholdSettingsBuilder()).buildTo(jsonObject));
         return this;
     }
 
+    /**
+     * Add structure.
+     * @param structureId
+     * @param structureConfigBuilder
+     * @return
+     */
     public StructureManagerBuilder addStructure(String structureId, Processor<StructureConfigBuilder> structureConfigBuilder) {
         this.with(this.root.getAsJsonObject("structures"), structureId, JsonObject::new, jsonObject -> structureConfigBuilder.process(new StructureConfigBuilder()).buildTo(jsonObject));
         return this;
@@ -29,16 +40,29 @@ public class StructureManagerBuilder extends TypedJsonBuilder<JsonObject> {
             super(new JsonObject(), j->j);
         }
 
+        /**
+         * @param distance
+         * @return
+         */
         public StrongholdSettingsBuilder distance(int distance) {
             this.root.addProperty("distance", distance);
             return this;
         }
 
+        /**
+         * @param spread
+         * @return
+         */
         public StrongholdSettingsBuilder spread(int spread) {
             this.root.addProperty("spread", spread);
             return this;
         }
 
+        /**
+         * Set the number of stronghold in the dimension.
+         * @param count
+         * @return
+         */
         public StrongholdSettingsBuilder count(int count) {
             this.root.addProperty("count", count);
             return this;
