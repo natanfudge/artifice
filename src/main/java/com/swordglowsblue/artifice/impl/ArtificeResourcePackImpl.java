@@ -28,6 +28,8 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
@@ -179,6 +181,14 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.add("advancements/", id, ".json", f, AdvancementBuilder::new);
         }
 
+        public void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f) {
+            this.add("dimension_type/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionTypeBuilder::new);
+        }
+
+        public void addDimension(Identifier id, Processor<DimensionBuilder> f) {
+            this.add("dimension/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionBuilder::new);
+        }
+
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
             this.add("loot_tables/", id, ".json", f, LootTableBuilder::new);
         }
@@ -305,7 +315,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
+    public <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
         assert id != null;
         ClientResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
@@ -319,12 +329,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     @Environment(EnvType.CLIENT)
-    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.class_5351<?> factory) {
+    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory) {
         return (ArtificeResourcePackContainer) toClientResourcePackProfile(factory).get();
     }
 
     @Override
-    public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
+    public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         Identifier id = ArtificeRegistry.DATA.getId(this);
         assert id != null;
         return ResourcePackProfile.of(
@@ -335,7 +345,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         );
     }
 
-    public ResourcePackProfile getDataContainer(ResourcePackProfile.class_5351<?> factory) {
+    public ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory) {
         return toServerResourcePackProfile(factory);
     }
 

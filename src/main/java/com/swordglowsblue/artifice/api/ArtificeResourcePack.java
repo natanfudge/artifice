@@ -1,8 +1,7 @@
 package com.swordglowsblue.artifice.api;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
 import com.swordglowsblue.artifice.api.builder.assets.AnimationBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.BlockStateBuilder;
@@ -10,6 +9,8 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
@@ -71,12 +72,12 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
     /**
      * Create a client-side {@link ResourcePackProfile} for this pack.
      *
-     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Map, ResourcePackProfile.Factory)}.
+     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Consumer, ResourcePackProfile.Factory)}.
      * @return The created container.
      */
     @Override
     @Environment(EnvType.CLIENT)
-    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
+    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         return new ClientOnly<>(getAssetsContainer(factory));
     }
 
@@ -87,19 +88,19 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.class_5351<T> factory) {
+    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
         return getDataContainer(factory);
     }
 
     /**
-     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Map, ResourcePackProfile.Factory)}.
+     * @param factory The factory function passed to {@link VanillaDataPackProvider#register(Consumer, ResourcePackProfile.Factory)}.
      * @return The created container.
      * @deprecated use {@link ArtificeResourcePack#toClientResourcePackProfile(ResourcePackProfile.Factory)}
      * Create a client-side {@link ResourcePackProfile} for this pack.
      */
     @Environment(EnvType.CLIENT)
     @Deprecated
-    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.class_5351<?> factory);
+    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory);
 
     /**
      * @param factory The factory function passed to {@link VanillaDataPackProvider#register}.
@@ -108,7 +109,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * Create a server-side {@link ResourcePackProfile} for this pack.
      */
     @Deprecated
-    ResourcePackProfile getDataContainer(ResourcePackProfile.class_5351<?> factory);
+    ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory);
 
     /**
      * Create a new client-side {@link ArtificeResourcePack} and register resources using the given callback.
@@ -258,6 +259,22 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param f  A callback which will be passed an {@link AdvancementBuilder} to create the advancement.
          */
         void addAdvancement(Identifier id, Processor<AdvancementBuilder> f);
+
+        /**
+         * Add a Dimension Type with the given ID.
+         *
+         * @param id The ID of the dimension type, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link DimensionTypeBuilder} to create the dimension type.
+         */
+        void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f);
+
+        /**
+         * Add a Dimension with the given ID.
+         *
+         * @param id The ID of the dimension, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder} to create the dimension .
+         */
+        void addDimension(Identifier id, Processor<DimensionBuilder> f);
 
         /**
          * Add a loot table with the given ID.

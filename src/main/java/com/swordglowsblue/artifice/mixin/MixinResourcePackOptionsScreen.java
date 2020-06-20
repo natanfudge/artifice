@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
+import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.class_5369;
 import net.minecraft.client.gui.screen.pack.AbstractPackScreen;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -31,9 +31,9 @@ public abstract class MixinResourcePackOptionsScreen {
     private final List<PackListWidget.ResourcePackEntry> hidden = new ArrayList<>();
 
     private void tryHideEntry(PackListWidget.ResourcePackEntry entry) {
-        class_5369.class_5371 info = ((MixinResourcePackEntry) entry).getResourcePackInfo();
-        if (info instanceof class_5369.class_5372) {
-            class_5369.class_5372 extendedInfo = (class_5369.class_5372) info;
+        ResourcePackOrganizer.Pack info = ((MixinResourcePackEntry) entry).getResourcePackInfo();
+        if (info instanceof ResourcePackOrganizer.AbstractPack) {
+            ResourcePackOrganizer.AbstractPack extendedInfo = (ResourcePackOrganizer.AbstractPack) info;
             ResourcePackProfile container = ((MixinExtendedResourcePackEntryInfo) extendedInfo).getResourcePackProfile();
             if (container instanceof ArtificeResourcePackContainer && !((ArtificeResourcePackContainer) container).isVisible()) {
                 hidden.add(entry);
