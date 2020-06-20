@@ -12,3 +12,5 @@ Now works for 1.15.2.
 Added new json* api to the json builders to add custom fields, and added missing entry conditions API
 ### 0.7.0
 Some deprecated API was removed
+## 0.8.0
+Added a new dimensions API, contributed by @arthurbambou aka Cat Core.
