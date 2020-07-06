@@ -47,7 +47,8 @@ public final class Artifice {
      */
     @Environment(EnvType.CLIENT)
     public static ArtificeResourcePack registerAssets(Identifier id, Processor<ClientResourcePackBuilder> register) {
-        return Registry.register(ArtificeRegistry.ASSETS, id, ArtificeResourcePack.ofAssets(register)); }
+        return Registry.register(ArtificeRegistry.ASSETS, id, ArtificeResourcePack.ofAssets(register));
+    }
 
     /**
      * Register a new server-side resource pack, creating resources with the given callback.

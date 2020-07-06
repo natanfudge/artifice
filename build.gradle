@@ -1,13 +1,8 @@
-buildscript {
-	repositories { jcenter() }
-	dependencies {
-		classpath("io.github.fudge:forgedflowerloom:1.0.0")
-	}
-}
 plugins {
 	id 'fabric-loom'
 	id 'maven-publish'
 	id "com.jfrog.bintray"
+	id "com.github.fudge.forgedflowerloom" version "2.0.0"
 }
 
 def total_version = "$mod_version+$minecraft_version"
@@ -27,7 +22,6 @@ repositories {
 	maven { url 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
 }
 minecraft {
-	addDecompiler(new ForgedFlowerDecompiler(project))
 	accessWidener = file("src/main/resources/artifice.accesswidener")
 }
 
