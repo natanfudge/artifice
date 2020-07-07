@@ -14,3 +14,5 @@ Added new json* api to the json builders to add custom fields, and added missing
 Some deprecated API was removed
 ## 0.8.0
 Added a new dimensions API, contributed by @arthurbambou aka Cat Core.
+### 0.8.1
+Fix invalid key
