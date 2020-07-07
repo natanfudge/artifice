@@ -112,7 +112,7 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public BlockStateBuilder name(String id) {
-            this.root.addProperty("name", id);
+            this.root.addProperty("Name", id);
             return this;
         }
 
@@ -124,7 +124,7 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
          */
         public BlockStateBuilder setProperty(String property, String state) {
             this.jsonObject.addProperty(property, state);
-            this.root.add("properties", this.jsonObject);
+            this.root.add("Properties", this.jsonObject);
             return this;
         }
     }
