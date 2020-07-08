@@ -85,7 +85,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         layersBuilder.block("minecraft:stone").height(2);
                     }).addLayer(layersBuilder -> {
                         layersBuilder.block("minecraft:cobblestone").height(2);
-                    }).biome(Registry.BIOME.getId(Biomes.DARK_FOREST).toString())
+                    }).biome("minecraft:plains")
                             .structureManager(structureManagerBuilder -> {
                         structureManagerBuilder.addStructure(Registry.STRUCTURE_FEATURE.getId(StructureFeature.MINESHAFT).toString(),
                                 structureConfigBuilder -> {

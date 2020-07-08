@@ -4,16 +4,20 @@ import java.util.function.Consumer;
 
 import com.swordglowsblue.artifice.common.ArtificeRegistry;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourcePackProvider;
 import net.minecraft.util.Identifier;
 
 
 public final class ArtificeAssetsResourcePackProvider implements ResourcePackProvider {
+
+    @Environment(EnvType.CLIENT)
     @Override
-    public <T extends ResourcePackProfile> void register(Consumer<T> consumer, ResourcePackProfile.Factory<T> factory) {
+    public void register(Consumer<ResourcePackProfile> consumer, ResourcePackProfile.Factory factory) {
         for (Identifier id : ArtificeRegistry.ASSETS.getIds()) {
-            consumer.accept((T) ArtificeRegistry.ASSETS.get(id).toClientResourcePackProfile(factory).get());
+            consumer.accept( ArtificeRegistry.ASSETS.get(id).toClientResourcePackProfile(factory).get());
         }
     }
 }

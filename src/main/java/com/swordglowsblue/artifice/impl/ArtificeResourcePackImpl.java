@@ -48,7 +48,6 @@ import org.apache.commons.io.input.NullInputStream;
 import org.apache.logging.log4j.LogManager;
 
 import net.minecraft.SharedConstants;
-import net.minecraft.client.resource.ClientResourcePackProfile;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourcePackSource;
@@ -315,10 +314,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    public <T extends ResourcePackProfile> ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
         assert id != null;
-        ClientResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
+        ResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
                         id.toString(),
                         false, () -> this, factory,
                         this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
@@ -329,12 +328,12 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     }
 
     @Environment(EnvType.CLIENT)
-    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory) {
+    public ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory factory) {
         return (ArtificeResourcePackContainer) toClientResourcePackProfile(factory).get();
     }
 
     @Override
-    public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory factory) {
         Identifier id = ArtificeRegistry.DATA.getId(this);
         assert id != null;
         return ResourcePackProfile.of(
@@ -345,7 +344,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         );
     }
 
-    public ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory) {
+    public ResourcePackProfile getDataContainer(ResourcePackProfile.Factory factory) {
         return toServerResourcePackProfile(factory);
     }
 

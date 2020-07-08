@@ -3,20 +3,19 @@ package com.swordglowsblue.artifice.api.virtualpack;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 
-import net.minecraft.client.resource.ClientResourcePackProfile;
 import net.minecraft.resource.ResourcePackProfile;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 /**
- * A wrapper around {@link ClientResourcePackProfile} exposing optionality/visibility.
+ * A wrapper around {@link ResourcePackProfile} exposing optionality/visibility.
  *
  * @see ArtificeResourcePack.ClientResourcePackBuilder#setOptional
  * @see ArtificeResourcePack.ClientResourcePackBuilder#setVisible
  */
 @Environment(EnvType.CLIENT)
-public class ArtificeResourcePackContainer extends ClientResourcePackProfile {
+public class ArtificeResourcePackContainer extends ResourcePackProfile {
     private final boolean optional;
     private final boolean visible;
 
@@ -44,8 +43,7 @@ public class ArtificeResourcePackContainer extends ClientResourcePackProfile {
                         wrapping.getCompatibility(),
                         wrapping.getInitialPosition(),
                         wrapping.isPinned(),
-                        ArtificeResourcePackImpl.ARTIFICE_RESOURCE_PACK_SOURCE,
-                        null
+                        ArtificeResourcePackImpl.ARTIFICE_RESOURCE_PACK_SOURCE
         );
 
         this.optional = optional;
