@@ -51,7 +51,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
         return this;
     }
 
-    @Deprecated
+    /**
+     * @deprecated use the double version instead
+     */
     public NoiseConfigBuilder densityOffset(int densityOffset) {
         return this.densityOffset((double) densityOffset);
     }
