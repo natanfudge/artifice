@@ -54,15 +54,17 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * @return
      */
     public DimensionTypeBuilder ambientLight(float ambientLight) {
-        if (ambientLight < 0.0F) {
-            ambientLight = 0.0F;
-            System.out.println("Ambient light can't be under 0.0, setting it to 0.0");
+        try {
+            if (ambientLight < 0.0F) {
+                throw new Throwable("Ambient light can't be smaller than 0.0F!");
+            }
+            if (ambientLight > 1.0F) {
+                throw new Throwable("Ambient light can't be higher than 1.0F!");
+            }
+            root.addProperty("ambient_light", ambientLight);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
-        if (ambientLight > 1.0F) {
-            ambientLight = 0.0F;
-            System.out.println("Ambient light can't be higher than 1.0, setting it to 1.0");
-        }
-        root.addProperty("ambient_light", ambientLight);
         return this;
     }
 
