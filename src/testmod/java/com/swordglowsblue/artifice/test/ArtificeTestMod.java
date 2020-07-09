@@ -107,24 +107,24 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addDimension(id("test_dimension_custom"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimensionCustom.getValue()).generator(testChunkGeneratorTypeBuilder -> {
                     testChunkGeneratorTypeBuilder.testBool(true).biomeSource(biomeSourceBuilder -> {
-                        biomeSourceBuilder.biome("minecraft:taiga");
+                        biomeSourceBuilder.biome(id("test_biome").toString());
                     }, new BiomeSourceBuilder.FixedBiomeSourceBuilder());
                 }, new TestChunkGeneratorTypeBuilder());
             });
 
             pack.addBiome(id("test_biome"), biomeBuilder -> {
-                biomeBuilder.surface_builder("minecraft:grass");
+                biomeBuilder.surfaceBuilder("minecraft:grass");
                 biomeBuilder.precipitation(Biome.Precipitation.RAIN);
                 biomeBuilder.category(Biome.Category.PLAINS);
                 biomeBuilder.depth(0.125F);
                 biomeBuilder.scale(0.05F);
                 biomeBuilder.temperature(0.8F);
                 biomeBuilder.downfall(0.4F);
-                biomeBuilder.sky_color(4159204);
+                biomeBuilder.skyColor(4159204);
                 biomeBuilder.effects(biomeEffectsBuilder -> {
-                    biomeEffectsBuilder.water_color(4159204);
-                    biomeEffectsBuilder.water_fog_color(329011);
-                    biomeEffectsBuilder.fog_color(12638463);
+                    biomeEffectsBuilder.waterColor(4159204);
+                    biomeEffectsBuilder.waterFogColor(329011);
+                    biomeEffectsBuilder.fogColor(12638463);
                 });
                 biomeBuilder.addAirCarvers("minecraft:cave", "minecraft:canyon");
                 biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava");
