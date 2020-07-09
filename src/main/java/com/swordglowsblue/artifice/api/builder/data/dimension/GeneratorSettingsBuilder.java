@@ -15,7 +15,13 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public GeneratorSettingsBuilder bedrockRoofPosition(int bedrockRoofPosition) {
-        this.root.addProperty("bedrock_roof_position", bedrockRoofPosition);
+        try {
+            if (bedrockRoofPosition > 276) throw new Throwable("bedrockRoofPosition can't be higher than 276! Found " + bedrockRoofPosition);
+            if (bedrockRoofPosition < -20) throw new Throwable("bedrockRoofPosition can't be smaller than -20! Found " + bedrockRoofPosition);
+            this.root.addProperty("bedrock_roof_position", bedrockRoofPosition);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         return this;
     }
 
@@ -25,7 +31,13 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public GeneratorSettingsBuilder bedrockFloorPosition(int bedrockFloorPosition) {
-        this.root.addProperty("bedrock_floor_position", bedrockFloorPosition);
+        try {
+            if (bedrockFloorPosition > 276) throw new Throwable("bedrockFloorPosition can't be higher than 276! Found " + bedrockFloorPosition);
+            if (bedrockFloorPosition < -20) throw new Throwable("bedrockFloorPosition can't be smaller than -20! Found " + bedrockFloorPosition);
+            this.root.addProperty("bedrock_floor_position", bedrockFloorPosition);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         return this;
     }
 
