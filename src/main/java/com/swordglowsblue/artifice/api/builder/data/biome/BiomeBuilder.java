@@ -50,7 +50,7 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
      * @param sky_color RGB value.
      * @return BiomeBuilder
      */
-    public BiomeBuilder sky_color(int sky_color) {
+    public BiomeBuilder skyColor(int sky_color) {
         this.root.addProperty("sky_color", sky_color);
         return this;
     }
@@ -60,7 +60,7 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
         return this;
     }
 
-    public BiomeBuilder surface_builder(String surface_builder) {
+    public BiomeBuilder surfaceBuilder(String surface_builder) {
         this.root.addProperty("surface_builder", surface_builder);
         return this;
     }
@@ -126,7 +126,7 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
             super(new JsonObject(), j->j);
         }
 
-        public SpawnDensityBuilder energy_budget(double energy_budget) {
+        public SpawnDensityBuilder energyBudget(double energy_budget) {
             this.root.addProperty("energy_budget", energy_budget);
             return this;
         }

@@ -17,7 +17,7 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param fog_color RGB value.
      * @return BiomeBuilder
      */
-    public BiomeEffectsBuilder fog_color(int fog_color) {
+    public BiomeEffectsBuilder fogColor(int fog_color) {
         this.root.addProperty("fog_color", fog_color);
         return this;
     }
@@ -27,7 +27,7 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param water_color RGB value.
      * @return BiomeBuilder
      */
-    public BiomeEffectsBuilder water_color(int water_color) {
+    public BiomeEffectsBuilder waterColor(int water_color) {
         this.root.addProperty("water_color", water_color);
         return this;
     }
@@ -37,12 +37,12 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param water_fog_color RGB value.
      * @return BiomeBuilder
      */
-    public BiomeEffectsBuilder water_fog_color(int water_fog_color) {
+    public BiomeEffectsBuilder waterFogColor(int water_fog_color) {
         this.root.addProperty("water_fog_color", water_fog_color);
         return this;
     }
 
-    public BiomeEffectsBuilder ambient_sound(String soundID) {
+    public BiomeEffectsBuilder ambientSound(String soundID) {
         this.root.addProperty("ambient_sound", soundID);
         return this;
     }
@@ -52,7 +52,7 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
         return this;
     }
 
-    public BiomeEffectsBuilder additions_sound(Processor<BiomeAdditionsSoundBuilder> biomeAdditionsSoundBuilder) {
+    public BiomeEffectsBuilder additionsSound(Processor<BiomeAdditionsSoundBuilder> biomeAdditionsSoundBuilder) {
         with("additions_sound", JsonObject::new, biomeAdditionsSound -> biomeAdditionsSoundBuilder.process(new BiomeAdditionsSoundBuilder()).buildTo(biomeAdditionsSound));
         return this;
     }
@@ -73,12 +73,12 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
             super(new JsonObject(), j->j);
         }
 
-        public BiomeMoodSoundBuilder tick_delay(int tick_delay) {
+        public BiomeMoodSoundBuilder tickDelay(int tick_delay) {
             this.root.addProperty("tick_delay", tick_delay);
             return this;
         }
 
-        public BiomeMoodSoundBuilder block_search_extent(int block_search_extent) {
+        public BiomeMoodSoundBuilder blockSearchExtent(int block_search_extent) {
             this.root.addProperty("block_search_extent", block_search_extent);
             return this;
         }
@@ -100,17 +100,17 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
             super(new JsonObject(), j->j);
         }
 
-        public BiomeMusicSoundBuilder min_delay(int min_delay) {
+        public BiomeMusicSoundBuilder minDelay(int min_delay) {
             this.root.addProperty("min_delay", min_delay);
             return this;
         }
 
-        public BiomeMusicSoundBuilder max_delay(int max_delay) {
+        public BiomeMusicSoundBuilder maxDelay(int max_delay) {
             this.root.addProperty("max_delay", max_delay);
             return this;
         }
 
-        public BiomeMusicSoundBuilder replace_current_music(boolean replace_current_music) {
+        public BiomeMusicSoundBuilder replaceCurrentMusic(boolean replace_current_music) {
             this.root.addProperty("replace_current_music", replace_current_music);
             return this;
         }
@@ -127,7 +127,7 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
             super(new JsonObject(), j->j);
         }
 
-        public BiomeAdditionsSoundBuilder tick_chance(double tick_chance) {
+        public BiomeAdditionsSoundBuilder tickChance(double tick_chance) {
             this.root.addProperty("tick_chance", tick_chance);
             return this;
         }
