@@ -49,7 +49,13 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
      * @param densityOffset
      * @return
      */
-    public NoiseConfigBuilder densityOffset(int densityOffset) {
+    public NoiseConfigBuilder densityOffset(double densityOffset) {
+        if (densityOffset > 1) {
+            densityOffset = 1;
+        }
+        if (densityOffset < -1) {
+            densityOffset = -1;
+        }
         this.root.addProperty("density_offset", densityOffset);
         return this;
     }

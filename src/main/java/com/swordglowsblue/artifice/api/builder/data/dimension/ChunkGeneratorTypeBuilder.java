@@ -151,6 +151,16 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
             return this;
         }
 
+        public FlatChunkGeneratorTypeBuilder lakes(boolean lakes) {
+            this.root.getAsJsonObject("settings").addProperty("lakes", lakes);
+            return this;
+        }
+
+        public FlatChunkGeneratorTypeBuilder features(boolean features) {
+            this.root.getAsJsonObject("settings").addProperty("features", features);
+            return this;
+        }
+
         /**
          * Add a block layer.
          * @param layersBuilder

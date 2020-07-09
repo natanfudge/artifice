@@ -35,6 +35,12 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public GeneratorSettingsBuilder seaLevel(int seaLevel) {
+        if (seaLevel > 255) {
+            seaLevel = 255;
+        }
+        if (seaLevel < 0) {
+            seaLevel = 0;
+        }
         this.root.addProperty("sea_level", seaLevel);
         return this;
     }
@@ -100,10 +106,9 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
 
     public static class BlockStateBuilder extends TypedJsonBuilder<JsonObject> {
 
-        private JsonObject jsonObject = new JsonObject();
-
         protected BlockStateBuilder() {
             super(new JsonObject(), j->j);
+            this.root.add("Properties", new JsonObject());
         }
 
         /**
@@ -123,8 +128,7 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public BlockStateBuilder setProperty(String property, String state) {
-            this.jsonObject.addProperty(property, state);
-            this.root.add("Properties", this.jsonObject);
+            this.root.getAsJsonObject("Properties").addProperty(property, state);
             return this;
         }
     }
