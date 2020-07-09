@@ -56,7 +56,7 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
         return this;
     }
 
-    public BiomeBuilder moodSound(Processor<BiomeEffectsBuilder> biomeEffectsBuilder) {
+    public BiomeBuilder effects(Processor<BiomeEffectsBuilder> biomeEffectsBuilder) {
         with("effects", JsonObject::new, biomeEffects -> biomeEffectsBuilder.process(new BiomeEffectsBuilder()).buildTo(biomeEffects));
         return this;
     }
