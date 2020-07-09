@@ -28,6 +28,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.biome.BiomeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
@@ -186,6 +187,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void addDimension(Identifier id, Processor<DimensionBuilder> f) {
             this.add("dimension/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionBuilder::new);
+        }
+
+        public void addBiome(Identifier id, Processor<BiomeBuilder> f) {
+            this.add("biome/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, BiomeBuilder::new);
         }
 
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
