@@ -26,7 +26,6 @@ import com.swordglowsblue.artifice.common.ClientResourcePackProfileLike;
 import com.swordglowsblue.artifice.common.ServerResourcePackProfileLike;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 
-import net.minecraft.client.resource.ClientResourcePackProfile;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackProfile;
@@ -77,7 +76,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     @Override
     @Environment(EnvType.CLIENT)
-    default <T extends ResourcePackProfile> ClientOnly<ClientResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    default <T extends ResourcePackProfile> ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
         return new ClientOnly<>(getAssetsContainer(factory));
     }
 
@@ -88,7 +87,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return The created container.
      */
     @Override
-    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory<T> factory) {
+    default <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory factory) {
         return getDataContainer(factory);
     }
 
@@ -100,7 +99,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     @Environment(EnvType.CLIENT)
     @Deprecated
-    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory<?> factory);
+    ArtificeResourcePackContainer getAssetsContainer(ResourcePackProfile.Factory factory);
 
     /**
      * @param factory The factory function passed to {@link VanillaDataPackProvider#register}.
@@ -109,7 +108,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * Create a server-side {@link ResourcePackProfile} for this pack.
      */
     @Deprecated
-    ResourcePackProfile getDataContainer(ResourcePackProfile.Factory<?> factory);
+    ResourcePackProfile getDataContainer(ResourcePackProfile.Factory factory);
 
     /**
      * Create a new client-side {@link ArtificeResourcePack} and register resources using the given callback.
