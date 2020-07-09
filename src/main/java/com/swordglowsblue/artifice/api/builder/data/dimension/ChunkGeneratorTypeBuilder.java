@@ -183,7 +183,13 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public LayersBuilder height(int height) {
-                this.root.addProperty("height", height);
+                try {
+                    if (height > 255) throw new Throwable("Height can't be higher than 255! Found " + height);
+                    if (height < 0) throw new Throwable("Height can't be smaller than 0! Found " + height);
+                    this.root.addProperty("height", height);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 return this;
             }
 

@@ -122,7 +122,13 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder altitude(float altitude) {
-                this.root.addProperty("altitude", altitude);
+                try {
+                    if (altitude > 2.0F) throw new Throwable("altitude can't be higher than 2.0F! Found " + altitude);
+                    if (altitude < -2.0F) throw new Throwable("altitude can't be smaller than 2.0F! Found " + altitude);
+                    this.root.addProperty("altitude", altitude);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 return this;
             }
 
@@ -131,7 +137,13 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder weirdness(float weirdness) {
-                this.root.addProperty("weirdness", weirdness);
+                try {
+                    if (weirdness > 2.0F) throw new Throwable("weirdness can't be higher than 2.0F! Found " + weirdness);
+                    if (weirdness < -2.0F) throw new Throwable("weirdness can't be smaller than 2.0F! Found " + weirdness);
+                    this.root.addProperty("weirdness", weirdness);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 return this;
             }
 
@@ -140,7 +152,13 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder offset(float offset) {
-                this.root.addProperty("offset", offset);
+                try {
+                    if (offset > 1.0F) throw new Throwable("offset can't be higher than 1.0F! Found " + offset);
+                    if (offset < 0.0F) throw new Throwable("offset can't be smaller than 0.0F! Found " + offset);
+                    this.root.addProperty("offset", offset);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 return this;
             }
 
@@ -149,7 +167,13 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder temperature(float temperature) {
-                this.root.addProperty("temperature", temperature);
+                try {
+                    if (temperature > 2.0F) throw new Throwable("temperature can't be higher than 2.0F! Found " + temperature);
+                    if (temperature < -2.0F) throw new Throwable("temperature can't be smaller than 2.0F! Found " + temperature);
+                    this.root.addProperty("temperature", temperature);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 return this;
             }
 
@@ -158,7 +182,13 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder humidity(float humidity) {
-                this.root.addProperty("humidity", humidity);
+                try {
+                    if (humidity > 2.0F) throw new Throwable("humidity can't be higher than 2.0F! Found " + humidity);
+                    if (humidity < -2.0F) throw new Throwable("humidity can't be smaller than 2.0F! Found " + humidity);
+                    this.root.addProperty("humidity", humidity);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 return this;
             }
         }
@@ -178,8 +208,8 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
          */
         public CheckerboardBiomeSourceBuilder scale(int scale) {
             try {
-                if (scale > 61) throw new Throwable("Scale can't be higher than 61! Found " + scale);
-                if (scale < 1) throw new Throwable("Scale can't be smaller than 1! Found " + scale);
+                if (scale > 62) throw new Throwable("Scale can't be higher than 62! Found " + scale);
+                if (scale < 0) throw new Throwable("Scale can't be smaller than 0! Found " + scale);
                 this.root.addProperty("scale", scale);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
