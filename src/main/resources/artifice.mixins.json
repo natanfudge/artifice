@@ -10,7 +10,6 @@
     "MixinResourcePackOrganizer"
   ],
   "client": [
-    "MixinExtendedResourcePackEntryInfo",
     "MixinMinecraftClient",
     "MixinResourcePackEntry"
   ]

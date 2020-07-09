@@ -190,7 +190,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
 
         public void addBiome(Identifier id, Processor<BiomeBuilder> f) {
-            this.add("biome/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, BiomeBuilder::new);
+            this.add("worldgen/biome/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, BiomeBuilder::new);
         }
 
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {

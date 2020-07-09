@@ -24,10 +24,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.*;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.StructuresConfig;
@@ -108,6 +110,24 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         biomeSourceBuilder.biome("minecraft:taiga");
                     }, new BiomeSourceBuilder.FixedBiomeSourceBuilder());
                 }, new TestChunkGeneratorTypeBuilder());
+            });
+
+            pack.addBiome(id("test_biome"), biomeBuilder -> {
+                biomeBuilder.surface_builder("minecraft:grass");
+                biomeBuilder.precipitation(Biome.Precipitation.RAIN);
+                biomeBuilder.category(Biome.Category.PLAINS);
+                biomeBuilder.depth(0.125F);
+                biomeBuilder.scale(0.05F);
+                biomeBuilder.temperature(0.8F);
+                biomeBuilder.downfall(0.4F);
+                biomeBuilder.sky_color(4159204);
+                biomeBuilder.effects(biomeEffectsBuilder -> {
+                    biomeEffectsBuilder.water_color(4159204);
+                    biomeEffectsBuilder.water_fog_color(329011);
+                    biomeEffectsBuilder.fog_color(12638463);
+                });
+                biomeBuilder.addAirCarvers("minecraft:cave", "minecraft:canyon");
+                biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava");
             });
         });
     }
