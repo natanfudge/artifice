@@ -55,13 +55,13 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public NoiseConfigBuilder densityOffset(double densityOffset) {
-        if (densityOffset > 1) {
-            densityOffset = 1;
+        try {
+            if (densityOffset > 1) throw new Throwable("densityOffset can't be higher than 1! Found " + densityOffset);
+            if (densityOffset < -1) throw new Throwable("densityOffset can't be smaller than -1! Found " + densityOffset);
+            this.root.addProperty("density_offset", densityOffset);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
-        if (densityOffset < -1) {
-            densityOffset = -1;
-        }
-        this.root.addProperty("density_offset", densityOffset);
         return this;
     }
 

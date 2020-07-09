@@ -35,13 +35,13 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public GeneratorSettingsBuilder seaLevel(int seaLevel) {
-        if (seaLevel > 255) {
-            seaLevel = 255;
+        try {
+            if (seaLevel > 255) throw new Throwable("Sealevel can't be higher than 255! Found " + seaLevel);
+            if (seaLevel < 0) throw new Throwable("Sealevel can't be smaller than 0! Found " + seaLevel);
+            this.root.addProperty("sea_level", seaLevel);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
-        if (seaLevel < 0) {
-            seaLevel = 0;
-        }
-        this.root.addProperty("sea_level", seaLevel);
         return this;
     }
 

@@ -177,15 +177,13 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public CheckerboardBiomeSourceBuilder scale(int scale) {
-            if (scale > 61) {
-                scale = 61;
-                System.out.println("Scale can't be higher than 61, setting it to 61.");
+            try {
+                if (scale > 61) throw new Throwable("Scale can't be higher than 61! Found " + scale);
+                if (scale < 1) throw new Throwable("Scale can't be smaller than 1! Found " + scale);
+                this.root.addProperty("scale", scale);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
             }
-            if (scale < 1) {
-                scale = 1;
-                System.out.println("Scale can't be smaller than 0, setting it to 1.");
-            }
-            this.root.addProperty("scale", scale);
             return this;
         }
 
