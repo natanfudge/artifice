@@ -18,8 +18,8 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
-    maven { url "https://minecraft.curseforge.com/api/maven/" }
-	maven { url 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
+//    maven { url "https://minecraft.curseforge.com/api/maven/" }
+//	maven { url 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
 }
 minecraft {
 	accessWidener = file("src/main/resources/artifice.accesswidener")
