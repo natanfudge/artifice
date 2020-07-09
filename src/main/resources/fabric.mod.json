@@ -23,6 +23,5 @@
   },
   "custom": {
     "modmenu:api": true
-  },
-  "accessWidener" : "artifice.accesswidener"
+  }
 }
