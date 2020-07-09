@@ -7,6 +7,7 @@ import com.swordglowsblue.artifice.api.util.Processor;
 import java.util.function.Function;
 
 public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
+
     public BiomeEffectsBuilder() {
         super(new JsonObject(), j->j);
     }

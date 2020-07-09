@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 
@@ -18,6 +19,10 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
             this.root.getAsJsonArray("features").add(new JsonArray());
         }
         this.root.add("spawn_costs", new JsonObject());
+        this.root.add("spawners", new JsonObject());
+        for (SpawnGroup spawnGroup : SpawnGroup.values()) {
+            this.root.getAsJsonObject("spawners").add(spawnGroup.getName(), new JsonArray());
+        }
     }
 
     public BiomeBuilder depth(float depth) {
@@ -77,6 +82,12 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
 
     public BiomeBuilder addSpawnCosts(String entityID, Processor<SpawnDensityBuilder> spawnDensityBuilderProcessor) {
         with(entityID, JsonObject::new, spawnDensityBuilder -> spawnDensityBuilderProcessor.process(new SpawnDensityBuilder()).buildTo(spawnDensityBuilder));
+        return this;
+    }
+
+    public BiomeBuilder addSpawnEntry(SpawnGroup spawnGroup, Processor<BiomeSpawnEntryBuilder> biomeSpawnEntryBuilderProcessor) {
+        this.root.getAsJsonObject("spawners").get(spawnGroup.getName()).getAsJsonArray()
+                .add(biomeSpawnEntryBuilderProcessor.process(new BiomeSpawnEntryBuilder()).buildTo(new JsonObject()));
         return this;
     }
 
