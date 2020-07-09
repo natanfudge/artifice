@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.api.builder.data.biome;
+package com.swordglowsblue.artifice.api.builder.data.worldgen.biome;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;

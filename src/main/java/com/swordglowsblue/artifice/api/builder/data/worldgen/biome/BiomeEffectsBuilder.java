@@ -1,10 +1,8 @@
-package com.swordglowsblue.artifice.api.builder.data.biome;
+package com.swordglowsblue.artifice.api.builder.data.worldgen.biome;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
-
-import java.util.function.Function;
 
 public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
 
