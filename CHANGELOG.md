@@ -16,3 +16,5 @@ Some deprecated API was removed
 Added a new dimensions API, contributed by @arthurbambou aka Cat Core.
 ### 0.8.1
 Fix invalid key
+### 0.8.2
+Implementation change
