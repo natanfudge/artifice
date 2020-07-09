@@ -12,6 +12,12 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
     public BiomeBuilder() {
         super(new JsonObject(), JsonResource::new);
         this.root.add("carvers", new JsonObject());
+        this.root.add("starts", new JsonArray());
+        this.root.add("features", new JsonArray());
+        for (GenerationStep.Feature step : GenerationStep.Feature.values()) {
+            this.root.getAsJsonArray("features").add(new JsonArray());
+        }
+        this.root.add("spawn_costs", new JsonObject());
     }
 
     public BiomeBuilder depth(float depth) {
@@ -69,6 +75,11 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
         return this;
     }
 
+    public BiomeBuilder addSpawnCosts(String entityID, Processor<SpawnDensityBuilder> spawnDensityBuilderProcessor) {
+        with(entityID, JsonObject::new, spawnDensityBuilder -> spawnDensityBuilderProcessor.process(new SpawnDensityBuilder()).buildTo(spawnDensityBuilder));
+        return this;
+    }
+
     private BiomeBuilder addCarver(GenerationStep.Carver carver, String[] configuredCaverIDs) {
         for (String configuredCaverID : configuredCaverIDs)
             this.root.getAsJsonObject("carvers").getAsJsonArray(carver.getName()).add(configuredCaverID);
@@ -85,5 +96,33 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
         this.root.getAsJsonObject("carvers").add(GenerationStep.Carver.LIQUID.getName(), new JsonArray());
         this.addCarver(GenerationStep.Carver.LIQUID, configuredCarverIds);
         return this;
+    }
+
+    public BiomeBuilder addFeaturesbyStep(GenerationStep.Feature step, String... featureIDs) {
+        for (String featureID : featureIDs)
+            this.root.getAsJsonArray("features").get(step.ordinal()).getAsJsonArray().add(featureID);
+        return this;
+    }
+
+    public BiomeBuilder addStructure(String structureID) {
+        this.root.getAsJsonArray("starts").add(structureID);
+        return this;
+    }
+
+    public static class SpawnDensityBuilder extends TypedJsonBuilder<JsonObject> {
+
+        public SpawnDensityBuilder() {
+            super(new JsonObject(), j->j);
+        }
+
+        public SpawnDensityBuilder energy_budget(double energy_budget) {
+            this.root.addProperty("energy_budget", energy_budget);
+            return this;
+        }
+
+        public SpawnDensityBuilder charge(double charge) {
+            this.root.addProperty("charge", charge);
+            return this;
+        }
     }
 }
