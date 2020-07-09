@@ -14,13 +14,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public NoiseConfigBuilder height(int height) {
-        try {
-            if (height > 255) throw new Throwable("height can't be higher than 255! Found " + height);
-            if (height < 0) throw new Throwable("height can't be smaller than 0! Found " + height);
-            this.root.addProperty("height", height);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        if (height > 255) throw new IllegalArgumentException("height can't be higher than 255! Found " + height);
+        if (height < 0) throw new IllegalArgumentException("height can't be smaller than 0! Found " + height);
+        this.root.addProperty("height", height);
         return this;
     }
 
@@ -29,13 +25,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public NoiseConfigBuilder sizeHorizontal(int sizeHorizontal) {
-        try {
-            if (sizeHorizontal > 4) throw new Throwable("sizeHorizontal can't be higher than 4! Found " + sizeHorizontal);
-            if (sizeHorizontal < 1) throw new Throwable("sizeHorizontal can't be smaller than 1! Found " + sizeHorizontal);
-            this.root.addProperty("size_horizontal", sizeHorizontal);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        if (sizeHorizontal > 4) throw new IllegalArgumentException("sizeHorizontal can't be higher than 4! Found " + sizeHorizontal);
+        if (sizeHorizontal < 1) throw new IllegalArgumentException("sizeHorizontal can't be smaller than 1! Found " + sizeHorizontal);
+        this.root.addProperty("size_horizontal", sizeHorizontal);
         return this;
     }
 
@@ -44,13 +36,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public NoiseConfigBuilder sizeVertical(int sizeVertical) {
-        try {
-            if (sizeVertical > 4) throw new Throwable("Sealevel can't be higher than 4! Found " + sizeVertical);
-            if (sizeVertical < 1) throw new Throwable("Sealevel can't be smaller than 1! Found " + sizeVertical);
-            this.root.addProperty("size_vertical", sizeVertical);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        if (sizeVertical > 4) throw new IllegalArgumentException("Sealevel can't be higher than 4! Found " + sizeVertical);
+        if (sizeVertical < 1) throw new IllegalArgumentException("Sealevel can't be smaller than 1! Found " + sizeVertical);
+        this.root.addProperty("size_vertical", sizeVertical);
         return this;
     }
 
@@ -73,13 +61,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public NoiseConfigBuilder densityOffset(double densityOffset) {
-        try {
-            if (densityOffset > 1) throw new Throwable("densityOffset can't be higher than 1! Found " + densityOffset);
-            if (densityOffset < -1) throw new Throwable("densityOffset can't be smaller than -1! Found " + densityOffset);
-            this.root.addProperty("density_offset", densityOffset);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        if (densityOffset > 1) throw new IllegalArgumentException("densityOffset can't be higher than 1! Found " + densityOffset);
+        if (densityOffset < -1) throw new IllegalArgumentException("densityOffset can't be smaller than -1! Found " + densityOffset);
+        this.root.addProperty("density_offset", densityOffset);
         return this;
     }
 
@@ -169,13 +153,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public NoiseSamplingConfigBuilder xzScale(double xzScale) {
-            try {
-                if (xzScale > 1000.0D) throw new Throwable("xzScale can't be higher than 1000.0D! Found " + xzScale);
-                if (xzScale < 0.001D) throw new Throwable("xzScale can't be smaller than 0.001D! Found " + xzScale);
-                this.root.addProperty("xz_scale", xzScale);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+            if (xzScale > 1000.0D) throw new IllegalArgumentException("xzScale can't be higher than 1000.0D! Found " + xzScale);
+            if (xzScale < 0.001D) throw new IllegalArgumentException("xzScale can't be smaller than 0.001D! Found " + xzScale);
+            this.root.addProperty("xz_scale", xzScale);
             return this;
         }
 
@@ -184,13 +164,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public NoiseSamplingConfigBuilder yScale(double yScale) {
-            try {
-                if (yScale > 1000.0D) throw new Throwable("yScale can't be higher than 1000.0D! Found " + yScale);
-                if (yScale < 0.001D) throw new Throwable("yScale can't be smaller than 0.001D! Found " + yScale);
-                this.root.addProperty("y_scale", yScale);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+            if (yScale > 1000.0D) throw new IllegalArgumentException("yScale can't be higher than 1000.0D! Found " + yScale);
+            if (yScale < 0.001D) throw new IllegalArgumentException("yScale can't be smaller than 0.001D! Found " + yScale);
+            this.root.addProperty("y_scale", yScale);
             return this;
         }
 
@@ -199,13 +175,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public NoiseSamplingConfigBuilder xzFactor(double xzFactor) {
-            try {
-                if (xzFactor > 1000.0D) throw new Throwable("xzFactor can't be higher than 1000.0D! Found " + xzFactor);
-                if (xzFactor < 0.001D) throw new Throwable("xzFactor can't be smaller than 0.001D! Found " + xzFactor);
-                this.root.addProperty("xz_factor", xzFactor);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+            if (xzFactor > 1000.0D) throw new IllegalArgumentException("xzFactor can't be higher than 1000.0D! Found " + xzFactor);
+            if (xzFactor < 0.001D) throw new IllegalArgumentException("xzFactor can't be smaller than 0.001D! Found " + xzFactor);
+            this.root.addProperty("xz_factor", xzFactor);
             return this;
         }
 
@@ -214,13 +186,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public NoiseSamplingConfigBuilder yFactor(double yFactor) {
-            try {
-                if (yFactor > 1000.0D) throw new Throwable("yFactor can't be higher than 1000.0D! Found " + yFactor);
-                if (yFactor < 0.001D) throw new Throwable("yFactor can't be smaller than 0.001D! Found " + yFactor);
-                this.root.addProperty("y_factor", yFactor);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+            if (yFactor > 1000.0D) throw new IllegalArgumentException("yFactor can't be higher than 1000.0D! Found " + yFactor);
+            if (yFactor < 0.001D) throw new IllegalArgumentException("yFactor can't be smaller than 0.001D! Found " + yFactor);
+            this.root.addProperty("y_factor", yFactor);
             return this;
         }
     }
@@ -245,13 +213,9 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public SlideConfigBuilder size(int size) {
-            try {
-                if (size > 255) throw new Throwable("size can't be higher than 255! Found " + size);
-                if (size < 0) throw new Throwable("size can't be smaller than 0! Found " + size);
-                this.root.addProperty("size", size);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+            if (size > 255) throw new IllegalArgumentException("size can't be higher than 255! Found " + size);
+            if (size < 0) throw new IllegalArgumentException("size can't be smaller than 0! Found " + size);
+            this.root.addProperty("size", size);
             return this;
         }
 
