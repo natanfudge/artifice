@@ -127,7 +127,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             });
 
             pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
-                carverBuilder.probability(2.0F).name(new Identifier("cave").toString());
+                carverBuilder.probability(0.9F).name(new Identifier("cave").toString());
             });
         });
     }
