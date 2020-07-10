@@ -122,8 +122,6 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder altitude(float altitude) {
-                if (altitude > 2.0F) throw new IllegalArgumentException("altitude can't be higher than 2.0F! Found " + altitude);
-                if (altitude < -2.0F) throw new IllegalArgumentException("altitude can't be smaller than 2.0F! Found " + altitude);
                 this.root.addProperty("altitude", altitude);
                 return this;
             }
@@ -133,8 +131,6 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder weirdness(float weirdness) {
-                if (weirdness > 2.0F) throw new IllegalArgumentException("weirdness can't be higher than 2.0F! Found " + weirdness);
-                if (weirdness < -2.0F) throw new IllegalArgumentException("weirdness can't be smaller than 2.0F! Found " + weirdness);
                 this.root.addProperty("weirdness", weirdness);
                 return this;
             }
@@ -144,8 +140,6 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder offset(float offset) {
-                if (offset > 1.0F) throw new IllegalArgumentException("offset can't be higher than 1.0F! Found " + offset);
-                if (offset < 0.0F) throw new IllegalArgumentException("offset can't be smaller than 0.0F! Found " + offset);
                 this.root.addProperty("offset", offset);
                 return this;
             }
@@ -155,8 +149,6 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder temperature(float temperature) {
-                if (temperature > 2.0F) throw new IllegalArgumentException("temperature can't be higher than 2.0F! Found " + temperature);
-                if (temperature < -2.0F) throw new IllegalArgumentException("temperature can't be smaller than 2.0F! Found " + temperature);
                 this.root.addProperty("temperature", temperature);
                 return this;
             }
@@ -166,8 +158,6 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public BiomeParametersBuilder humidity(float humidity) {
-                if (humidity > 2.0F) throw new IllegalArgumentException("humidity can't be higher than 2.0F! Found " + humidity);
-                if (humidity < -2.0F) throw new IllegalArgumentException("humidity can't be smaller than 2.0F! Found " + humidity);
                 this.root.addProperty("humidity", humidity);
                 return this;
             }
@@ -187,8 +177,6 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
          * @return
          */
         public CheckerboardBiomeSourceBuilder scale(int scale) {
-            if (scale > 62) throw new IllegalArgumentException("Scale can't be higher than 62! Found " + scale);
-            if (scale < 0) throw new IllegalArgumentException("Scale can't be smaller than 0! Found " + scale);
             this.root.addProperty("scale", scale);
             return this;
         }

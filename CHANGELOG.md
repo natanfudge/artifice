@@ -20,6 +20,3 @@ Fix invalid key
 Implementation change
 ### 0.8.3-0.8.5
 Bug fixes
-## 0.9.0
-Prevent some value to be invalid when using the dimension API.
-Deprecated NoiseConfigBuilder.densityOffset(int) in favour of NoiseConfigBuilder.densityOffset(double).
