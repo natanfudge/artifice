@@ -9,6 +9,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
@@ -284,6 +285,14 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder} to create the biome .
          */
         void addBiome(Identifier id, Processor<BiomeBuilder> f);
+
+        /**
+         * Add a Carver with the given ID.
+         *
+         * @param id The ID of the carver, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link ConfiguredCarverBuilder} to create the carver .
+         */
+        void addConfiguredCarver(Identifier id, Processor<ConfiguredCarverBuilder> f);
 
         /**
          * Add a ConfiguredSurfaceBuilder with the given ID.
