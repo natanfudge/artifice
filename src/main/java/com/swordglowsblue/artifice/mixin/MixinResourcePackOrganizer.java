@@ -20,15 +20,15 @@ public class MixinResourcePackOrganizer {
 
 	@Redirect(method = "getDisabledPacks", at = @At(value = "INVOKE", target = "Ljava/util/List;stream()Ljava/util/stream/Stream;"))
 	private Stream<ResourcePackProfile> hideNoDisplayPacksFromDisabled(List<ResourcePackProfile> list) {
-		return list.stream().filter(this::isHidden);
+		return list.stream().filter(this::isVisible);
 	}
 
 	@Redirect(method = "getEnabledPacks", at = @At(value = "INVOKE", target = "Ljava/util/List;stream()Ljava/util/stream/Stream;"))
 	private Stream<ResourcePackProfile> hideNoDisplayPacksFromEnabled(List<ResourcePackProfile> list) {
-		return list.stream().filter(this::isHidden);
+		return list.stream().filter(this::isVisible);
 	}
 
-	private boolean isHidden(ResourcePackProfile profile) {
+	private boolean isVisible(ResourcePackProfile profile) {
 		return !(profile instanceof ArtificeResourcePackContainer)
 										|| ((ArtificeResourcePackContainer) profile).isVisible();
 	}
