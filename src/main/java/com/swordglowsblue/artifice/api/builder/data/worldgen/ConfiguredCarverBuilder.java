@@ -4,8 +4,8 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 
-public class CarverBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
-    public CarverBuilder() {
+public class ConfiguredCarverBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
+    public ConfiguredCarverBuilder() {
         super(new JsonObject(), JsonResource::new);
     }
 
@@ -13,12 +13,12 @@ public class CarverBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
      * @param id ID of an existing carver.
      * @return this
      */
-    public CarverBuilder name(String id) {
+    public ConfiguredCarverBuilder name(String id) {
         this.root.addProperty("name", id);
         return this;
     }
 
-    public CarverBuilder probability(float probability) {
+    public ConfiguredCarverBuilder probability(float probability) {
         try {
             if (probability > 1.0F) throw new Throwable("Probability can't be higher than 1.0F! Found " + probability);
             if (probability < 0.0F) throw new Throwable("Probability can't be smaller than 0.0F! Found " + probability);

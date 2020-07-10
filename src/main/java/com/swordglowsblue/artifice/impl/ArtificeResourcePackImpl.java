@@ -28,7 +28,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.CarverBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.ConfiguredCarverBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
@@ -194,8 +194,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             this.add("worldgen/biome/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, BiomeBuilder::new);
         }
 
-        public void addConfiguredCarver(Identifier id, Processor<CarverBuilder> f) {
-            this.add("worldgen/configured_carver/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, CarverBuilder::new);
+        public void addConfiguredCarver(Identifier id, Processor<ConfiguredCarverBuilder> f) {
+            this.add("worldgen/configured_carver/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, ConfiguredCarverBuilder::new);
         }
 
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
