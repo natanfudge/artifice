@@ -1,6 +1,5 @@
 package com.swordglowsblue.artifice.test;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.swordglowsblue.artifice.api.Artifice;
@@ -8,7 +7,6 @@ import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.data.dimension.BiomeSourceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.ChunkGeneratorTypeBuilder;
 import com.swordglowsblue.artifice.api.resource.StringResource;
-import com.swordglowsblue.artifice.api.util.Processor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,7 +23,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
@@ -33,7 +30,6 @@ import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.StructuresConfig;
-import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 
@@ -126,8 +122,12 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                     biomeEffectsBuilder.waterFogColor(329011);
                     biomeEffectsBuilder.fogColor(12638463);
                 });
-                biomeBuilder.addAirCarvers("minecraft:cave", "minecraft:canyon");
+                biomeBuilder.addAirCarvers(id("test_carver").toString());
                 biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava");
+            });
+
+            pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
+                carverBuilder.probability(0.9F).name(new Identifier("cave").toString());
             });
         });
     }
