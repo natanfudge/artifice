@@ -18,3 +18,5 @@ Added a new dimensions API, contributed by @arthurbambou aka Cat Core.
 Fix invalid key
 ### 0.8.2
 Implementation change
+### 0.8.3-0.8.5
+Bug fixes
