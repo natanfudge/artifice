@@ -9,6 +9,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.ConfiguredSurfaceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
@@ -283,6 +284,15 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder} to create the biome .
          */
         void addBiome(Identifier id, Processor<BiomeBuilder> f);
+
+        /**
+         * Add a ConfiguredSurfaceBuilder with the given ID.
+         *
+         * @param id The ID of the configured surface builder, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.worldgen.ConfiguredSurfaceBuilder}
+         *          to create the configured surface builder .
+         */
+        void addConfiguredSurfaceBuilder(Identifier id, Processor<ConfiguredSurfaceBuilder> f);
 
         /**
          * Add a loot table with the given ID.
