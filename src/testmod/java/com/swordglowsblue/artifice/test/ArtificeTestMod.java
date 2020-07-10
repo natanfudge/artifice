@@ -80,7 +80,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
                     flatChunkGeneratorTypeBuilder.addLayer(layersBuilder -> {
-                        layersBuilder.block("minecraft:bedrock").height(2);
+                        layersBuilder.block("minecraft:bedrock").height(300);
                     }).addLayer(layersBuilder -> {
                         layersBuilder.block("minecraft:stone").height(2);
                     }).addLayer(layersBuilder -> {
