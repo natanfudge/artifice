@@ -9,7 +9,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.ConfiguredCarverBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
