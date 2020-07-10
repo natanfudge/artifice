@@ -109,7 +109,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             });
 
             pack.addBiome(id("test_biome"), biomeBuilder -> {
-                biomeBuilder.surfaceBuilder("minecraft:grass");
+                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
                 biomeBuilder.precipitation(Biome.Precipitation.RAIN);
                 biomeBuilder.category(Biome.Category.PLAINS);
                 biomeBuilder.depth(0.125F);
@@ -128,6 +128,15 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
             pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
                 carverBuilder.probability(0.9F).name(new Identifier("cave").toString());
+            });
+
+            pack.addConfiguredSurfaceBuilder(id("test_surface_builder"), configuredSurfaceBuilder -> {
+                configuredSurfaceBuilder.surfaceBuilderID("minecraft:default")
+                        .topMaterial(blockStateDataBuilder -> {
+                            blockStateDataBuilder.name("minecraft:iron_ore");
+                        })
+                        .underMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:gold_ore"))
+                        .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
             });
         });
     }
