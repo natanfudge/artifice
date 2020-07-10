@@ -1,4 +1,4 @@
-package com.swordglowsblue.artifice.api.builder.data.worldgen;
+package com.swordglowsblue.artifice.api.builder.data.worldgen.configured;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
