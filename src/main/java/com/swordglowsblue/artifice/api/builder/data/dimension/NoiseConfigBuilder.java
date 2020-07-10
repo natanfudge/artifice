@@ -50,10 +50,11 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
         this.root.addProperty("density_factor", densityFactor);
         return this;
     }
-
+    
     /**
      * @deprecated use the double version instead
      */
+    @Deprecated
     public NoiseConfigBuilder densityOffset(int densityOffset) {
         return this.densityOffset((double) densityOffset);
     }
