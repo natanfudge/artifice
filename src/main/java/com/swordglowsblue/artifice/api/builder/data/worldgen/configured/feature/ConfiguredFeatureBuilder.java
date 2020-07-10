@@ -23,4 +23,8 @@ public class ConfiguredFeatureBuilder extends TypedJsonBuilder<JsonResource<Json
     public ConfiguredFeatureBuilder defaultConfig() {
         return this.featureConfig(featureConfigBuilder -> {} , new FeatureConfigBuilder());
     }
+
+    public ConfiguredFeatureBuilder treeConfig(Processor<TreeFeatureConfigBuilder> processor) {
+        return this.featureConfig(processor, new TreeFeatureConfigBuilder());
+    }
 }
