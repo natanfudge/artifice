@@ -33,6 +33,8 @@ import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 
+import java.io.IOException;
+
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
 
@@ -46,99 +48,104 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
     public void onInitialize() {
         Registry.register(Registry.CHUNK_GENERATOR, RegistryKey.of(Registry.DIMENSION,id("test_chunk_generator")).getValue(), TestChunkGenerator.CODEC);
-        ArtificeResourcePack dataPack = Artifice.registerData(id("testmod"), pack -> {
-            pack.setDisplayName("Artifice Test Data");
-            pack.setDescription("Data for the Artifice test mod");
-
-            pack.add(id("recipes/test_item.json"), new StringResource("{\n" +
-                            "  \"type\": \"minecraft:crafting_shaped\",\n" +
-                            "  \"group\": \"wooden_door\",\n" +
-                            "  \"pattern\": [\n" +
-                            "    \"##\",\n" +
-                            "    \"##\",\n" +
-                            "    \"##\"\n" +
-                            "  ],\n" +
-                            "  \"key\": {\n" +
-                            "    \"#\": {\n" +
-                            "      \"item\": \"minecraft:stone\"\n" +
-                            "    }\n" +
-                            "  },\n" +
-                            "  \"result\": {\n" +
-                            "    \"item\": \"artifice:test_item\",\n" +
-                            "    \"count\": 3\n" +
-                            "  }\n" +
-                            "}"));
-
-            pack.addDimensionType(testDimension.getValue(), dimensionTypeBuilder -> {
-                dimensionTypeBuilder
-                        .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
-                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
-                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
-            });
-            pack.addDimension(id("test_dimension"), dimensionBuilder -> {
-                dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
-                    flatChunkGeneratorTypeBuilder.addLayer(layersBuilder -> {
-                        layersBuilder.block("minecraft:bedrock").height(300);
-                    }).addLayer(layersBuilder -> {
-                        layersBuilder.block("minecraft:stone").height(2);
-                    }).addLayer(layersBuilder -> {
-                        layersBuilder.block("minecraft:cobblestone").height(2);
-                    }).biome("minecraft:plains")
-                            .structureManager(structureManagerBuilder -> {
-                        structureManagerBuilder.addStructure(Registry.STRUCTURE_FEATURE.getId(StructureFeature.MINESHAFT).toString(),
-                                structureConfigBuilder -> {
-                            structureConfigBuilder.salt(1999999).separation(1).spacing(2);
-                        });
-                    })
-                    ;
-                });
-            });
-
-            pack.addDimensionType(testDimensionCustom.getValue(), dimensionTypeBuilder -> {
-                dimensionTypeBuilder
-                        .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
-                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
-                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
-            });
-            pack.addDimension(id("test_dimension_custom"), dimensionBuilder -> {
-                dimensionBuilder.dimensionType(testDimensionCustom.getValue()).generator(testChunkGeneratorTypeBuilder -> {
-                    testChunkGeneratorTypeBuilder.testBool(true).biomeSource(biomeSourceBuilder -> {
-                        biomeSourceBuilder.biome(id("test_biome").toString());
-                    }, new BiomeSourceBuilder.FixedBiomeSourceBuilder());
-                }, new TestChunkGeneratorTypeBuilder());
-            });
-
-            pack.addBiome(id("test_biome"), biomeBuilder -> {
-                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
-                biomeBuilder.precipitation(Biome.Precipitation.RAIN);
-                biomeBuilder.category(Biome.Category.PLAINS);
-                biomeBuilder.depth(0.125F);
-                biomeBuilder.scale(0.05F);
-                biomeBuilder.temperature(0.8F);
-                biomeBuilder.downfall(0.4F);
-                biomeBuilder.skyColor(4159204);
-                biomeBuilder.effects(biomeEffectsBuilder -> {
-                    biomeEffectsBuilder.waterColor(4159204);
-                    biomeEffectsBuilder.waterFogColor(329011);
-                    biomeEffectsBuilder.fogColor(12638463);
-                });
-                biomeBuilder.addAirCarvers(id("test_carver").toString());
-                biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava");
-            });
-
-            pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
-                carverBuilder.probability(0.9F).name(new Identifier("cave").toString());
-            });
-
-            pack.addConfiguredSurfaceBuilder(id("test_surface_builder"), configuredSurfaceBuilder -> {
-                configuredSurfaceBuilder.surfaceBuilderID("minecraft:default")
-                        .topMaterial(blockStateDataBuilder -> {
-                            blockStateDataBuilder.name("minecraft:iron_ore");
-                        })
-                        .underMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:gold_ore"))
-                        .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
-            });
-        });
+//        ArtificeResourcePack dataPack = Artifice.registerData(id("testmod"), pack -> {
+//            pack.setDisplayName("Artifice Test Data");
+//            pack.setDescription("Data for the Artifice test mod");
+//
+//            pack.add(id("recipes/test_item.json"), new StringResource("{\n" +
+//                            "  \"type\": \"minecraft:crafting_shaped\",\n" +
+//                            "  \"group\": \"wooden_door\",\n" +
+//                            "  \"pattern\": [\n" +
+//                            "    \"##\",\n" +
+//                            "    \"##\",\n" +
+//                            "    \"##\"\n" +
+//                            "  ],\n" +
+//                            "  \"key\": {\n" +
+//                            "    \"#\": {\n" +
+//                            "      \"item\": \"minecraft:stone\"\n" +
+//                            "    }\n" +
+//                            "  },\n" +
+//                            "  \"result\": {\n" +
+//                            "    \"item\": \"artifice:test_item\",\n" +
+//                            "    \"count\": 3\n" +
+//                            "  }\n" +
+//                            "}"));
+//
+//            pack.addDimensionType(testDimension.getValue(), dimensionTypeBuilder -> {
+//                dimensionTypeBuilder
+//                        .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
+//                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
+//                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
+//            });
+//            pack.addDimension(id("test_dimension"), dimensionBuilder -> {
+//                dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
+//                    flatChunkGeneratorTypeBuilder.addLayer(layersBuilder -> {
+//                        layersBuilder.block("minecraft:bedrock").height(2);
+//                    }).addLayer(layersBuilder -> {
+//                        layersBuilder.block("minecraft:stone").height(2);
+//                    }).addLayer(layersBuilder -> {
+//                        layersBuilder.block("minecraft:cobblestone").height(2);
+//                    }).biome("minecraft:plains")
+//                            .structureManager(structureManagerBuilder -> {
+//                        structureManagerBuilder.addStructure(Registry.STRUCTURE_FEATURE.getId(StructureFeature.MINESHAFT).toString(),
+//                                structureConfigBuilder -> {
+//                            structureConfigBuilder.salt(1999999).separation(1).spacing(2);
+//                        });
+//                    })
+//                    ;
+//                });
+//            });
+//
+//            pack.addDimensionType(testDimensionCustom.getValue(), dimensionTypeBuilder -> {
+//                dimensionTypeBuilder
+//                        .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
+//                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
+//                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
+//            });
+//            pack.addDimension(id("test_dimension_custom"), dimensionBuilder -> {
+//                dimensionBuilder.dimensionType(testDimensionCustom.getValue()).generator(testChunkGeneratorTypeBuilder -> {
+//                    testChunkGeneratorTypeBuilder.testBool(true).biomeSource(biomeSourceBuilder -> {
+//                        biomeSourceBuilder.biome(id("test_biome").toString());
+//                    }, new BiomeSourceBuilder.FixedBiomeSourceBuilder());
+//                }, new TestChunkGeneratorTypeBuilder());
+//            });
+//
+//            pack.addBiome(id("test_biome"), biomeBuilder -> {
+//                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
+//                biomeBuilder.precipitation(Biome.Precipitation.RAIN);
+//                biomeBuilder.category(Biome.Category.PLAINS);
+//                biomeBuilder.depth(0.125F);
+//                biomeBuilder.scale(0.05F);
+//                biomeBuilder.temperature(0.8F);
+//                biomeBuilder.downfall(0.4F);
+//                biomeBuilder.skyColor(4159204);
+//                biomeBuilder.effects(biomeEffectsBuilder -> {
+//                    biomeEffectsBuilder.waterColor(4159204);
+//                    biomeEffectsBuilder.waterFogColor(329011);
+//                    biomeEffectsBuilder.fogColor(12638463);
+//                });
+//                biomeBuilder.addAirCarvers(id("test_carver").toString());
+//                biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava");
+//            });
+//
+//            pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
+//                carverBuilder.probability(0.9F).name(new Identifier("cave").toString());
+//            });
+//
+//            pack.addConfiguredSurfaceBuilder(id("test_surface_builder"), configuredSurfaceBuilder -> {
+//                configuredSurfaceBuilder.surfaceBuilderID("minecraft:default")
+//                        .topMaterial(blockStateDataBuilder -> {
+//                            blockStateDataBuilder.name("minecraft:iron_ore");
+//                        })
+//                        .underMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:gold_ore"))
+//                        .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
+//            });
+//        });
+//        try {
+//            dataPack.dumpResources("./dump");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Environment(EnvType.CLIENT)
