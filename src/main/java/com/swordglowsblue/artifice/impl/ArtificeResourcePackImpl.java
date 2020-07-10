@@ -348,7 +348,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         assert id != null;
         return ResourcePackProfile.of(
                         id.toString(),
-                        false, () -> this, factory,
+                        true, () -> this, factory,
                         ResourcePackProfile.InsertionPosition.BOTTOM,
                         ARTIFICE_RESOURCE_PACK_SOURCE
         );

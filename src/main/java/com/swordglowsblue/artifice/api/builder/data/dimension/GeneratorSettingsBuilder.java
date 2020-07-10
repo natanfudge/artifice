@@ -16,6 +16,8 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public GeneratorSettingsBuilder bedrockRoofPosition(int bedrockRoofPosition) {
+        if (bedrockRoofPosition > 276) throw new IllegalArgumentException("bedrockRoofPosition can't be higher than 276! Found " + bedrockRoofPosition);
+        if (bedrockRoofPosition < -20) throw new IllegalArgumentException("bedrockRoofPosition can't be smaller than -20! Found " + bedrockRoofPosition);
         this.root.addProperty("bedrock_roof_position", bedrockRoofPosition);
         return this;
     }
@@ -26,6 +28,8 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public GeneratorSettingsBuilder bedrockFloorPosition(int bedrockFloorPosition) {
+        if (bedrockFloorPosition > 276) throw new IllegalArgumentException("bedrockFloorPosition can't be higher than 276! Found " + bedrockFloorPosition);
+        if (bedrockFloorPosition < -20) throw new IllegalArgumentException("bedrockFloorPosition can't be smaller than -20! Found " + bedrockFloorPosition);
         this.root.addProperty("bedrock_floor_position", bedrockFloorPosition);
         return this;
     }
@@ -36,6 +40,8 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public GeneratorSettingsBuilder seaLevel(int seaLevel) {
+        if (seaLevel > 255) throw new IllegalArgumentException("Sealevel can't be higher than 255! Found " + seaLevel);
+        if (seaLevel < 0) throw new IllegalArgumentException("Sealevel can't be smaller than 0! Found " + seaLevel);
         this.root.addProperty("sea_level", seaLevel);
         return this;
     }

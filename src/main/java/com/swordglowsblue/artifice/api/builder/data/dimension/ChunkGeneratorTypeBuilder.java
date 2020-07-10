@@ -151,6 +151,16 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
             return this;
         }
 
+        public FlatChunkGeneratorTypeBuilder lakes(boolean lakes) {
+            this.root.getAsJsonObject("settings").addProperty("lakes", lakes);
+            return this;
+        }
+
+        public FlatChunkGeneratorTypeBuilder features(boolean features) {
+            this.root.getAsJsonObject("settings").addProperty("features", features);
+            return this;
+        }
+
         /**
          * Add a block layer.
          * @param layersBuilder
@@ -173,6 +183,8 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
              * @return
              */
             public LayersBuilder height(int height) {
+                if (height > 255) throw new IllegalArgumentException("Height can't be higher than 255! Found " + height);
+                if (height < 0) throw new IllegalArgumentException("Height can't be smaller than 0! Found " + height);
                 this.root.addProperty("height", height);
                 return this;
             }
