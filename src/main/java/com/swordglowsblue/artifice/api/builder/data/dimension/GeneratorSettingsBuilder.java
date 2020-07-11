@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.dimension;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
+import com.swordglowsblue.artifice.api.builder.data.BlockStateDataBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
@@ -70,8 +71,8 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param blockStateBuilderProcessor
      * @return
      */
-    public GeneratorSettingsBuilder setBlockState(String id, Processor<BlockStateBuilder> blockStateBuilderProcessor) {
-        with(id, JsonObject::new, jsonObject -> blockStateBuilderProcessor.process(new BlockStateBuilder()).buildTo(jsonObject));
+    public GeneratorSettingsBuilder setBlockState(String id, Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
+        with(id, JsonObject::new, jsonObject -> blockStateBuilderProcessor.process(new BlockStateDataBuilder()).buildTo(jsonObject));
         return this;
     }
 
@@ -80,7 +81,7 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param blockStateBuilderProcessor
      * @return
      */
-    public GeneratorSettingsBuilder defaultBlock(Processor<BlockStateBuilder> blockStateBuilderProcessor) {
+    public GeneratorSettingsBuilder defaultBlock(Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
         return this.setBlockState("default_block", blockStateBuilderProcessor);
     }
 
@@ -89,7 +90,7 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param blockStateBuilderProcessor
      * @return
      */
-    public GeneratorSettingsBuilder defaultFluid(Processor<BlockStateBuilder> blockStateBuilderProcessor) {
+    public GeneratorSettingsBuilder defaultFluid(Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
         return this.setBlockState("default_fluid", blockStateBuilderProcessor);
     }
 
@@ -101,35 +102,5 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
     public GeneratorSettingsBuilder structureManager(Processor<StructureManagerBuilder> structureManagerBuilder) {
         with("structures", JsonObject::new, jsonObject -> structureManagerBuilder.process(new StructureManagerBuilder()).buildTo(jsonObject));
         return this;
-    }
-
-
-    public static class BlockStateBuilder extends TypedJsonBuilder<JsonObject> {
-
-        protected BlockStateBuilder() {
-            super(new JsonObject(), j->j);
-            this.root.add("Properties", new JsonObject());
-        }
-
-        /**
-         * Set the id of the block.
-         * @param id
-         * @return
-         */
-        public BlockStateBuilder name(String id) {
-            this.root.addProperty("Name", id);
-            return this;
-        }
-
-        /**
-         * Set a property to a state.
-         * @param property
-         * @param state
-         * @return
-         */
-        public BlockStateBuilder setProperty(String property, String state) {
-            this.root.getAsJsonObject("Properties").addProperty(property, state);
-            return this;
-        }
     }
 }

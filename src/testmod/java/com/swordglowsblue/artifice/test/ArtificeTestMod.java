@@ -1,6 +1,5 @@
 package com.swordglowsblue.artifice.test;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.swordglowsblue.artifice.api.Artifice;
@@ -8,7 +7,6 @@ import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.data.dimension.BiomeSourceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.ChunkGeneratorTypeBuilder;
 import com.swordglowsblue.artifice.api.resource.StringResource;
-import com.swordglowsblue.artifice.api.util.Processor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,16 +22,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.*;
-import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.StructuresConfig;
-import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
+
+import java.io.IOException;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
@@ -80,7 +80,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
                     flatChunkGeneratorTypeBuilder.addLayer(layersBuilder -> {
-                        layersBuilder.block("minecraft:bedrock").height(300);
+                        layersBuilder.block("minecraft:bedrock").height(2);
                     }).addLayer(layersBuilder -> {
                         layersBuilder.block("minecraft:stone").height(2);
                     }).addLayer(layersBuilder -> {
@@ -105,11 +105,47 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addDimension(id("test_dimension_custom"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimensionCustom.getValue()).generator(testChunkGeneratorTypeBuilder -> {
                     testChunkGeneratorTypeBuilder.testBool(true).biomeSource(biomeSourceBuilder -> {
-                        biomeSourceBuilder.biome("minecraft:taiga");
+                        biomeSourceBuilder.biome(id("test_biome").toString());
                     }, new BiomeSourceBuilder.FixedBiomeSourceBuilder());
                 }, new TestChunkGeneratorTypeBuilder());
             });
+
+            pack.addBiome(id("test_biome"), biomeBuilder -> {
+                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
+                biomeBuilder.precipitation(Biome.Precipitation.RAIN);
+                biomeBuilder.category(Biome.Category.PLAINS);
+                biomeBuilder.depth(0.125F);
+                biomeBuilder.scale(0.05F);
+                biomeBuilder.temperature(0.8F);
+                biomeBuilder.downfall(0.4F);
+                biomeBuilder.skyColor(4159204);
+                biomeBuilder.effects(biomeEffectsBuilder -> {
+                    biomeEffectsBuilder.waterColor(4159204);
+                    biomeEffectsBuilder.waterFogColor(329011);
+                    biomeEffectsBuilder.fogColor(12638463);
+                });
+                biomeBuilder.addAirCarvers(id("test_carver").toString());
+                biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava");
+            });
+
+            pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
+                carverBuilder.probability(0.9F).name(new Identifier("cave").toString());
+            });
+
+            pack.addConfiguredSurfaceBuilder(id("test_surface_builder"), configuredSurfaceBuilder -> {
+                configuredSurfaceBuilder.surfaceBuilderID("minecraft:default")
+                        .topMaterial(blockStateDataBuilder -> {
+                            blockStateDataBuilder.name("minecraft:iron_ore");
+                        })
+                        .underMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:gold_ore"))
+                        .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
+            });
         });
+        try {
+            dataPack.dumpResources("./dump");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Environment(EnvType.CLIENT)
