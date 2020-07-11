@@ -33,6 +33,8 @@ import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 
+import java.io.IOException;
+
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
 
@@ -78,7 +80,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
                     flatChunkGeneratorTypeBuilder.addLayer(layersBuilder -> {
-                        layersBuilder.block("minecraft:bedrock").height(300);
+                        layersBuilder.block("minecraft:bedrock").height(2);
                     }).addLayer(layersBuilder -> {
                         layersBuilder.block("minecraft:stone").height(2);
                     }).addLayer(layersBuilder -> {
@@ -139,6 +141,11 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
             });
         });
+        try {
+            dataPack.dumpResources("./dump");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Environment(EnvType.CLIENT)
