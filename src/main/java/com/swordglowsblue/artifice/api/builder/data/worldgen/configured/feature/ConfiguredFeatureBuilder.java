@@ -2,6 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.config.FeatureConfigBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
 
@@ -22,9 +23,5 @@ public class ConfiguredFeatureBuilder extends TypedJsonBuilder<JsonResource<Json
 
     public ConfiguredFeatureBuilder defaultConfig() {
         return this.featureConfig(featureConfigBuilder -> {} , new FeatureConfigBuilder());
-    }
-
-    public ConfiguredFeatureBuilder treeConfig(Processor<TreeFeatureConfigBuilder> processor) {
-        return this.featureConfig(processor, new TreeFeatureConfigBuilder());
     }
 }

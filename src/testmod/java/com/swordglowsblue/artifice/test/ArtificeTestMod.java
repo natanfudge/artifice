@@ -6,6 +6,11 @@ import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.data.dimension.BiomeSourceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.ChunkGeneratorTypeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.BlockStateProviderBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.config.TreeFeatureConfigBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.FeatureSizeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.FoliagePlacerBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.TrunkPlacerBuilder;
 import com.swordglowsblue.artifice.api.resource.StringResource;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -111,8 +116,9 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             });
 
             pack.addBiome(id("test_biome"), biomeBuilder -> {
-                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
-                biomeBuilder.precipitation(Biome.Precipitation.RAIN);
+//                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
+
+                biomeBuilder.precipitation(Biome.Precipitation.RAIN).surfaceBuilder("minecraft:grass");
                 biomeBuilder.category(Biome.Category.PLAINS);
                 biomeBuilder.depth(0.125F);
                 biomeBuilder.scale(0.05F);
@@ -125,7 +131,8 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                     biomeEffectsBuilder.fogColor(12638463);
                 });
                 biomeBuilder.addAirCarvers(id("test_carver").toString());
-                biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava");
+                biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava")
+                        .addFeaturesbyStep(GenerationStep.Feature.VEGETAL_DECORATION, id("test_featureee").toString());
             });
 
             pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
@@ -135,10 +142,41 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addConfiguredSurfaceBuilder(id("test_surface_builder"), configuredSurfaceBuilder -> {
                 configuredSurfaceBuilder.surfaceBuilderID("minecraft:default")
                         .topMaterial(blockStateDataBuilder -> {
-                            blockStateDataBuilder.name("minecraft:iron_ore");
+                            blockStateDataBuilder.name("minecraft:gold_block");
                         })
                         .underMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:gold_ore"))
                         .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
+            });
+
+            pack.addConfiguredFeature(id("test_featureee"), configuredFeatureBuilder -> {
+                configuredFeatureBuilder.featureID("minecraft:tree")
+                        .featureConfig(treeFeatureConfigBuilder -> {
+                            treeFeatureConfigBuilder
+                                    .ignoreVines(true)
+                                    .maxWaterDepth(5)
+                                    .trunkProvider(simpleBlockStateProviderBuilder -> {
+                                        simpleBlockStateProviderBuilder.state(blockStateDataBuilder -> {
+                                            blockStateDataBuilder.name("minecraft:oak_log").setProperty("axis", "y");
+                                        });
+                                    }, new BlockStateProviderBuilder.SimpleBlockStateProviderBuilder())
+                                    .leavesProvider(simpleBlockStateProviderBuilder -> {
+                                        simpleBlockStateProviderBuilder.state(blockStateDataBuilder -> {
+                                            blockStateDataBuilder.name("minecraft:spruce_leaves")
+                                                    .setProperty("persistent","false")
+                                                    .setProperty("distance","7");
+                                        });
+                                    }, new BlockStateProviderBuilder.SimpleBlockStateProviderBuilder())
+                                    .foliagePlacer(foliagePlacerBuilder -> {
+                                        foliagePlacerBuilder.height(2).offset(1).radius(2);
+                                    }, new FoliagePlacerBuilder.BlobFoliagePlacerBuilder())
+                                    .trunkPlacer(fancyTrunkPlacerBuilder -> {
+                                        fancyTrunkPlacerBuilder.baseHeight(12).heightRandA(3).heightRandB(4);
+                                    }, new TrunkPlacerBuilder.FancyTrunkPlacerBuilder())
+                                    .minimumSize(twoLayersFeatureSizeBuilder -> {
+                                        twoLayersFeatureSizeBuilder.limit(10).lowerSize(1).upperSize(9);
+                                    }, new FeatureSizeBuilder.TwoLayersFeatureSizeBuilder())
+                                    .heightmap(Heightmap.Type.OCEAN_FLOOR);
+                        }, new TreeFeatureConfigBuilder());
             });
         });
         try {

@@ -40,6 +40,7 @@ import com.swordglowsblue.artifice.api.builder.data.recipe.GenericRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapelessRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.StonecuttingRecipeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.ConfiguredFeatureBuilder;
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.IdUtils;
@@ -197,6 +198,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void addConfiguredCarver(Identifier id, Processor<ConfiguredCarverBuilder> f) {
             this.add("worldgen/configured_carver/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, ConfiguredCarverBuilder::new);
+        }
+
+        public void addConfiguredFeature(Identifier id, Processor<ConfiguredFeatureBuilder> f) {
+            this.add("worldgen/configured_feature/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, ConfiguredFeatureBuilder::new);
         }
 
         public void addConfiguredSurfaceBuilder(Identifier id, Processor<ConfiguredSurfaceBuilder> f) {
