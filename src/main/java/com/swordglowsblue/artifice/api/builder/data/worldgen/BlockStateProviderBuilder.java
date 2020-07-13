@@ -3,7 +3,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
-import com.swordglowsblue.artifice.api.builder.data.BlockStateDataBuilder;
+import com.swordglowsblue.artifice.api.builder.data.StateDataBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class BlockStateProviderBuilder extends TypedJsonBuilder<JsonObject> {
@@ -23,8 +23,8 @@ public class BlockStateProviderBuilder extends TypedJsonBuilder<JsonObject> {
             this.type("minecraft:simple_state_provider");
         }
 
-        public SimpleBlockStateProviderBuilder state(Processor<BlockStateDataBuilder> processor) {
-            with("state", JsonObject::new, jsonObject -> processor.process(new BlockStateDataBuilder()).buildTo(jsonObject));
+        public SimpleBlockStateProviderBuilder state(Processor<StateDataBuilder> processor) {
+            with("state", JsonObject::new, jsonObject -> processor.process(new StateDataBuilder()).buildTo(jsonObject));
             return this;
         }
     }
@@ -36,10 +36,10 @@ public class BlockStateProviderBuilder extends TypedJsonBuilder<JsonObject> {
             this.root.add("entries", new JsonArray());
         }
 
-        public WeightedBlockStateProviderBuilder addEntry(int weight, Processor<BlockStateDataBuilder> processor) {
+        public WeightedBlockStateProviderBuilder addEntry(int weight, Processor<StateDataBuilder> processor) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("weight", weight);
-            jsonObject.add("data", processor.process(new BlockStateDataBuilder()).buildTo(new JsonObject()));
+            jsonObject.add("data", processor.process(new StateDataBuilder()).buildTo(new JsonObject()));
             this.root.getAsJsonArray("entries").add(jsonObject);
             return this;
         }
@@ -65,8 +65,8 @@ public class BlockStateProviderBuilder extends TypedJsonBuilder<JsonObject> {
             this.type("minecraft:pillar_state_provider");
         }
 
-        public PillarBlockStateProviderBuilder state(Processor<BlockStateDataBuilder> processor) {
-            with("state", JsonObject::new, jsonObject -> processor.process(new BlockStateDataBuilder()).buildTo(jsonObject));
+        public PillarBlockStateProviderBuilder state(Processor<StateDataBuilder> processor) {
+            with("state", JsonObject::new, jsonObject -> processor.process(new StateDataBuilder()).buildTo(jsonObject));
             return this;
         }
     }

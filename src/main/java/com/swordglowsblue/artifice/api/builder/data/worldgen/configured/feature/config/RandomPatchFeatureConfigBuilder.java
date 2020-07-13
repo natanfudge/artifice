@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.swordglowsblue.artifice.api.builder.data.BlockStateDataBuilder;
+import com.swordglowsblue.artifice.api.builder.data.StateDataBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.BlockStateProviderBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.BlockPlacerBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
@@ -25,13 +25,13 @@ public class RandomPatchFeatureConfigBuilder extends FeatureConfigBuilder {
         return this;
     }
 
-    public RandomPatchFeatureConfigBuilder addBlockToWhitelist(Processor<BlockStateDataBuilder> processor) {
-        this.root.getAsJsonArray("whitelist").add(processor.process(new BlockStateDataBuilder()).buildTo(new JsonObject()));
+    public RandomPatchFeatureConfigBuilder addBlockToWhitelist(Processor<StateDataBuilder> processor) {
+        this.root.getAsJsonArray("whitelist").add(processor.process(new StateDataBuilder()).buildTo(new JsonObject()));
         return this;
     }
 
-    public RandomPatchFeatureConfigBuilder addBlockToBlacklist(Processor<BlockStateDataBuilder> processor) {
-        this.root.getAsJsonArray("blacklist").add(processor.process(new BlockStateDataBuilder()).buildTo(new JsonObject()));
+    public RandomPatchFeatureConfigBuilder addBlockToBlacklist(Processor<StateDataBuilder> processor) {
+        this.root.getAsJsonArray("blacklist").add(processor.process(new StateDataBuilder()).buildTo(new JsonObject()));
         return this;
     }
 

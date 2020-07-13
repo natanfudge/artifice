@@ -3,11 +3,11 @@ package com.swordglowsblue.artifice.api.builder.data;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 
-public class BlockStateDataBuilder extends TypedJsonBuilder<JsonObject> {
+public class StateDataBuilder extends TypedJsonBuilder<JsonObject> {
 
     private JsonObject jsonObject = new JsonObject();
 
-    public BlockStateDataBuilder() {
+    public StateDataBuilder() {
         super(new JsonObject(), j->j);
     }
 
@@ -16,7 +16,7 @@ public class BlockStateDataBuilder extends TypedJsonBuilder<JsonObject> {
      * @param id
      * @return
      */
-    public BlockStateDataBuilder name(String id) {
+    public StateDataBuilder name(String id) {
         this.root.addProperty("Name", id);
         return this;
     }
@@ -27,7 +27,7 @@ public class BlockStateDataBuilder extends TypedJsonBuilder<JsonObject> {
      * @param state
      * @return
      */
-    public BlockStateDataBuilder setProperty(String property, String state) {
+    public StateDataBuilder setProperty(String property, String state) {
         this.jsonObject.addProperty(property, state);
         this.root.add("Properties", this.jsonObject);
         return this;
