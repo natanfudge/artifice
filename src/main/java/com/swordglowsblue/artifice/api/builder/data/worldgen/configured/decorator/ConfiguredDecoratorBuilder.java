@@ -20,4 +20,8 @@ public class ConfiguredDecoratorBuilder extends TypedJsonBuilder<JsonObject> {
         with("config", JsonObject::new, jsonObject -> processor.process(instance).buildTo(jsonObject));
         return this;
     }
+
+    public ConfiguredDecoratorBuilder defaultConfig() {
+        return this.config(f -> {}, new DecoratorConfigBuilder());
+    }
 }
