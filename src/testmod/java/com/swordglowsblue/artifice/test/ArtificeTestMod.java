@@ -7,6 +7,9 @@ import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.data.dimension.BiomeSourceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.ChunkGeneratorTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.BlockStateProviderBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.decorator.config.CountExtraChanceDecoratorConfigBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.decorator.config.DecoratedDecoratorConfigBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.config.DecoratedFeatureConfigBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.config.TreeFeatureConfigBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.FeatureSizeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.FoliagePlacerBuilder;
@@ -132,7 +135,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 });
                 biomeBuilder.addAirCarvers(id("test_carver").toString());
                 biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava")
-                        .addFeaturesbyStep(GenerationStep.Feature.VEGETAL_DECORATION, id("test_featureee").toString());
+                        .addFeaturesbyStep(GenerationStep.Feature.VEGETAL_DECORATION, id("test_decorated_feature").toString());
             });
 
             pack.addConfiguredCarver(id("test_carver"), carverBuilder -> {
@@ -148,6 +151,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
             });
 
+            // Tested, it works now. Wasn't in 20w27a.
             pack.addConfiguredFeature(id("test_featureee"), configuredFeatureBuilder -> {
                 configuredFeatureBuilder.featureID("minecraft:tree")
                         .featureConfig(treeFeatureConfigBuilder -> {
@@ -177,6 +181,32 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                                     }, new FeatureSizeBuilder.TwoLayersFeatureSizeBuilder())
                                     .heightmap(Heightmap.Type.OCEAN_FLOOR);
                         }, new TreeFeatureConfigBuilder());
+            });
+
+            // Should be working but Minecraft coders did something wrong and the default feature is being return when it shouldn't resulting in a crash.
+            pack.addConfiguredFeature(id("test_decorated_feature"), configuredFeatureBuilder -> {
+                configuredFeatureBuilder.featureID("minecraft:decorated")
+                    .featureConfig(decoratedFeatureConfigBuilder -> {
+                        decoratedFeatureConfigBuilder.feature(configuredSubFeatureBuilder -> {
+                            configuredSubFeatureBuilder.featureID("minecraft:decorated").featureConfig(decoratedFeatureConfigBuilder1 -> {
+                                decoratedFeatureConfigBuilder1.feature(id("test_featureee").toString())
+                                        .decorator(configuredDecoratorBuilder -> {
+                                            configuredDecoratorBuilder.name("minecraft:decorated").config(decoratedDecoratorConfigBuilder -> {
+                                                decoratedDecoratorConfigBuilder.innerDecorator(configuredDecoratorBuilder1 -> {
+                                                    configuredDecoratorBuilder1.defaultConfig().name("minecraft:square");
+                                                }).outerDecorator(configuredDecoratorBuilder1 -> {
+                                                    configuredDecoratorBuilder1.defaultConfig().name("minecraft:heightmap");
+                                                });
+                                            }, new DecoratedDecoratorConfigBuilder());
+                                        });
+                            }, new DecoratedFeatureConfigBuilder());
+                        }).decorator(configuredDecoratorBuilder -> {
+                            configuredDecoratorBuilder.name("minecraft:count_extra")
+                                    .config(countExtraChanceDecoratorConfigBuilder -> {
+                                        countExtraChanceDecoratorConfigBuilder.count(10).extraChance(0.2F).extraCount(2);
+                                    }, new CountExtraChanceDecoratorConfigBuilder());
+                        });
+                    },new DecoratedFeatureConfigBuilder());
             });
         });
         try {
