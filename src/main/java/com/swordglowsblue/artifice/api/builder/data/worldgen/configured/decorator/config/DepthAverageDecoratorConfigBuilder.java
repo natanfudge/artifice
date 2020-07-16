@@ -1,17 +1,17 @@
 package com.swordglowsblue.artifice.api.builder.data.worldgen.configured.decorator.config;
 
-public class CountDepthDecoratorConfigBuilder extends DecoratorConfigBuilder {
+public class DepthAverageDecoratorConfigBuilder extends DecoratorConfigBuilder {
 
-    public CountDepthDecoratorConfigBuilder() {
+    public DepthAverageDecoratorConfigBuilder() {
         super();
     }
 
-    public CountDepthDecoratorConfigBuilder count(int count) {
+    public DepthAverageDecoratorConfigBuilder count(int count) {
         this.root.addProperty("baseline", count);
         return this;
     }
 
-    public CountDepthDecoratorConfigBuilder spread(int spread) {
+    public DepthAverageDecoratorConfigBuilder spread(int spread) {
         this.root.addProperty("spread", spread);
         return this;
     }

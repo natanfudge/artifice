@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.data.StateDataBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.class_5428Builder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.UniformIntDistributionBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class DeltaFeatureConfigBuilder extends FeatureConfigBuilder {
@@ -11,13 +11,13 @@ public class DeltaFeatureConfigBuilder extends FeatureConfigBuilder {
         super();
     }
 
-    public DeltaFeatureConfigBuilder size(Processor<class_5428Builder> processor) {
-        with("size", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+    public DeltaFeatureConfigBuilder size(Processor<UniformIntDistributionBuilder> processor) {
+        with("size", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
         return this;
     }
 
-    public DeltaFeatureConfigBuilder rimSize(Processor<class_5428Builder> processor) {
-        with("rim_size", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+    public DeltaFeatureConfigBuilder rimSize(Processor<UniformIntDistributionBuilder> processor) {
+        with("rim_size", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
         return this;
     }
 

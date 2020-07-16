@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen.gen;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.class_5428Builder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.UniformIntDistributionBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class FoliagePlacerBuilder extends TypedJsonBuilder<JsonObject> {
@@ -21,8 +21,8 @@ public class FoliagePlacerBuilder extends TypedJsonBuilder<JsonObject> {
         return (P) this;
     }
 
-    public <P extends FoliagePlacerBuilder> P radius(Processor<class_5428Builder> processor) {
-        with("radius", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+    public <P extends FoliagePlacerBuilder> P radius(Processor<UniformIntDistributionBuilder> processor) {
+        with("radius", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
         return (P) this;
     }
 
@@ -31,8 +31,8 @@ public class FoliagePlacerBuilder extends TypedJsonBuilder<JsonObject> {
         return (P) this;
     }
 
-    public <P extends FoliagePlacerBuilder> P offset(Processor<class_5428Builder> processor) {
-        with("offset", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+    public <P extends FoliagePlacerBuilder> P offset(Processor<UniformIntDistributionBuilder> processor) {
+        with("offset", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
         return (P) this;
     }
 
@@ -63,8 +63,8 @@ public class FoliagePlacerBuilder extends TypedJsonBuilder<JsonObject> {
             return this;
         }
 
-        public SpruceFoliagePlacerBuilder trunkHeight(Processor<class_5428Builder> processor) {
-            with("trunk_height", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+        public SpruceFoliagePlacerBuilder trunkHeight(Processor<UniformIntDistributionBuilder> processor) {
+            with("trunk_height", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
             return this;
         }
     }
@@ -81,8 +81,8 @@ public class FoliagePlacerBuilder extends TypedJsonBuilder<JsonObject> {
             return this;
         }
 
-        public PineFoliagePlacerBuilder trunkHeight(Processor<class_5428Builder> processor) {
-            with("trunk_height", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+        public PineFoliagePlacerBuilder trunkHeight(Processor<UniformIntDistributionBuilder> processor) {
+            with("trunk_height", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
             return this;
         }
     }
@@ -138,8 +138,8 @@ public class FoliagePlacerBuilder extends TypedJsonBuilder<JsonObject> {
             return this;
         }
 
-        public MegaPineFoliagePlacerBuilder crownHeight(Processor<class_5428Builder> processor) {
-            with("crown_height", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+        public MegaPineFoliagePlacerBuilder crownHeight(Processor<UniformIntDistributionBuilder> processor) {
+            with("crown_height", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
             return this;
         }
     }

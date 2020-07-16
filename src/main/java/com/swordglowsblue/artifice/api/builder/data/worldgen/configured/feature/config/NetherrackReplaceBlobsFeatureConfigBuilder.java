@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.data.StateDataBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.class_5428Builder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.UniformIntDistributionBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class NetherrackReplaceBlobsFeatureConfigBuilder extends FeatureConfigBuilder {
@@ -11,8 +11,8 @@ public class NetherrackReplaceBlobsFeatureConfigBuilder extends FeatureConfigBui
         super();
     }
 
-    public NetherrackReplaceBlobsFeatureConfigBuilder radius(Processor<class_5428Builder> processor) {
-        with("radius", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+    public NetherrackReplaceBlobsFeatureConfigBuilder radius(Processor<UniformIntDistributionBuilder> processor) {
+        with("radius", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
         return this;
     }
 

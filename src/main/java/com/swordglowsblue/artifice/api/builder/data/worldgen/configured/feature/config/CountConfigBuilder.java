@@ -1,7 +1,7 @@
 package com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.config;
 
 import com.google.gson.JsonObject;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.class_5428Builder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.UniformIntDistributionBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class CountConfigBuilder extends FeatureConfigBuilder {
@@ -14,8 +14,8 @@ public class CountConfigBuilder extends FeatureConfigBuilder {
         return this;
     }
 
-    public CountConfigBuilder count(Processor<class_5428Builder> processor) {
-        with("count", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+    public CountConfigBuilder count(Processor<UniformIntDistributionBuilder> processor) {
+        with("count", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
         return this;
     }
 }

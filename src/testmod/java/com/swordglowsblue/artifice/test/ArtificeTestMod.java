@@ -7,7 +7,7 @@ import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.data.dimension.BiomeSourceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.ChunkGeneratorTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.BlockStateProviderBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.decorator.config.CountExtraChanceDecoratorConfigBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.decorator.config.CountExtraDecoratorConfigBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.decorator.config.DecoratedDecoratorConfigBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.config.DecoratedFeatureConfigBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.config.TreeFeatureConfigBuilder;
@@ -202,9 +202,9 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                             }, new DecoratedFeatureConfigBuilder());
                         }).decorator(configuredDecoratorBuilder -> {
                             configuredDecoratorBuilder.name("minecraft:count_extra")
-                                    .config(countExtraChanceDecoratorConfigBuilder -> {
-                                        countExtraChanceDecoratorConfigBuilder.count(10).extraChance(0.2F).extraCount(2);
-                                    }, new CountExtraChanceDecoratorConfigBuilder());
+                                    .config(countExtraDecoratorConfigBuilder -> {
+                                        countExtraDecoratorConfigBuilder.count(10).extraChance(0.2F).extraCount(2);
+                                    }, new CountExtraDecoratorConfigBuilder());
                         });
                     },new DecoratedFeatureConfigBuilder());
             });

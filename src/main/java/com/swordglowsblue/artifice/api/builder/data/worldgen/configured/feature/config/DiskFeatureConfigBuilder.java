@@ -3,7 +3,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.data.StateDataBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.class_5428Builder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.UniformIntDistributionBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class DiskFeatureConfigBuilder extends FeatureConfigBuilder {
@@ -23,8 +23,8 @@ public class DiskFeatureConfigBuilder extends FeatureConfigBuilder {
         return this;
     }
 
-    public DiskFeatureConfigBuilder radius(Processor<class_5428Builder> processor) {
-        with("radius", JsonObject::new, jsonObject -> processor.process(new class_5428Builder()).buildTo(jsonObject));
+    public DiskFeatureConfigBuilder radius(Processor<UniformIntDistributionBuilder> processor) {
+        with("radius", JsonObject::new, jsonObject -> processor.process(new UniformIntDistributionBuilder()).buildTo(jsonObject));
         return this;
     }
 
