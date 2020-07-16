@@ -151,7 +151,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         .underwaterMaterial(blockStateDataBuilder -> blockStateDataBuilder.name("minecraft:bedrock"));
             });
 
-            // Tested, it works now. Wasn't in 20w27a.
+            // Tested, it works now. Wasn't in 20w28a.
             pack.addConfiguredFeature(id("test_featureee"), configuredFeatureBuilder -> {
                 configuredFeatureBuilder.featureID("minecraft:tree")
                         .featureConfig(treeFeatureConfigBuilder -> {
@@ -193,9 +193,9 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                                         .decorator(configuredDecoratorBuilder -> {
                                             configuredDecoratorBuilder.name("minecraft:decorated").config(decoratedDecoratorConfigBuilder -> {
                                                 decoratedDecoratorConfigBuilder.innerDecorator(configuredDecoratorBuilder1 -> {
-                                                    configuredDecoratorBuilder1.defaultConfig().name("minecraft:square");
-                                                }).outerDecorator(configuredDecoratorBuilder1 -> {
                                                     configuredDecoratorBuilder1.defaultConfig().name("minecraft:heightmap");
+                                                }).outerDecorator(configuredDecoratorBuilder1 -> {
+                                                    configuredDecoratorBuilder1.defaultConfig().name("minecraft:square");
                                                 });
                                             }, new DecoratedDecoratorConfigBuilder());
                                         });
