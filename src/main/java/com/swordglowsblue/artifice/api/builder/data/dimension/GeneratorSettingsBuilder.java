@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.dimension;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
-import com.swordglowsblue.artifice.api.builder.data.BlockStateDataBuilder;
+import com.swordglowsblue.artifice.api.builder.data.StateDataBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
@@ -71,8 +71,8 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param blockStateBuilderProcessor
      * @return
      */
-    public GeneratorSettingsBuilder setBlockState(String id, Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
-        with(id, JsonObject::new, jsonObject -> blockStateBuilderProcessor.process(new BlockStateDataBuilder()).buildTo(jsonObject));
+    public GeneratorSettingsBuilder setBlockState(String id, Processor<StateDataBuilder> blockStateBuilderProcessor) {
+        with(id, JsonObject::new, jsonObject -> blockStateBuilderProcessor.process(new StateDataBuilder()).buildTo(jsonObject));
         return this;
     }
 
@@ -81,7 +81,7 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param blockStateBuilderProcessor
      * @return
      */
-    public GeneratorSettingsBuilder defaultBlock(Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
+    public GeneratorSettingsBuilder defaultBlock(Processor<StateDataBuilder> blockStateBuilderProcessor) {
         return this.setBlockState("default_block", blockStateBuilderProcessor);
     }
 
@@ -90,7 +90,7 @@ public class GeneratorSettingsBuilder extends TypedJsonBuilder<JsonObject> {
      * @param blockStateBuilderProcessor
      * @return
      */
-    public GeneratorSettingsBuilder defaultFluid(Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
+    public GeneratorSettingsBuilder defaultFluid(Processor<StateDataBuilder> blockStateBuilderProcessor) {
         return this.setBlockState("default_fluid", blockStateBuilderProcessor);
     }
 

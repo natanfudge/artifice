@@ -21,6 +21,7 @@ import com.swordglowsblue.artifice.api.builder.data.recipe.GenericRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapelessRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.StonecuttingRecipeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.ConfiguredFeatureBuilder;
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.util.Processor;
 import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
@@ -293,6 +294,14 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param f A callback which will be passed an {@link ConfiguredCarverBuilder} to create the carver .
          */
         void addConfiguredCarver(Identifier id, Processor<ConfiguredCarverBuilder> f);
+
+        /**
+         * Add a Feature with the given ID.
+         *
+         * @param id The ID of the feature, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link ConfiguredFeatureBuilder} to create the feature .
+         */
+        void addConfiguredFeature(Identifier id, Processor<ConfiguredFeatureBuilder> f);
 
         /**
          * Add a ConfiguredSurfaceBuilder with the given ID.

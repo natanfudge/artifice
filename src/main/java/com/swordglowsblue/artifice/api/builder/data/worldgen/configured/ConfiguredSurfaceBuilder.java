@@ -2,7 +2,7 @@ package com.swordglowsblue.artifice.api.builder.data.worldgen.configured;
 
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
-import com.swordglowsblue.artifice.api.builder.data.BlockStateDataBuilder;
+import com.swordglowsblue.artifice.api.builder.data.StateDataBuilder;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.Processor;
 
@@ -18,20 +18,20 @@ public class ConfiguredSurfaceBuilder extends TypedJsonBuilder<JsonResource<Json
      * @param blockStateBuilderProcessor
      * @return
      */
-    private ConfiguredSurfaceBuilder setBlockState(String id, Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
-        with(this.root.getAsJsonObject("config"),id, JsonObject::new, jsonObject -> blockStateBuilderProcessor.process(new BlockStateDataBuilder()).buildTo(jsonObject));
+    private ConfiguredSurfaceBuilder setBlockState(String id, Processor<StateDataBuilder> blockStateBuilderProcessor) {
+        with(this.root.getAsJsonObject("config"),id, JsonObject::new, jsonObject -> blockStateBuilderProcessor.process(new StateDataBuilder()).buildTo(jsonObject));
         return this;
     }
 
-    public ConfiguredSurfaceBuilder topMaterial(Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
+    public ConfiguredSurfaceBuilder topMaterial(Processor<StateDataBuilder> blockStateBuilderProcessor) {
         return this.setBlockState("top_material", blockStateBuilderProcessor);
     }
 
-    public ConfiguredSurfaceBuilder underMaterial(Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
+    public ConfiguredSurfaceBuilder underMaterial(Processor<StateDataBuilder> blockStateBuilderProcessor) {
         return this.setBlockState("under_material", blockStateBuilderProcessor);
     }
 
-    public ConfiguredSurfaceBuilder underwaterMaterial(Processor<BlockStateDataBuilder> blockStateBuilderProcessor) {
+    public ConfiguredSurfaceBuilder underwaterMaterial(Processor<StateDataBuilder> blockStateBuilderProcessor) {
         return this.setBlockState("underwater_material", blockStateBuilderProcessor);
     }
 
