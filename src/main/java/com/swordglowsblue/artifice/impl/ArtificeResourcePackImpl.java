@@ -28,6 +28,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
@@ -206,6 +207,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void addConfiguredSurfaceBuilder(Identifier id, Processor<ConfiguredSurfaceBuilder> f) {
             this.add("worldgen/configured_surface_builder/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, ConfiguredSurfaceBuilder::new);
+        }
+
+        public void addNoiseSettingsBuilder(Identifier id, Processor<NoiseSettingsBuilder> f) {
+            this.add("worldgen/noise_settings/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, NoiseSettingsBuilder::new);
         }
 
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {

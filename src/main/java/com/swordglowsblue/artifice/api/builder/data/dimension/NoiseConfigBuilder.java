@@ -5,7 +5,7 @@ import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
-    protected NoiseConfigBuilder() {
+    public NoiseConfigBuilder() {
         super(new JsonObject(), j->j);
     }
 
@@ -36,8 +36,8 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
      * @return
      */
     public NoiseConfigBuilder sizeVertical(int sizeVertical) {
-        if (sizeVertical > 4) throw new IllegalArgumentException("Sealevel can't be higher than 4! Found " + sizeVertical);
-        if (sizeVertical < 1) throw new IllegalArgumentException("Sealevel can't be smaller than 1! Found " + sizeVertical);
+        if (sizeVertical > 4) throw new IllegalArgumentException("sizeVertical can't be higher than 4! Found " + sizeVertical);
+        if (sizeVertical < 1) throw new IllegalArgumentException("sizeVertical can't be smaller than 1! Found " + sizeVertical);
         this.root.addProperty("size_vertical", sizeVertical);
         return this;
     }

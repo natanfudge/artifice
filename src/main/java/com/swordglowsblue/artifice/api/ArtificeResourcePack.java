@@ -9,6 +9,7 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
@@ -275,7 +276,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * Add a Dimension with the given ID.
          *
          * @param id The ID of the dimension, which will be converted into the correct path.
-         * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder} to create the dimension .
+         * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder} to create the dimension.
          */
         void addDimension(Identifier id, Processor<DimensionBuilder> f);
 
@@ -283,7 +284,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * Add a Biome with the given ID.
          *
          * @param id The ID of the biome, which will be converted into the correct path.
-         * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder} to create the biome .
+         * @param f A callback which will be passed an {@link com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder} to create the biome.
          */
         void addBiome(Identifier id, Processor<BiomeBuilder> f);
 
@@ -291,7 +292,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * Add a Carver with the given ID.
          *
          * @param id The ID of the carver, which will be converted into the correct path.
-         * @param f A callback which will be passed an {@link ConfiguredCarverBuilder} to create the carver .
+         * @param f A callback which will be passed an {@link ConfiguredCarverBuilder} to create the carver.
          */
         void addConfiguredCarver(Identifier id, Processor<ConfiguredCarverBuilder> f);
 
@@ -299,7 +300,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * Add a Feature with the given ID.
          *
          * @param id The ID of the feature, which will be converted into the correct path.
-         * @param f A callback which will be passed an {@link ConfiguredFeatureBuilder} to create the feature .
+         * @param f A callback which will be passed an {@link ConfiguredFeatureBuilder} to create the feature.
          */
         void addConfiguredFeature(Identifier id, Processor<ConfiguredFeatureBuilder> f);
 
@@ -308,9 +309,18 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          *
          * @param id The ID of the configured surface builder, which will be converted into the correct path.
          * @param f A callback which will be passed an {@link ConfiguredSurfaceBuilder}
-         *          to create the configured surface builder .
+         *          to create the configured surface .
          */
         void addConfiguredSurfaceBuilder(Identifier id, Processor<ConfiguredSurfaceBuilder> f);
+
+        /**
+         * Add a NoiseSettingsBuilder with the given ID.
+         *
+         * @param id The ID of the noise settings builder, which will be converted into the correct path.
+         * @param f A callback which will be passed an {@link NoiseSettingsBuilder}
+         *          to create the noise settings .
+         */
+        void addNoiseSettingsBuilder(Identifier id, Processor<NoiseSettingsBuilder> f);
 
         /**
          * Add a loot table with the given ID.

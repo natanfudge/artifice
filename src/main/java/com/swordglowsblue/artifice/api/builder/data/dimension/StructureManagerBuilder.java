@@ -7,7 +7,7 @@ import com.swordglowsblue.artifice.api.util.Processor;
 import java.util.function.Function;
 
 public class StructureManagerBuilder extends TypedJsonBuilder<JsonObject> {
-    protected StructureManagerBuilder() {
+    public StructureManagerBuilder() {
         super(new JsonObject(), j->j);
         this.root.add("structures", new JsonObject());
     }

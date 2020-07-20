@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
-import java.util.function.Function;
-
 public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
 
     protected ChunkGeneratorTypeBuilder() {
@@ -54,22 +52,21 @@ public class ChunkGeneratorTypeBuilder extends TypedJsonBuilder<JsonObject> {
         }
 
         /**
-         * Set preset Settings to Id.
-         * @param presetId
-         * @return
+         * @deprecated use noiseSettings instead.
          */
+        @Deprecated
         public NoiseChunkGeneratorTypeBuilder presetSettings(String presetId) {
-            this.root.addProperty("settings", presetId);
+            this.noiseSettings(presetId);
             return this;
         }
 
         /**
-         * Set preset Settings to custom.
-         * @param generatorSettingsBuilder
+         * Set Noise Settings to Id.
+         * @param noiseSettingsID
          * @return
          */
-        public NoiseChunkGeneratorTypeBuilder customSettings(Processor<GeneratorSettingsBuilder> generatorSettingsBuilder) {
-            with("settings", JsonObject::new, generatorSettings -> generatorSettingsBuilder.process(new GeneratorSettingsBuilder()).buildTo(generatorSettings));
+        public NoiseChunkGeneratorTypeBuilder noiseSettings(String noiseSettingsID) {
+            this.root.addProperty("settings", noiseSettingsID);
             return this;
         }
 
