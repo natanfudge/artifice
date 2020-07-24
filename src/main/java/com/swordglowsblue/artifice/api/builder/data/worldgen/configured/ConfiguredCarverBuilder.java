@@ -14,7 +14,7 @@ public class ConfiguredCarverBuilder extends TypedJsonBuilder<JsonResource<JsonO
      * @return this
      */
     public ConfiguredCarverBuilder name(String id) {
-        this.root.addProperty("name", id);
+        this.root.addProperty("type", id);
         return this;
     }
 
