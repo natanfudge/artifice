@@ -36,7 +36,7 @@ public class ConfiguredSurfaceBuilder extends TypedJsonBuilder<JsonResource<Json
     }
 
     public ConfiguredSurfaceBuilder surfaceBuilderID(String id) {
-        this.root.addProperty("name", id);
+        this.root.addProperty("type", id);
         return this;
     }
 
