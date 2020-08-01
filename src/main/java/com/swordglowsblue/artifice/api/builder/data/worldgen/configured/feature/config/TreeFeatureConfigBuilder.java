@@ -9,6 +9,7 @@ import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.TreeDecoratorBu
 import com.swordglowsblue.artifice.api.builder.data.worldgen.gen.TrunkPlacerBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.gen.trunk.TrunkPlacer;
 
 public class TreeFeatureConfigBuilder extends FeatureConfigBuilder {
 

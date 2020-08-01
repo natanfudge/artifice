@@ -82,7 +82,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addDimensionType(testDimension.getValue(), dimensionTypeBuilder -> {
                 dimensionTypeBuilder
                         .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
-                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
+                        .ambientLight(-100000.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
                         .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
             });
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
@@ -127,11 +127,11 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 biomeBuilder.scale(0.05F);
                 biomeBuilder.temperature(0.8F);
                 biomeBuilder.downfall(0.4F);
-                biomeBuilder.skyColor(4159204);
                 biomeBuilder.effects(biomeEffectsBuilder -> {
                     biomeEffectsBuilder.waterColor(4159204);
                     biomeEffectsBuilder.waterFogColor(329011);
                     biomeEffectsBuilder.fogColor(12638463);
+                    biomeEffectsBuilder.skyColor(4159204);
                 });
                 biomeBuilder.addAirCarvers(id("test_carver").toString());
                 biomeBuilder.addFeaturesbyStep(GenerationStep.Feature.LAKES, "minecraft:lake_water", "minecraft:lake_lava")
@@ -272,7 +272,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
         }
 
         @Override
-        protected Codec<? extends ChunkGenerator> method_28506() {
+        protected Codec<? extends ChunkGenerator> getCodec() {
             return CODEC;
         }
 

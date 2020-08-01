@@ -45,16 +45,6 @@ public class BiomeBuilder extends TypedJsonBuilder<JsonResource<JsonObject>> {
         return this;
     }
 
-
-    /**
-     * @param sky_color RGB value.
-     * @return BiomeBuilder
-     */
-    public BiomeBuilder skyColor(int sky_color) {
-        this.root.addProperty("sky_color", sky_color);
-        return this;
-    }
-
     public BiomeBuilder parent(String parent) {
         this.root.addProperty("parent", parent);
         return this;

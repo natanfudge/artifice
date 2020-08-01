@@ -186,31 +186,31 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
 
         public void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f) {
-            this.add("dimension_type/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionTypeBuilder::new);
+            this.add("dimension_type/", id, ".json", f, DimensionTypeBuilder::new);
         }
 
         public void addDimension(Identifier id, Processor<DimensionBuilder> f) {
-            this.add("dimension/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionBuilder::new);
+            this.add("dimension/", id, ".json", f, DimensionBuilder::new);
         }
 
         public void addBiome(Identifier id, Processor<BiomeBuilder> f) {
-            this.add("worldgen/biome/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, BiomeBuilder::new);
+            this.add("worldgen/biome/", id, ".json", f, BiomeBuilder::new);
         }
 
         public void addConfiguredCarver(Identifier id, Processor<ConfiguredCarverBuilder> f) {
-            this.add("worldgen/configured_carver/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, ConfiguredCarverBuilder::new);
+            this.add("worldgen/configured_carver/", id, ".json", f, ConfiguredCarverBuilder::new);
         }
 
         public void addConfiguredFeature(Identifier id, Processor<ConfiguredFeatureBuilder> f) {
-            this.add("worldgen/configured_feature/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, ConfiguredFeatureBuilder::new);
+            this.add("worldgen/configured_feature/", id, ".json", f, ConfiguredFeatureBuilder::new);
         }
 
         public void addConfiguredSurfaceBuilder(Identifier id, Processor<ConfiguredSurfaceBuilder> f) {
-            this.add("worldgen/configured_surface_builder/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, ConfiguredSurfaceBuilder::new);
+            this.add("worldgen/configured_surface_builder/", id, ".json", f, ConfiguredSurfaceBuilder::new);
         }
 
         public void addNoiseSettingsBuilder(Identifier id, Processor<NoiseSettingsBuilder> f) {
-            this.add("worldgen/noise_settings/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, NoiseSettingsBuilder::new);
+            this.add("worldgen/noise_settings/", id, ".json", f, NoiseSettingsBuilder::new);
         }
 
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
