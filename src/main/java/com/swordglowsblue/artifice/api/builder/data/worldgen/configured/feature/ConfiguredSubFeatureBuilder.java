@@ -12,7 +12,7 @@ public class ConfiguredSubFeatureBuilder extends TypedJsonBuilder<JsonObject> {
     }
 
     public ConfiguredSubFeatureBuilder featureID(String id) {
-        this.root.addProperty("name", id);
+        this.root.addProperty("type", id);
         return this;
     }
 

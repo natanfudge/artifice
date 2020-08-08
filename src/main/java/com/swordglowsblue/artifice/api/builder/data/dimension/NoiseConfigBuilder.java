@@ -27,6 +27,7 @@ public class NoiseConfigBuilder extends TypedJsonBuilder<JsonObject> {
     public NoiseConfigBuilder sizeHorizontal(int sizeHorizontal) {
         if (sizeHorizontal > 4) throw new IllegalArgumentException("sizeHorizontal can't be higher than 4! Found " + sizeHorizontal);
         if (sizeHorizontal < 1) throw new IllegalArgumentException("sizeHorizontal can't be smaller than 1! Found " + sizeHorizontal);
+        if (sizeHorizontal == 3) throw new IllegalArgumentException("sizeHorizontal should not be 3! See https://gist.github.com/misode/b83bfe4964e6bf53b2dd31b22ee94157 for information of why it should not be 3");
         this.root.addProperty("size_horizontal", sizeHorizontal);
         return this;
     }

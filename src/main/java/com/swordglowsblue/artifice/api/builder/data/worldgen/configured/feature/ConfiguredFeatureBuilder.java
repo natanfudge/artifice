@@ -12,7 +12,7 @@ public class ConfiguredFeatureBuilder extends TypedJsonBuilder<JsonResource<Json
     }
 
     public ConfiguredFeatureBuilder featureID(String id) {
-        this.root.addProperty("name", id);
+        this.root.addProperty("type", id);
         return this;
     }
 

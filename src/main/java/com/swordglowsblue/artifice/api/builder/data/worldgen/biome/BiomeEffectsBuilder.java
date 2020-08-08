@@ -10,7 +10,6 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
         super(new JsonObject(), j->j);
     }
 
-
     /**
      * @param fog_color RGB value.
      * @return BiomeBuilder
@@ -19,7 +18,6 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
         this.root.addProperty("fog_color", fog_color);
         return this;
     }
-
 
     /**
      * @param water_color RGB value.
@@ -30,6 +28,41 @@ public class BiomeEffectsBuilder extends TypedJsonBuilder<JsonObject> {
         return this;
     }
 
+    /**
+     * @param sky_color RGB value.
+     * @return BiomeBuilder
+     */
+    public BiomeEffectsBuilder skyColor(int sky_color) {
+        this.root.addProperty("sky_color", sky_color);
+        return this;
+    }
+
+    /**
+     * @param foliage_color RGB value.
+     * @return BiomeBuilder
+     */
+    public BiomeEffectsBuilder foliageColor(int foliage_color) {
+        this.root.addProperty("foliage_color", foliage_color);
+        return this;
+    }
+
+    /**
+     * @param grass_color RGB value.
+     * @return BiomeBuilder
+     */
+    public BiomeEffectsBuilder grassColor(int grass_color) {
+        this.root.addProperty("grass_color", grass_color);
+        return this;
+    }
+
+    /**
+     * @param grass_color_modifier RGB value.
+     * @return BiomeBuilder
+     */
+    public BiomeEffectsBuilder grassColorModifier(int grass_color_modifier) {
+        this.root.addProperty("grass_color_modifier", grass_color_modifier);
+        return this;
+    }
 
     /**
      * @param water_fog_color RGB value.

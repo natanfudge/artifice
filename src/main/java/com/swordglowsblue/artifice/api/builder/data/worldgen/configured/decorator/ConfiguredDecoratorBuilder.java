@@ -12,7 +12,7 @@ public class ConfiguredDecoratorBuilder extends TypedJsonBuilder<JsonObject> {
     }
 
     public ConfiguredDecoratorBuilder name(String decoratorID) {
-        this.root.addProperty("name", decoratorID);
+        this.root.addProperty("type", decoratorID);
         return this;
     }
 
