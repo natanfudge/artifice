@@ -42,6 +42,7 @@ import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
@@ -82,8 +83,8 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addDimensionType(testDimension.getValue(), dimensionTypeBuilder -> {
                 dimensionTypeBuilder
                         .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
-                        .ambientLight(-100000.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
-                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
+                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
+                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).coordinate_scale(1.0).logicalHeight(256);
             });
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
@@ -108,20 +109,28 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 dimensionTypeBuilder
                         .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
                         .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
-                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).shrunk(false).logicalHeight(256);
+                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).coordinate_scale(1.0).logicalHeight(256);
             });
             pack.addDimension(id("test_dimension_custom"), dimensionBuilder -> {
-                dimensionBuilder.dimensionType(testDimensionCustom.getValue()).generator(testChunkGeneratorTypeBuilder -> {
+                dimensionBuilder.dimensionType(testDimensionCustom.getValue())/*.generator(testChunkGeneratorTypeBuilder -> {
                     testChunkGeneratorTypeBuilder.testBool(true).biomeSource(biomeSourceBuilder -> {
                         biomeSourceBuilder.biome(id("test_biome").toString());
                     }, new BiomeSourceBuilder.FixedBiomeSourceBuilder());
-                }, new TestChunkGeneratorTypeBuilder());
+                }, new TestChunkGeneratorTypeBuilder())*/;
+                dimensionBuilder.noiseGenerator(noiseChunkGeneratorTypeBuilder -> {
+                    noiseChunkGeneratorTypeBuilder.fixedBiomeSource(fixedBiomeSourceBuilder -> {
+                        fixedBiomeSourceBuilder.biome(id("test_biome").toString());
+                        fixedBiomeSourceBuilder.seed((int) new Random().nextLong());
+                    });
+                    noiseChunkGeneratorTypeBuilder.noiseSettings("minecraft:overworld");
+                    noiseChunkGeneratorTypeBuilder.seed((int) new Random().nextLong());
+                });
             });
 
             pack.addBiome(id("test_biome"), biomeBuilder -> {
 //                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
-
-                biomeBuilder.precipitation(Biome.Precipitation.RAIN).surfaceBuilder("minecraft:grass");
+                biomeBuilder.surfaceBuilder("minecraft:grass");
+                biomeBuilder.precipitation(Biome.Precipitation.RAIN);
                 biomeBuilder.category(Biome.Category.PLAINS);
                 biomeBuilder.depth(0.125F);
                 biomeBuilder.scale(0.05F);
@@ -257,7 +266,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     public static class TestChunkGenerator extends ChunkGenerator {
         public static final Codec<TestChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(
-                        BiomeSource.field_24713.fieldOf("biome_source")
+                        BiomeSource.CODEC.fieldOf("biome_source")
                                 .forGetter((generator) -> generator.biomeSource),
                         Codec.BOOL.fieldOf("test_bool").forGetter((generator) -> generator.testBool)
                 )
