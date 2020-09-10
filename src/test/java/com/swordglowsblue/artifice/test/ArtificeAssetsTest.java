@@ -37,6 +37,7 @@ class ArtificeAssetsTest {
         assertEquals(Util.readFile("assets_ref/pack.mcmeta"), Util.getRootResource(assets, "pack.mcmeta"));
         assertTrue(assets.isOptional());
         assertTrue(assets.isVisible());
+        assertTrue(assets.isShouldReplace());
     }
 
     @Test

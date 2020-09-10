@@ -6,11 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -76,6 +72,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private String displayName;
     private boolean optional;
     private boolean visible;
+    private boolean shouldReplace;
 
     @SuppressWarnings("unchecked")
     public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
@@ -137,6 +134,13 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         public void setOptional() {
             ArtificeResourcePackImpl.this.optional = true;
             ArtificeResourcePackImpl.this.visible = true;
+        }
+
+        @Override
+        public void shouldOverwrite() {
+            ArtificeResourcePackImpl.this.optional = false;
+            ArtificeResourcePackImpl.this.visible = false;
+            ArtificeResourcePackImpl.this.shouldReplace = true;
         }
 
         public void add(Identifier id, ArtificeResource resource) {
@@ -318,6 +322,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         return this.visible;
     }
 
+    public boolean isShouldReplace(){
+        return this.shouldReplace;
+    }
+
     public void close() {
     }
 
@@ -341,13 +349,24 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     @Environment(EnvType.CLIENT)
     public <T extends ResourcePackProfile> ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
+        ResourcePackProfile profile;
         assert id != null;
-        ResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
-                        id.toString(),
-                        false, () -> this, factory,
-                        this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
-                        ARTIFICE_RESOURCE_PACK_SOURCE
-        ));
+        if (!this.shouldReplace){
+             profile = new ArtificeResourcePackContainer(this.optional, this.visible, Objects.requireNonNull(ResourcePackProfile.of(
+                    id.toString(),
+                    false, () -> this, factory,
+                    this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
+                    ARTIFICE_RESOURCE_PACK_SOURCE
+            )));
+        }else {
+            profile = new ArtificeResourcePackContainer(false, false, Objects.requireNonNull(ResourcePackProfile.of(
+                    id.toString(),
+                    true, () -> this, factory,
+                    ResourcePackProfile.InsertionPosition.TOP,
+                    ARTIFICE_RESOURCE_PACK_SOURCE
+            )));
+        }
+
 
         return new ClientOnly<>(profile);
     }
