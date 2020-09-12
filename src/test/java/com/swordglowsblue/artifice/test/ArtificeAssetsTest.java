@@ -11,8 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ArtificeAssetsTest {
     @ParameterizedTest
@@ -37,7 +36,12 @@ class ArtificeAssetsTest {
         assertEquals(Util.readFile("assets_ref/pack.mcmeta"), Util.getRootResource(assets, "pack.mcmeta"));
         assertTrue(assets.isOptional());
         assertTrue(assets.isVisible());
-        assertTrue(assets.isShouldReplace());
+        assertFalse(assets.isShouldReplace());
+    }
+
+    @Test
+    void testshouldReplace() throws IOException{
+        assertTrue(assetsoverwrite.isShouldReplace());
     }
 
     @Test
@@ -116,5 +120,11 @@ class ArtificeAssetsTest {
         pack.addTranslations(new Identifier("artifice:test_language"), lang -> lang
             .entry("test1", "Test 1")
             .entry("test2", "Test 2"));
+    });
+
+    private ArtificeResourcePack assetsoverwrite = ArtificeResourcePack.ofAssets(pack -> {
+        pack.setDisplayName("Artifice Overwrite Test");
+        pack.setDescription("Artifice test pack");
+        pack.shouldOverwrite();
     });
 }
