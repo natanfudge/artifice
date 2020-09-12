@@ -36,12 +36,12 @@ class ArtificeAssetsTest {
         assertEquals(Util.readFile("assets_ref/pack.mcmeta"), Util.getRootResource(assets, "pack.mcmeta"));
         assertTrue(assets.isOptional());
         assertTrue(assets.isVisible());
-        assertFalse(assets.isShouldReplace());
+        assertFalse(assets.isShouldOverwrite());
     }
 
     @Test
     void testshouldReplace() throws IOException{
-        assertTrue(assetsoverwrite.isShouldReplace());
+        assertTrue(assetsoverwrite.isShouldOverwrite());
     }
 
     @Test

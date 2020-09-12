@@ -72,7 +72,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private String displayName;
     private boolean optional;
     private boolean visible;
-    private boolean shouldReplace;
+    private boolean overwrite;
 
     @SuppressWarnings("unchecked")
     public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
@@ -140,7 +140,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         public void shouldOverwrite() {
             ArtificeResourcePackImpl.this.optional = false;
             ArtificeResourcePackImpl.this.visible = false;
-            ArtificeResourcePackImpl.this.shouldReplace = true;
+            ArtificeResourcePackImpl.this.overwrite = true;
         }
 
         public void add(Identifier id, ArtificeResource resource) {
@@ -322,8 +322,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         return this.visible;
     }
 
-    public boolean isShouldReplace(){
-        return this.shouldReplace;
+    public boolean isShouldOverwrite(){
+        return this.overwrite;
     }
 
     public void close() {
@@ -351,7 +351,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
         ResourcePackProfile profile;
         assert id != null;
-        if (!this.shouldReplace){
+        if (!this.overwrite){
              profile = new ArtificeResourcePackContainer(this.optional, this.visible, Objects.requireNonNull(ResourcePackProfile.of(
                     id.toString(),
                     false, () -> this, factory,

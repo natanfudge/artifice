@@ -63,7 +63,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     boolean isVisible();
 
-    boolean isShouldReplace();
+    boolean isShouldOverwrite();
 
     /**
      * Dump all resources from this pack to the given folder path.
