@@ -12,7 +12,7 @@ Installation:
 
 ```gradle
 dependencies {
-  modImplementation "com.lettuce.fudge:artifice:0.8.2+20w28a"
-  include "com.lettuce.fudge:artifice:0.8.2+20w28a"
+  modImplementation "com.lettuce.fudge:artifice:0.13.1+1.16.2-rc1"
+  include "com.lettuce.fudge:artifice:0.13.1+1.16.2-rc1"
 }
 ```
