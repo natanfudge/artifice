@@ -5,7 +5,7 @@
 
   "name": "Artifice",
   "description": "Library for programmatically generated resource files.",
-  "authors": [ "swordglowsblue","Fudge" ],
+  "authors": [ "swordglowsblue","Fudge"],
 
   "contact": {
     "homepage": "https://github.com/natanfudge/artifice",

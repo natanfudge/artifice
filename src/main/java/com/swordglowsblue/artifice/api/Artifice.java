@@ -58,7 +58,8 @@ public final class Artifice {
      * @see ArtificeResourcePack#ofData
      */
     public static ArtificeResourcePack registerData(Identifier id, Processor<ServerResourcePackBuilder> register) {
-        return Registry.register(ArtificeRegistry.DATA, id, ArtificeResourcePack.ofData(register)); }
+        return Registry.register(ArtificeRegistry.DATA, id, ArtificeResourcePack.ofData(register));
+    }
 
     /**
      * Register a new client-side resource pack.
@@ -69,7 +70,8 @@ public final class Artifice {
      */
     @Environment(EnvType.CLIENT)
     public static ArtificeResourcePack registerAssets(String id, ArtificeResourcePack pack) {
-        return registerAssets(new Identifier(id), pack); }
+        return registerAssets(new Identifier(id), pack);
+    }
 
     /**
      * Register a new server-side resource pack.

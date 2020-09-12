@@ -35,14 +35,16 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
     }
 
     /**
-     * Overworld -> false
-     * Nether -> true
-     * End -> false
-     * @param shrunk
+     * Overworld -> 1.0D
+     * Nether -> 8.0D
+     * End -> 1.0D
+     * @param coordinate_scale
      * @return this
      */
-    public DimensionTypeBuilder shrunk(boolean shrunk) {
-        root.addProperty("shrunk", shrunk);
+    public DimensionTypeBuilder coordinate_scale(double coordinate_scale) {
+        if (coordinate_scale < 0.00001) throw new IllegalArgumentException("Coordinate scale can't be higher than 0.00001D! Found " + coordinate_scale);
+        if (coordinate_scale > 30000000) throw new IllegalArgumentException("Coordinate scale can't be higher than 30000000D! Found " + coordinate_scale);
+        root.addProperty("coordinate_scale", coordinate_scale);
         return this;
     }
 
@@ -54,6 +56,7 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * @return
      */
     public DimensionTypeBuilder ambientLight(float ambientLight) {
+//        if (ambientLight > 1.0F) throw new IllegalArgumentException("Ambient light can't be higher than 1.0F! Found " + ambientLight);
         root.addProperty("ambient_light", ambientLight);
         return this;
     }

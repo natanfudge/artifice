@@ -18,3 +18,12 @@ Added a new dimensions API, contributed by @arthurbambou aka Cat Core.
 Fix invalid key
 ### 0.8.2
 Implementation change
+### 0.8.3-0.8.5
+Bug fixes
+## 0.9.0
+Prevent some value to be invalid when using the dimension API.
+Deprecated NoiseConfigBuilder.densityOffset(int) in favour of NoiseConfigBuilder.densityOffset(double).
+## 0.10.0
+Added a new biome API.
+## 0.11.0
+Added a feature API.

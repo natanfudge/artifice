@@ -6,11 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -28,6 +24,10 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
 import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
@@ -37,6 +37,7 @@ import com.swordglowsblue.artifice.api.builder.data.recipe.GenericRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapelessRecipeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.StonecuttingRecipeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.ConfiguredFeatureBuilder;
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
 import com.swordglowsblue.artifice.api.util.IdUtils;
@@ -71,6 +72,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private String displayName;
     private boolean optional;
     private boolean visible;
+    private boolean shouldReplace;
 
     @SuppressWarnings("unchecked")
     public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
@@ -134,6 +136,13 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
             ArtificeResourcePackImpl.this.visible = true;
         }
 
+        @Override
+        public void shouldOverwrite() {
+            ArtificeResourcePackImpl.this.optional = false;
+            ArtificeResourcePackImpl.this.visible = false;
+            ArtificeResourcePackImpl.this.shouldReplace = true;
+        }
+
         public void add(Identifier id, ArtificeResource resource) {
             ArtificeResourcePackImpl.this.resources.put(id, resource);
             ArtificeResourcePackImpl.this.namespaces.add(id.getNamespace());
@@ -181,11 +190,31 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
 
         public void addDimensionType(Identifier id, Processor<DimensionTypeBuilder> f) {
-            this.add("dimension_type/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionTypeBuilder::new);
+            this.add("dimension_type/", id, ".json", f, DimensionTypeBuilder::new);
         }
 
         public void addDimension(Identifier id, Processor<DimensionBuilder> f) {
-            this.add("dimension/" + id.getNamespace() + "/", new Identifier(id.getPath()), ".json", f, DimensionBuilder::new);
+            this.add("dimension/", id, ".json", f, DimensionBuilder::new);
+        }
+
+        public void addBiome(Identifier id, Processor<BiomeBuilder> f) {
+            this.add("worldgen/biome/", id, ".json", f, BiomeBuilder::new);
+        }
+
+        public void addConfiguredCarver(Identifier id, Processor<ConfiguredCarverBuilder> f) {
+            this.add("worldgen/configured_carver/", id, ".json", f, ConfiguredCarverBuilder::new);
+        }
+
+        public void addConfiguredFeature(Identifier id, Processor<ConfiguredFeatureBuilder> f) {
+            this.add("worldgen/configured_feature/", id, ".json", f, ConfiguredFeatureBuilder::new);
+        }
+
+        public void addConfiguredSurfaceBuilder(Identifier id, Processor<ConfiguredSurfaceBuilder> f) {
+            this.add("worldgen/configured_surface_builder/", id, ".json", f, ConfiguredSurfaceBuilder::new);
+        }
+
+        public void addNoiseSettingsBuilder(Identifier id, Processor<NoiseSettingsBuilder> f) {
+            this.add("worldgen/noise_settings/", id, ".json", f, NoiseSettingsBuilder::new);
         }
 
         public void addLootTable(Identifier id, Processor<LootTableBuilder> f) {
@@ -293,6 +322,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         return this.visible;
     }
 
+    public boolean isShouldReplace(){
+        return this.shouldReplace;
+    }
+
     public void close() {
     }
 
@@ -316,13 +349,24 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     @Environment(EnvType.CLIENT)
     public <T extends ResourcePackProfile> ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
         Identifier id = ArtificeRegistry.ASSETS.getId(this);
+        ResourcePackProfile profile;
         assert id != null;
-        ResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, ResourcePackProfile.of(
-                        id.toString(),
-                        false, () -> this, factory,
-                        this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
-                        ARTIFICE_RESOURCE_PACK_SOURCE
-        ));
+        if (!this.shouldReplace){
+             profile = new ArtificeResourcePackContainer(this.optional, this.visible, Objects.requireNonNull(ResourcePackProfile.of(
+                    id.toString(),
+                    false, () -> this, factory,
+                    this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
+                    ARTIFICE_RESOURCE_PACK_SOURCE
+            )));
+        }else {
+            profile = new ArtificeResourcePackContainer(false, false, Objects.requireNonNull(ResourcePackProfile.of(
+                    id.toString(),
+                    true, () -> this, factory,
+                    ResourcePackProfile.InsertionPosition.TOP,
+                    ARTIFICE_RESOURCE_PACK_SOURCE
+            )));
+        }
+
 
         return new ClientOnly<>(profile);
     }
@@ -338,7 +382,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         assert id != null;
         return ResourcePackProfile.of(
                         id.toString(),
-                        false, () -> this, factory,
+                        true, () -> this, factory,
                         ResourcePackProfile.InsertionPosition.BOTTOM,
                         ARTIFICE_RESOURCE_PACK_SOURCE
         );
