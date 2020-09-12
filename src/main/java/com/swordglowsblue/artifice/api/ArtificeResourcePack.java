@@ -63,6 +63,8 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     boolean isVisible();
 
+    boolean isShouldOverwrite();
+
     /**
      * Dump all resources from this pack to the given folder path.
      *
@@ -161,6 +163,11 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param desc The desired description.
          */
         void setDescription(String desc);
+
+        /**
+         * the pack will be placed on top of all other packs in order to overwrite them, it will not be optional or visible.
+         */
+        void shouldOverwrite();
     }
 
     /**
