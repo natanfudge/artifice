@@ -8,7 +8,7 @@ A library mod for Minecraft 1.15+, for programmatically generated resource files
 - [API Javadoc](https://htmlpreview.github.io/?https://github.com/artificemc/artifice/blob/master/doc/index.html)
 - [Project Wiki](https://github.com/natanfudge/artifice/blob/1.16/src/testmod/java/com/swordglowsblue/artifice/test/ArtificeTestMod.java)
 
-Installatio: 
+Installation: 
 
 ```gradle
 dependencies {
