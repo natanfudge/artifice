@@ -3,7 +3,6 @@ package com.swordglowsblue.artifice.api.builder.data.dimension;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
-import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
 
 public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
@@ -172,6 +171,87 @@ public class BiomeSourceBuilder extends TypedJsonBuilder<JsonObject> {
                 return this;
             }
         }
+
+        /**
+         * @param noiseSettings
+         * @return this
+         */
+        public MultiNoiseBiomeSourceBuilder altitudeNoise(Processor<NoiseSettings> noiseSettings) {
+            with("altitude_noise", JsonObject::new, jsonObject -> noiseSettings.process(new NoiseSettings()).buildTo(jsonObject));
+            return this;
+        }
+
+        /**
+         * @param noiseSettings
+         * @return this
+         */
+        public MultiNoiseBiomeSourceBuilder weirdnessNoise(Processor<NoiseSettings> noiseSettings) {
+            with("weirdness_noise", JsonObject::new, jsonObject -> noiseSettings.process(new NoiseSettings()).buildTo(jsonObject));
+            return this;
+        }
+
+        /**
+         * @param noiseSettings
+         * @return this
+         */
+        public MultiNoiseBiomeSourceBuilder temperatureNoise(Processor<NoiseSettings> noiseSettings) {
+            with("temperature_noise", JsonObject::new, jsonObject -> noiseSettings.process(new NoiseSettings()).buildTo(jsonObject));
+            return this;
+        }
+
+        /**
+         * @param noiseSettings
+         * @return this
+         */
+        public MultiNoiseBiomeSourceBuilder humidityNoise(Processor<NoiseSettings> noiseSettings) {
+            with("humidity_noise", JsonObject::new, jsonObject -> noiseSettings.process(new NoiseSettings()).buildTo(jsonObject));
+            return this;
+        }
+
+        public static class NoiseSettings extends TypedJsonBuilder<JsonObject> {
+            protected NoiseSettings() {
+                super(new JsonObject(), j->j);
+            }
+
+            /**
+             * Changes how much detail the noise of the respective value has
+             * @param octave how much detail the noise of the respective value has
+             * @return this
+             */
+            public NoiseSettings firstOctave(int octave) {
+                this.root.addProperty("firstOctave", octave);
+                return this;
+            }
+
+            /**
+             * @param amplitudes the amplitudes you want
+             * @return this
+             */
+            public NoiseSettings amplitudes(float... amplitudes) {
+                jsonArray("amplitudes", jsonArrayBuilder -> {
+                    for (float amplitude : amplitudes) {
+                        jsonArrayBuilder.add(amplitude);
+                    }
+                });
+                return this;
+            }
+        }
+
+        public static class AmplitudesBuilder extends TypedJsonBuilder<JsonObject> {
+            protected AmplitudesBuilder() {
+                super(new JsonObject(), j->j);
+            }
+
+            /**
+             * @param amplitude idk
+             * @return
+             */
+            public AmplitudesBuilder amplitude(float amplitude) {
+                this.root.addProperty("altitude", amplitude);
+                return this;
+            }
+        }
+
     }
 
     public static class CheckerboardBiomeSourceBuilder extends BiomeSourceBuilder {

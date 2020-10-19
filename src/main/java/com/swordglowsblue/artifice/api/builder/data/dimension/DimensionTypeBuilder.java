@@ -181,4 +181,18 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
         root.addProperty("piglin_safe", piglinSafe);
         return this;
     }
+
+    /**
+     * Effects determine the sky effect of the dimension.
+     *
+     * Overworld -> minecraft:overworld
+     * Nether -> minecraft:the_nether
+     * End -> minecraft:the_end
+     * @param effects thing
+     * @return this
+     */
+    public DimensionTypeBuilder effects(String effects) {
+        root.addProperty("effects", effects);
+        return this;
+    }
 }

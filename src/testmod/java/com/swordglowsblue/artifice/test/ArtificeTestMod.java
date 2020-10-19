@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
-import com.swordglowsblue.artifice.api.builder.data.dimension.BiomeSourceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.dimension.ChunkGeneratorTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.BlockStateProviderBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.decorator.config.CountExtraDecoratorConfigBuilder;
@@ -29,7 +28,10 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.*;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.ChunkRegion;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
@@ -41,7 +43,6 @@ import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 
-import java.io.IOException;
 import java.util.Random;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
@@ -57,7 +58,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
     public void onInitialize() {
         Registry.register(Registry.CHUNK_GENERATOR, RegistryKey.of(Registry.DIMENSION,id("test_chunk_generator")).getValue(), TestChunkGenerator.CODEC);
-        ArtificeResourcePack dataPack = Artifice.registerData(id("testmod"), pack -> {
+        Artifice.registerDataNew(id("testmod"), pack -> {
             pack.setDisplayName("Artifice Test Data");
             pack.setDescription("Data for the Artifice test mod");
 
@@ -82,9 +83,9 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
             pack.addDimensionType(testDimension.getValue(), dimensionTypeBuilder -> {
                 dimensionTypeBuilder
-                        .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
-                        .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
-                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).coordinate_scale(1.0).logicalHeight(256);
+                        .natural(false).hasRaids(false).respawnAnchorWorks(true).bedWorks(false).piglinSafe(false)
+                        .ambientLight(6.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
+                        .ultrawarm(false).hasCeiling(false).hasSkylight(false).coordinate_scale(1.0).logicalHeight(256).effects("minecraft:the_end");
             });
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
@@ -93,7 +94,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                     }).addLayer(layersBuilder -> {
                         layersBuilder.block("minecraft:stone").height(2);
                     }).addLayer(layersBuilder -> {
-                        layersBuilder.block("minecraft:cobblestone").height(2);
+                        layersBuilder.block("minecraft:granite").height(2);
                     }).biome("minecraft:plains")
                             .structureManager(structureManagerBuilder -> {
                         structureManagerBuilder.addStructure(Registry.STRUCTURE_FEATURE.getId(StructureFeature.MINESHAFT).toString(),
@@ -218,16 +219,16 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                     },new DecoratedFeatureConfigBuilder());
             });
         });
-        try {
+        /*try {
             dataPack.dumpResources("./dump");
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
-        ArtificeResourcePack resourcePack = Artifice.registerAssets("artifice:testmod", pack -> {
+        Artifice.registerAssetsNew("artifice:testmod", pack -> {
             pack.setDisplayName("Artifice Test Resources");
             pack.setDescription("Resources for the Artifice test mod");
 
@@ -258,9 +259,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 .entry("block.artifice.test_block", "Artifice Test Block in custom lang"));
         });
 
-        Artifice.registerAssets(id("testmod2"), pack -> {
-            pack.setOptional();
-        });
+        Artifice.registerAssetsNew(id("testmod2"), ArtificeResourcePack.ClientResourcePackBuilder::setOptional);
     }
 
     public static class TestChunkGenerator extends ChunkGenerator {

@@ -1,27 +1,16 @@
 package com.swordglowsblue.artifice.api;
 
-import java.io.IOException;
-import java.util.function.Consumer;
-
-import com.swordglowsblue.artifice.api.builder.assets.AnimationBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.BlockStateBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
+import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
-import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.GenericRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.ShapelessRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.StonecuttingRecipeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.recipe.*;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.ConfiguredFeatureBuilder;
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.util.Processor;
@@ -30,7 +19,8 @@ import com.swordglowsblue.artifice.common.ClientOnly;
 import com.swordglowsblue.artifice.common.ClientResourcePackProfileLike;
 import com.swordglowsblue.artifice.common.ServerResourcePackProfileLike;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackProfile;
@@ -38,8 +28,8 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.VanillaDataPackProvider;
 import net.minecraft.util.Identifier;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
  * A resource pack containing Artifice-based resources. May be used for resource generation with
@@ -71,7 +61,6 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @throws IllegalArgumentException if the given path points to a file that is not a directory.
      */
     void dumpResources(String folderPath) throws IOException;
-
 
     /**
      * Create a client-side {@link ResourcePackProfile} for this pack.
@@ -121,9 +110,10 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @param register A callback which will be passed a {@link ClientResourcePackBuilder}.
      * @return The created pack.
      */
+    @Deprecated
     @Environment(EnvType.CLIENT)
     static ArtificeResourcePack ofAssets(Processor<ClientResourcePackBuilder> register) {
-        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register);
+        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, null, register);
     }
 
     /**
@@ -132,8 +122,9 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @param register A callback which will be passed a {@link ServerResourcePackBuilder}.
      * @return The created pack.
      */
+    @Deprecated
     static ArtificeResourcePack ofData(Processor<ServerResourcePackBuilder> register) {
-        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register);
+        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, null, register);
     }
 
     /**
