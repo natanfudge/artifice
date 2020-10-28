@@ -32,9 +32,8 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 /**
- * A resource pack containing Artifice-based resources. May be used for resource generation with
- * {@link ArtificeResourcePack#dumpResources}, or as a virtual resource pack with {@link Artifice#registerAssets}
- * or {@link Artifice#registerData}.
+ * A resource pack containing Artifice-based resources. May be used
+ * as a virtual resource pack with {@link Artifice#registerAssets} or {@link Artifice#registerData}.
  */
 @SuppressWarnings( {"DeprecatedIsStillUsed"})
 public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackProfileLike, ClientResourcePackProfileLike {
@@ -52,15 +51,6 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @return Whether this pack is set as visible in the resource packs menu (only relevant for client-side packs)
      */
     boolean isVisible();
-
-    /**
-     * Dump all resources from this pack to the given folder path.
-     *
-     * @param folderPath The path generated resources should go under (relative to Minecraft's installation folder)
-     * @throws IOException              if there is an error creating the necessary directories.
-     * @throws IllegalArgumentException if the given path points to a file that is not a directory.
-     */
-    void dumpResources(String folderPath) throws IOException;
 
     /**
      * Create a client-side {@link ResourcePackProfile} for this pack.
@@ -152,6 +142,13 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param desc The desired description.
          */
         void setDescription(String desc);
+
+        /**
+         * Dumps the pack files
+         *
+         * @param filePath The path to dump to
+         */
+        void dumpResources(String filePath, String type) throws IOException;
     }
 
     /**

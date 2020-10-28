@@ -41,7 +41,6 @@ class ArtificeAssetsTest {
 
     @Test
     void testAssetFiles() throws IOException {
-        assets.dumpResources(Util.ROOT+"assets_dump");
         Util.compareDirectoryToDump(Paths.get(Util.ROOT+"assets_ref"), "_ref", "_dump");
     }
 

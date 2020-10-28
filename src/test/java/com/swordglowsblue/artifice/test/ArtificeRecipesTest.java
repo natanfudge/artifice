@@ -39,7 +39,6 @@ class ArtificeRecipesTest {
 
     @Test
     void testRecipeFiles() throws IOException {
-        recipes.dumpResources(Util.ROOT+"recipes_dump");
         Util.compareDirectoryToDump(Paths.get(Util.ROOT+"recipes_ref"), "_ref", "_dump");
     }
 

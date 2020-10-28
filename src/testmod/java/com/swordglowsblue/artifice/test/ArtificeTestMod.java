@@ -43,6 +43,7 @@ import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
@@ -218,6 +219,11 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                         });
                     },new DecoratedFeatureConfigBuilder());
             });
+            try {
+                pack.dumpResources("testing_data", "data");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         /*try {
             dataPack.dumpResources("./dump");
@@ -257,6 +263,11 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             pack.addTranslations(id("ar_tm"), translations -> translations
                 .entry("item.artifice.test_item", "Artifice Test Item in custom lang")
                 .entry("block.artifice.test_block", "Artifice Test Block in custom lang"));
+            try {
+                pack.dumpResources("testing_assets", "assets");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         Artifice.registerAssetsNew(id("testmod2"), ArtificeResourcePack.ClientResourcePackBuilder::setOptional);

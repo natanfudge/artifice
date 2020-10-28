@@ -37,7 +37,6 @@ class ArtificeDataTest {
 
     @Test
     void testDataFiles() throws IOException {
-        data.dumpResources(Util.ROOT + "data_dump");
         Util.compareDirectoryToDump(Paths.get(Util.ROOT + "data_ref"), "_ref", "_dump");
     }
 
