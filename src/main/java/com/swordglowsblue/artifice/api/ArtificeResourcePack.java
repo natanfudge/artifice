@@ -52,6 +52,8 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     boolean isVisible();
 
+    boolean isShouldOverwrite();
+
     /**
      * Create a client-side {@link ResourcePackProfile} for this pack.
      *
@@ -149,6 +151,8 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param filePath The path to dump to
          */
         void dumpResources(String filePath, String type) throws IOException;
+        
+        void shouldOverwrite();
     }
 
     /**

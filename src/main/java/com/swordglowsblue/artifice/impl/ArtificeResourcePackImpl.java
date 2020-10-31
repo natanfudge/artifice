@@ -58,6 +58,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private String displayName;
     private boolean optional;
     private boolean visible;
+    private boolean overwrite;
 
     @SuppressWarnings("unchecked")
     public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Identifier identifier, Consumer<T> registerResources) {
@@ -176,6 +177,13 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         public void setOptional() {
             ArtificeResourcePackImpl.this.optional = true;
             ArtificeResourcePackImpl.this.visible = true;
+        }
+
+        @Override
+        public void shouldOverwrite() {
+            ArtificeResourcePackImpl.this.optional = false;
+            ArtificeResourcePackImpl.this.visible = false;
+            ArtificeResourcePackImpl.this.overwrite = true;
         }
 
         public void add(Identifier id, ArtificeResource resource) {
@@ -357,6 +365,10 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         return this.visible;
     }
 
+    public boolean isShouldOverwrite(){
+        return this.overwrite;
+    }
+
     public void close() {
     }
 
@@ -378,13 +390,25 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
-        ResourcePackProfile profile = new ArtificeResourcePackContainer(this.optional, this.visible, Objects.requireNonNull(ResourcePackProfile.of(
-                identifier.toString(),
-                false, () -> this, factory,
-                this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
-                ARTIFICE_RESOURCE_PACK_SOURCE
-        )));
+    public <T extends ResourcePackProfile> ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
+        Identifier id = ArtificeRegistry.ASSETS.getId(this);
+        ResourcePackProfile profile;
+        if (!this.overwrite){
+             profile = new ArtificeResourcePackContainer(this.optional, this.visible, Objects.requireNonNull(ResourcePackProfile.of(
+                    id.toString(),
+                    false, () -> this, factory,
+                    this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
+                    ARTIFICE_RESOURCE_PACK_SOURCE
+            )));
+        }else {
+            profile = new ArtificeResourcePackContainer(false, false, Objects.requireNonNull(ResourcePackProfile.of(
+                    id.toString(),
+                    true, () -> this, factory,
+                    ResourcePackProfile.InsertionPosition.TOP,
+                    ARTIFICE_RESOURCE_PACK_SOURCE
+            )));
+        }
+
 
         return new ClientOnly<>(profile);
     }
