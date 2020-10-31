@@ -39,7 +39,6 @@ class ArtificeRecipesTest {
 
     @Test
     void testRecipeFiles() throws IOException {
-        recipes.dumpResources(Util.ROOT+"recipes_dump");
         Util.compareDirectoryToDump(Paths.get(Util.ROOT+"recipes_ref"), "_ref", "_dump");
     }
 
@@ -105,5 +104,10 @@ class ArtificeRecipesTest {
                 .tag(new Identifier("artifice:ingredient1")))
             .result(new Identifier("artifice:result"))
             .count(1));
+        try {
+            pack.dumpResources(Util.ROOT + "recipes_dump", "data");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     });
 }

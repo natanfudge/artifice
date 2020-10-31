@@ -1,16 +1,5 @@
 package com.swordglowsblue.artifice.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -18,25 +7,17 @@ import com.google.gson.JsonObject;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
 import com.swordglowsblue.artifice.api.builder.TypedJsonBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.AnimationBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.BlockStateBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
+import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
-import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.GenericRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.ShapelessRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.StonecuttingRecipeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.recipe.*;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.ConfiguredFeatureBuilder;
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
@@ -45,9 +26,10 @@ import com.swordglowsblue.artifice.api.util.Processor;
 import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer;
 import com.swordglowsblue.artifice.common.ArtificeRegistry;
 import com.swordglowsblue.artifice.common.ClientOnly;
-import org.apache.commons.io.input.NullInputStream;
-import org.apache.logging.log4j.LogManager;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvironmentInterface;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePackProfile;
@@ -55,14 +37,18 @@ import net.minecraft.resource.ResourcePackSource;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
+import org.apache.commons.io.input.NullInputStream;
+import org.apache.logging.log4j.LogManager;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.api.EnvironmentInterface;
-import net.fabricmc.loader.api.FabricLoader;
+import java.io.*;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final ResourceType type;
+    private final Identifier identifier;
     private final Set<String> namespaces = new HashSet<>();
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
     private final Set<LanguageDefinition> languages = new HashSet<>();
@@ -75,8 +61,9 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private boolean overwrite;
 
     @SuppressWarnings("unchecked")
-    public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Consumer<T> registerResources) {
+    public <T extends ResourcePackBuilder> ArtificeResourcePackImpl(ResourceType type, Identifier identifier, Consumer<T> registerResources) {
         this.type = type;
+        this.identifier = identifier;
         registerResources.accept((T) new ArtificeResourcePackBuilder());
 
         JsonObject packMeta = new JsonObjectBuilder()
@@ -114,6 +101,48 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
     }
 
+    public void dumpResources(String folderPath) throws IOException, IllegalArgumentException {
+        LogManager.getLogger().info("[Artifice] Dumping " + getName() + " " + type.getDirectory() + " to " + folderPath + ", this may take a while.");
+
+        File dir = new File(folderPath);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("Can't dump resources to " + folderPath + "; couldn't create parent directories");
+        }
+        if (!dir.isDirectory()) {
+            throw new IllegalArgumentException("Can't dump resources to " + folderPath + " as it's not a directory");
+        }
+        if (!dir.canWrite()) {
+            throw new IOException("Can't dump resources to " + folderPath + "; permission denied");
+        }
+
+        writeResourceFile(new File(folderPath + "/pack.mcmeta"), metadata);
+        resources.forEach((id, resource) -> {
+            String path = String.format("./%s/%s/%s/%s", folderPath, this.type.getDirectory(), id.getNamespace(), id.getPath());
+            writeResourceFile(new File(path), resource);
+        });
+
+        LogManager.getLogger().info("[Artifice] Finished dumping " + getName() + " " + type.getDirectory() + ".");
+    }
+
+    private void writeResourceFile(File output, ArtificeResource resource) {
+        try {
+            if (output.getParentFile().exists() || output.getParentFile().mkdirs()) {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+                if (resource.getData() instanceof JsonElement) {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    writer.write(gson.toJson(resource.getData()));
+                } else {
+                    writer.write(resource.getData().toString());
+                }
+                writer.close();
+            } else {
+                throw new IOException("Failed to dump resource file " + output.getPath() + "; couldn't create parent directories");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourcePackBuilder.class)
     private final class ArtificeResourcePackBuilder implements ClientResourcePackBuilder, ServerResourcePackBuilder {
         private ArtificeResourcePackBuilder() {
@@ -125,6 +154,63 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
         public void setDescription(String desc) {
             ArtificeResourcePackImpl.this.description = desc;
+        }
+
+        @Override
+        public void dumpResources(String filePath, String type) throws IOException {
+            LogManager.getLogger().info("[Artifice] Dumping " + getName() + " " + type + " to " + filePath + ", this may take a while.");
+
+            File dir = new File(filePath);
+            if (!dir.exists() && !dir.mkdirs()) {
+                throw new IOException("Can't dump resources to " + filePath + "; couldn't create parent directories");
+            }
+            if (!dir.isDirectory()) {
+                throw new IllegalArgumentException("Can't dump resources to " + filePath + " as it's not a directory");
+            }
+            if (!dir.canWrite()) {
+                throw new IOException("Can't dump resources to " + filePath + "; permission denied");
+            }
+
+            JsonObject packMeta = new JsonObjectBuilder()
+                    .add("pack_format", SharedConstants.getGameVersion().getPackVersion())
+                    .add("description", description != null ? description : "In-memory resource pack created with Artifice")
+                    .build();
+
+            JsonObject languageMeta = new JsonObject();
+            if (isClient()) {
+                addLanguages(languageMeta);
+            }
+
+            JsonObjectBuilder builder = new JsonObjectBuilder();
+            builder.add("pack", packMeta);
+            if (languages.size() > 0) builder.add("language", languageMeta);
+            JsonResource<JsonObject> mcmeta = new JsonResource<>(builder.build());
+            writeResourceFile(new File(filePath + "/pack.mcmeta"), mcmeta);
+            resources.forEach((id, resource) -> {
+                String path = String.format("./%s/%s/%s/%s", filePath, type, id.getNamespace(), id.getPath());
+                writeResourceFile(new File(path), resource);
+            });
+
+            LogManager.getLogger().info("[Artifice] Finished dumping " + getName() + " " + type + ".");
+        }
+
+        private void writeResourceFile(File output, ArtificeResource resource) {
+            try {
+                if (output.getParentFile().exists() || output.getParentFile().mkdirs()) {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+                    if (resource.getData() instanceof JsonElement) {
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        writer.write(gson.toJson(resource.getData()));
+                    } else {
+                        writer.write(resource.getData().toString());
+                    }
+                    writer.close();
+                } else {
+                    throw new IOException("Failed to dump resource file " + output.getPath() + "; couldn't create parent directories");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         public void setVisible() {
@@ -348,19 +434,17 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     @Override
     @Environment(EnvType.CLIENT)
     public <T extends ResourcePackProfile> ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
-        Identifier id = ArtificeRegistry.ASSETS.getId(this);
         ResourcePackProfile profile;
-        assert id != null;
         if (!this.overwrite){
              profile = new ArtificeResourcePackContainer(this.optional, this.visible, Objects.requireNonNull(ResourcePackProfile.of(
-                    id.toString(),
+                    identifier.toString(),
                     false, () -> this, factory,
                     this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
                     ARTIFICE_RESOURCE_PACK_SOURCE
             )));
-        }else {
+        } else {
             profile = new ArtificeResourcePackContainer(false, false, Objects.requireNonNull(ResourcePackProfile.of(
-                    id.toString(),
+                    identifier.toString(),
                     true, () -> this, factory,
                     ResourcePackProfile.InsertionPosition.TOP,
                     ARTIFICE_RESOURCE_PACK_SOURCE
@@ -378,59 +462,15 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
     @Override
     public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory factory) {
-        Identifier id = ArtificeRegistry.DATA.getId(this);
-        assert id != null;
         return ResourcePackProfile.of(
-                        id.toString(),
-                        true, () -> this, factory,
-                        ResourcePackProfile.InsertionPosition.BOTTOM,
-                        ARTIFICE_RESOURCE_PACK_SOURCE
+                identifier.toString(),
+                true, () -> this, factory,
+                ResourcePackProfile.InsertionPosition.BOTTOM,
+                ARTIFICE_RESOURCE_PACK_SOURCE
         );
     }
 
     public ResourcePackProfile getDataContainer(ResourcePackProfile.Factory factory) {
         return toServerResourcePackProfile(factory);
-    }
-
-    public void dumpResources(String folderPath) throws IOException, IllegalArgumentException {
-        LogManager.getLogger().info("[Artifice] Dumping " + getName() + " " + type.getDirectory() + " to " + folderPath + ", this may take a while.");
-
-        File dir = new File(folderPath);
-        if (!dir.exists() && !dir.mkdirs()) {
-            throw new IOException("Can't dump resources to " + folderPath + "; couldn't create parent directories");
-        }
-        if (!dir.isDirectory()) {
-            throw new IllegalArgumentException("Can't dump resources to " + folderPath + " as it's not a directory");
-        }
-        if (!dir.canWrite()) {
-            throw new IOException("Can't dump resources to " + folderPath + "; permission denied");
-        }
-
-        writeResourceFile(new File(folderPath + "/pack.mcmeta"), metadata);
-        resources.forEach((id, resource) -> {
-            String path = String.format("./%s/%s/%s/%s", folderPath, this.type.getDirectory(), id.getNamespace(), id.getPath());
-            writeResourceFile(new File(path), resource);
-        });
-
-        LogManager.getLogger().info("[Artifice] Finished dumping " + getName() + " " + type.getDirectory() + ".");
-    }
-
-    private void writeResourceFile(File output, ArtificeResource resource) {
-        try {
-            if (output.getParentFile().exists() || output.getParentFile().mkdirs()) {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(output));
-                if (resource.getData() instanceof JsonElement) {
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    writer.write(gson.toJson(resource.getData()));
-                } else {
-                    writer.write(resource.getData().toString());
-                }
-                writer.close();
-            } else {
-                throw new IOException("Failed to dump resource file " + output.getPath() + "; couldn't create parent directories");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

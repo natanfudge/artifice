@@ -1,27 +1,16 @@
 package com.swordglowsblue.artifice.api;
 
-import java.io.IOException;
-import java.util.function.Consumer;
-
-import com.swordglowsblue.artifice.api.builder.assets.AnimationBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.BlockStateBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.ParticleBuilder;
-import com.swordglowsblue.artifice.api.builder.assets.TranslationBuilder;
+import com.swordglowsblue.artifice.api.builder.assets.*;
 import com.swordglowsblue.artifice.api.builder.data.AdvancementBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
-import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
-import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
 import com.swordglowsblue.artifice.api.builder.data.LootTableBuilder;
 import com.swordglowsblue.artifice.api.builder.data.TagBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.CookingRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.GenericRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.ShapelessRecipeBuilder;
-import com.swordglowsblue.artifice.api.builder.data.recipe.StonecuttingRecipeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionBuilder;
+import com.swordglowsblue.artifice.api.builder.data.dimension.DimensionTypeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.recipe.*;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.NoiseSettingsBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.biome.BiomeBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredCarverBuilder;
+import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.ConfiguredSurfaceBuilder;
 import com.swordglowsblue.artifice.api.builder.data.worldgen.configured.feature.ConfiguredFeatureBuilder;
 import com.swordglowsblue.artifice.api.resource.ArtificeResource;
 import com.swordglowsblue.artifice.api.util.Processor;
@@ -30,7 +19,8 @@ import com.swordglowsblue.artifice.common.ClientOnly;
 import com.swordglowsblue.artifice.common.ClientResourcePackProfileLike;
 import com.swordglowsblue.artifice.common.ServerResourcePackProfileLike;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackProfile;
@@ -38,13 +28,12 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.VanillaDataPackProvider;
 import net.minecraft.util.Identifier;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
- * A resource pack containing Artifice-based resources. May be used for resource generation with
- * {@link ArtificeResourcePack#dumpResources}, or as a virtual resource pack with {@link Artifice#registerAssets}
- * or {@link Artifice#registerData}.
+ * A resource pack containing Artifice-based resources. May be used
+ * as a virtual resource pack with {@link Artifice#registerAssets} or {@link Artifice#registerData}.
  */
 @SuppressWarnings( {"DeprecatedIsStillUsed"})
 public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackProfileLike, ClientResourcePackProfileLike {
@@ -63,8 +52,6 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     boolean isVisible();
 
-    boolean isShouldOverwrite();
-
     /**
      * Dump all resources from this pack to the given folder path.
      *
@@ -72,8 +59,13 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @throws IOException              if there is an error creating the necessary directories.
      * @throws IllegalArgumentException if the given path points to a file that is not a directory.
      */
+    @Deprecated
     void dumpResources(String folderPath) throws IOException;
 
+    /**
+     * The pack will be placed on top of all other packs in order to overwrite them, it will not be optional or visible.
+     */
+    boolean isShouldOverwrite();
 
     /**
      * Create a client-side {@link ResourcePackProfile} for this pack.
@@ -123,9 +115,10 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @param register A callback which will be passed a {@link ClientResourcePackBuilder}.
      * @return The created pack.
      */
+    @Deprecated
     @Environment(EnvType.CLIENT)
     static ArtificeResourcePack ofAssets(Processor<ClientResourcePackBuilder> register) {
-        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, register);
+        return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, null, register);
     }
 
     /**
@@ -134,8 +127,9 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      * @param register A callback which will be passed a {@link ServerResourcePackBuilder}.
      * @return The created pack.
      */
+    @Deprecated
     static ArtificeResourcePack ofData(Processor<ServerResourcePackBuilder> register) {
-        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, register);
+        return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, null, register);
     }
 
     /**
@@ -165,8 +159,12 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
         void setDescription(String desc);
 
         /**
-         * the pack will be placed on top of all other packs in order to overwrite them, it will not be optional or visible.
+         * Dumps the pack files
+         *
+         * @param filePath The path to dump to
          */
+        void dumpResources(String filePath, String type) throws IOException;
+        
         void shouldOverwrite();
     }
 
