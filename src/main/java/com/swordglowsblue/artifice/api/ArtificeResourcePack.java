@@ -52,6 +52,19 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     boolean isVisible();
 
+    /**
+     * Dump all resources from this pack to the given folder path.
+     *
+     * @param folderPath The path generated resources should go under (relative to Minecraft's installation folder)
+     * @throws IOException              if there is an error creating the necessary directories.
+     * @throws IllegalArgumentException if the given path points to a file that is not a directory.
+     */
+    @Deprecated
+    void dumpResources(String folderPath) throws IOException;
+
+    /**
+     * The pack will be placed on top of all other packs in order to overwrite them, it will not be optional or visible.
+     */
     boolean isShouldOverwrite();
 
     /**

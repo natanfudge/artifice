@@ -73,8 +73,8 @@ public final class Artifice {
      * @see ArtificeResourcePack#ofAssets
      */
     @Environment(EnvType.CLIENT)
-    public static void registerAssetsNew(String id, Processor<ClientResourcePackBuilder> register) {
-        registerAssetsNew(new Identifier(id), register);
+    public static void registerAssetPack(String id, Processor<ClientResourcePackBuilder> register) {
+        registerAssetPack(new Identifier(id), register);
     }
 
     /**
@@ -84,8 +84,8 @@ public final class Artifice {
      * @return The registered pack.
      * @see ArtificeResourcePack#ofData
      */
-    public static void registerDataNew(String id, Processor<ServerResourcePackBuilder> register) {
-        registerDataNew(new Identifier(id), register);
+    public static void registerDataPack(String id, Processor<ServerResourcePackBuilder> register) {
+        registerDataPack(new Identifier(id), register);
     }
 
     /**
@@ -96,7 +96,7 @@ public final class Artifice {
      * @see ArtificeResourcePack#ofAssets
      */
     @Environment(EnvType.CLIENT)
-    public static void registerAssetsNew(Identifier id, Processor<ClientResourcePackBuilder> register) {
+    public static void registerAssetPack(Identifier id, Processor<ClientResourcePackBuilder> register) {
         Registry.register(ArtificeRegistry.ASSETS, id, new DynamicResourcePackFactory<>(ResourceType.CLIENT_RESOURCES, id, register));
     }
 
@@ -107,7 +107,7 @@ public final class Artifice {
      * @return The registered pack.
      * @see ArtificeResourcePack#ofData
      */
-    public static void registerDataNew(Identifier id, Processor<ServerResourcePackBuilder> register) {
+    public static void registerDataPack(Identifier id, Processor<ServerResourcePackBuilder> register) {
         Registry.register(ArtificeRegistry.DATA, id, new DynamicResourcePackFactory<>(ResourceType.SERVER_DATA, id, register));
     }
 
