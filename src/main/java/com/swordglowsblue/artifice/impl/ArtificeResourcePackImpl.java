@@ -141,6 +141,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
 
             JsonObjectBuilder builder = new JsonObjectBuilder();
             builder.add("pack", packMeta);
+            if (languages.size() > 0) builder.add("language", languageMeta);
             JsonResource<JsonObject> mcmeta = new JsonResource<>(builder.build());
             writeResourceFile(new File(filePath + "/pack.mcmeta"), mcmeta);
             resources.forEach((id, resource) -> {
