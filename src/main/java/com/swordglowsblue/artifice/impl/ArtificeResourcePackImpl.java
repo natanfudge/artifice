@@ -101,6 +101,48 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
     }
 
+    public void dumpResources(String folderPath) throws IOException, IllegalArgumentException {
+        LogManager.getLogger().info("[Artifice] Dumping " + getName() + " " + type.getDirectory() + " to " + folderPath + ", this may take a while.");
+
+        File dir = new File(folderPath);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("Can't dump resources to " + folderPath + "; couldn't create parent directories");
+        }
+        if (!dir.isDirectory()) {
+            throw new IllegalArgumentException("Can't dump resources to " + folderPath + " as it's not a directory");
+        }
+        if (!dir.canWrite()) {
+            throw new IOException("Can't dump resources to " + folderPath + "; permission denied");
+        }
+
+        writeResourceFile(new File(folderPath + "/pack.mcmeta"), metadata);
+        resources.forEach((id, resource) -> {
+            String path = String.format("./%s/%s/%s/%s", folderPath, this.type.getDirectory(), id.getNamespace(), id.getPath());
+            writeResourceFile(new File(path), resource);
+        });
+
+        LogManager.getLogger().info("[Artifice] Finished dumping " + getName() + " " + type.getDirectory() + ".");
+    }
+
+    private void writeResourceFile(File output, ArtificeResource resource) {
+        try {
+            if (output.getParentFile().exists() || output.getParentFile().mkdirs()) {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+                if (resource.getData() instanceof JsonElement) {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    writer.write(gson.toJson(resource.getData()));
+                } else {
+                    writer.write(resource.getData().toString());
+                }
+                writer.close();
+            } else {
+                throw new IOException("Failed to dump resource file " + output.getPath() + "; couldn't create parent directories");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientResourcePackBuilder.class)
     private final class ArtificeResourcePackBuilder implements ClientResourcePackBuilder, ServerResourcePackBuilder {
         private ArtificeResourcePackBuilder() {
