@@ -104,5 +104,10 @@ class ArtificeRecipesTest {
                 .tag(new Identifier("artifice:ingredient1")))
             .result(new Identifier("artifice:result"))
             .count(1));
+        try {
+            pack.dumpResources(Util.ROOT + "recipes_dump", "data");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     });
 }

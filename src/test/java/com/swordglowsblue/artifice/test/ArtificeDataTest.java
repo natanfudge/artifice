@@ -129,5 +129,10 @@ class ArtificeDataTest {
                         new Identifier("artifice:value1"),
                         new Identifier("artifice:value2")
                 ));
+        try {
+            pack.dumpResources(Util.ROOT + "data_dump", "data");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     });
 }

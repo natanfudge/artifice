@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,8 +40,13 @@ class ArtificeAssetsTest {
     }
 
     @Test
-    void testshouldReplace() throws IOException{
+    void testshouldReplace() throws IOException {
         assertTrue(assetsoverwrite.isShouldOverwrite());
+    }
+
+    @Test
+    void testAssetFiles() throws IOException {
+        Util.compareDirectoryToDump(Paths.get(Util.ROOT + "assets_ref"), "_ref", "_dump");
     }
 
     private ArtificeResourcePack assets = ArtificeResourcePack.ofAssets(pack -> {
@@ -113,6 +119,11 @@ class ArtificeAssetsTest {
         pack.addTranslations(new Identifier("artifice:test_language"), lang -> lang
             .entry("test1", "Test 1")
             .entry("test2", "Test 2"));
+        try {
+            pack.dumpResources(Util.ROOT + "assets_dump", "assets");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     });
 
     private ArtificeResourcePack assetsoverwrite = ArtificeResourcePack.ofAssets(pack -> {
