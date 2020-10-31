@@ -9,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,11 +41,6 @@ class ArtificeAssetsTest {
     @Test
     void testshouldReplace() throws IOException{
         assertTrue(assetsoverwrite.isShouldOverwrite());
-    }
-
-    @Test
-    void testAssetFiles() throws IOException {
-        Util.compareDirectoryToDump(Paths.get(Util.ROOT+"assets_ref"), "_ref", "_dump");
     }
 
     private ArtificeResourcePack assets = ArtificeResourcePack.ofAssets(pack -> {
