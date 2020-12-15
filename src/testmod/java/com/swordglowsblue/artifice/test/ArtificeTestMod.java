@@ -59,7 +59,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
     public void onInitialize() {
         Registry.register(Registry.CHUNK_GENERATOR, RegistryKey.of(Registry.DIMENSION,id("test_chunk_generator")).getValue(), TestChunkGenerator.CODEC);
-        Artifice.registerDataNew(id("testmod"), pack -> {
+        Artifice.registerDataPack(id("testmod"), pack -> {
             pack.setDisplayName("Artifice Test Data");
             pack.setDescription("Data for the Artifice test mod");
 
@@ -234,7 +234,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
-        Artifice.registerAssetsNew("artifice:testmod", pack -> {
+        Artifice.registerAssetPack("artifice:testmod", pack -> {
             pack.setDisplayName("Artifice Test Resources");
             pack.setDescription("Resources for the Artifice test mod");
 
@@ -270,7 +270,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             }
         });
 
-        Artifice.registerAssetsNew(id("testmod2"), ArtificeResourcePack.ClientResourcePackBuilder::setOptional);
+        Artifice.registerAssetPack(id("testmod2"), ArtificeResourcePack.ClientResourcePackBuilder::setOptional);
     }
 
     public static class TestChunkGenerator extends ChunkGenerator {

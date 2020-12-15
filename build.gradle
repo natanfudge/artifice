@@ -46,12 +46,6 @@ dependencies {
 
 	testmodImplementation sourceSets.main.output
 	modRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_version")
-
-//	modRuntime "io.github.prospector.modmenu:ModMenu:1.6.2-92"
-//	modRuntime "foamfix-for-minecraft:foamfix:0.12.1"
-//	modRuntime "me.shedaniel:RoughlyEnoughItems:2.9.4+build.129"
-//	modRuntime "me.sargunvohra.mcmods:auto-config:1.1.2+mc1.14.1"
-//	modRuntime "informed-load-fabric:informedload:2.1.0:1.14"
 }
 
 test { useJUnitPlatform() }
