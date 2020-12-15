@@ -15,7 +15,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> true
      * End -> false
      * @param ultrawarm
-     * @return this
      */
     public DimensionTypeBuilder ultrawarm(boolean ultrawarm) {
         root.addProperty("ultrawarm", ultrawarm);
@@ -27,7 +26,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> false
      * End -> false
      * @param natural
-     * @return this
      */
     public DimensionTypeBuilder natural(boolean natural) {
         root.addProperty("natural", natural);
@@ -39,7 +37,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> 8.0D
      * End -> 1.0D
      * @param coordinate_scale
-     * @return this
      */
     public DimensionTypeBuilder coordinate_scale(double coordinate_scale) {
         if (coordinate_scale < 0.00001) throw new IllegalArgumentException("Coordinate scale can't be higher than 0.00001D! Found " + coordinate_scale);
@@ -53,10 +50,8 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> 0.1
      * End -> 0.0
      * @param ambientLight
-     * @return
      */
     public DimensionTypeBuilder ambientLight(float ambientLight) {
-//        if (ambientLight > 1.0F) throw new IllegalArgumentException("Ambient light can't be higher than 1.0F! Found " + ambientLight);
         root.addProperty("ambient_light", ambientLight);
         return this;
     }
@@ -66,7 +61,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> false
      * End -> false
      * @param hasSkylight
-     * @return this
      */
     public DimensionTypeBuilder hasSkylight(boolean hasSkylight) {
         root.addProperty("has_skylight", hasSkylight);
@@ -78,7 +72,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> true
      * End -> false
      * @param hasCeiling
-     * @return
      */
     public DimensionTypeBuilder hasCeiling(boolean hasCeiling) {
         root.addProperty("has_ceiling", hasCeiling);
@@ -90,7 +83,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> false
      * End -> true
      * @param hasEnderDragonFight
-     * @return this
      */
     public DimensionTypeBuilder hasEnderDragonFight(boolean hasEnderDragonFight) {
         root.addProperty("has_ender_dragon_fight", hasEnderDragonFight);
@@ -103,10 +95,27 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> minecraft:infiniburn_nether
      * End -> minecraft:infiniburn_end
      * @param infiniburn The block tag id.
-     * @return this
      */
     public DimensionTypeBuilder infiniburn(Identifier infiniburn) {
         root.addProperty("infiniburn", infiniburn.toString());
+        return this;
+    }
+
+    /**
+     * The minimum height in which blocks can exist within this dimension.
+     * @param minY
+     */
+    public DimensionTypeBuilder minY(int minY) {
+        root.addProperty("min_y", minY);
+        return this;
+    }
+
+    /**
+     * The total height in which blocks can exist within this dimension. Max Y = Min Y + Height.
+     * @param height
+     */
+    public DimensionTypeBuilder height(int height) {
+        root.addProperty("height", height);
         return this;
     }
 
@@ -115,7 +124,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> 128
      * End -> 256
      * @param logicalHeight
-     * @return
      */
     public DimensionTypeBuilder logicalHeight(int logicalHeight) {
         root.addProperty("logical_height", logicalHeight);
@@ -127,7 +135,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> 18000
      * End -> 6000
      * @param fixedTime Time of the days in ticks
-     * @return this
      */
     public DimensionTypeBuilder fixedTime(long fixedTime) {
         root.addProperty("fixed_time", fixedTime);
@@ -139,7 +146,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> false
      * End -> true
      * @param hasRaids
-     * @return
      */
     public DimensionTypeBuilder hasRaids(boolean hasRaids) {
         root.addProperty("has_raids", hasRaids);
@@ -151,7 +157,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> true
      * End -> false
      * @param respawnAnchorWork
-     * @return
      */
     public DimensionTypeBuilder respawnAnchorWorks(boolean respawnAnchorWork) {
         root.addProperty("respawn_anchor_works", respawnAnchorWork);
@@ -163,7 +168,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> false
      * End -> false
      * @param bedWorks
-     * @return this
      */
     public DimensionTypeBuilder bedWorks(boolean bedWorks) {
         root.addProperty("bed_works", bedWorks);
@@ -175,7 +179,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> true
      * End -> false
      * @param piglinSafe
-     * @return this
      */
     public DimensionTypeBuilder piglinSafe(boolean piglinSafe) {
         root.addProperty("piglin_safe", piglinSafe);
@@ -189,7 +192,6 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
      * Nether -> minecraft:the_nether
      * End -> minecraft:the_end
      * @param effects thing
-     * @return this
      */
     public DimensionTypeBuilder effects(String effects) {
         root.addProperty("effects", effects);

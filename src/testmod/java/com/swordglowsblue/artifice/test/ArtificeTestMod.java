@@ -28,7 +28,6 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.WorldAccess;
@@ -59,7 +58,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
     public void onInitialize() {
         Registry.register(Registry.CHUNK_GENERATOR, RegistryKey.of(Registry.DIMENSION,id("test_chunk_generator")).getValue(), TestChunkGenerator.CODEC);
-        Artifice.registerDataNew(id("testmod"), pack -> {
+        Artifice.registerDataPack(id("testmod"), pack -> {
             pack.setDisplayName("Artifice Test Data");
             pack.setDescription("Data for the Artifice test mod");
 
@@ -225,16 +224,11 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 e.printStackTrace();
             }
         });
-        /*try {
-            dataPack.dumpResources("./dump");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Environment(EnvType.CLIENT)
     public void onInitializeClient() {
-        Artifice.registerAssetsNew("artifice:testmod", pack -> {
+        Artifice.registerAssetPack("artifice:testmod", pack -> {
             pack.setDisplayName("Artifice Test Resources");
             pack.setDescription("Resources for the Artifice test mod");
 
@@ -270,7 +264,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             }
         });
 
-        Artifice.registerAssetsNew(id("testmod2"), ArtificeResourcePack.ClientResourcePackBuilder::setOptional);
+        Artifice.registerAssetPack(id("testmod2"), ArtificeResourcePack.ClientResourcePackBuilder::setOptional);
     }
 
     public static class TestChunkGenerator extends ChunkGenerator {
@@ -314,8 +308,8 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
         }
 
         @Override
-        public BlockView getColumnSample(int x, int z) {
-            return new VerticalBlockSample(new BlockState[0]);
+        public VerticalBlockSample getColumnSample(int x, int z) {
+            return new VerticalBlockSample(1, new BlockState[0]);
         }
     }
 
