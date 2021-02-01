@@ -1,0 +1,73 @@
+{
+  "parent": "artifice:parent",
+  "textures": {
+    "layer0": "artifice:layer0",
+    "layer1": "artifice:layer1"
+  },
+  "display": {
+    "test_display": {
+      "rotation": [
+        0.0,
+        1.0,
+        -2.0
+      ],
+      "translation": [
+        0.0,
+        1.0,
+        -2.0
+      ],
+      "scale": [
+        0.0,
+        1.0,
+        -2.0
+      ]
+    }
+  },
+  "elements": [
+    {
+      "from": [
+        0.0,
+        1.0,
+        -2.0
+      ],
+      "to": [
+        0.0,
+        1.0,
+        -2.0
+      ],
+      "shade": false,
+      "rotation": {
+        "angle": 22.5,
+        "axis": "x",
+        "origin": [
+          0.0,
+          1.0,
+          -2.0
+        ],
+        "rescale": false
+      },
+      "faces": {
+        "down": {
+          "texture": "artifice:face_texture",
+          "cullface": "down",
+          "rotation": 180,
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      }
+    }
+  ],
+  "overrides": [
+    {
+      "predicate": {
+        "test_predicate": 0
+      },
+      "model": "artifice:test_model_override"
+    }
+  ]
+}

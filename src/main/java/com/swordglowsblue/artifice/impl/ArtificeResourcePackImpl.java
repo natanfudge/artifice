@@ -435,16 +435,17 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     @Environment(EnvType.CLIENT)
     public <T extends ResourcePackProfile> ClientOnly<ResourcePackProfile> toClientResourcePackProfile(ResourcePackProfile.Factory factory) {
         ResourcePackProfile profile;
+        String id = identifier == null ? "null" : identifier.toString();
         if (!this.overwrite){
              profile = new ArtificeResourcePackContainer(this.optional, this.visible, Objects.requireNonNull(ResourcePackProfile.of(
-                    identifier.toString(),
+                     id,
                     false, () -> this, factory,
                     this.optional ? ResourcePackProfile.InsertionPosition.TOP : ResourcePackProfile.InsertionPosition.BOTTOM,
                     ARTIFICE_RESOURCE_PACK_SOURCE
             )));
         } else {
             profile = new ArtificeResourcePackContainer(false, false, Objects.requireNonNull(ResourcePackProfile.of(
-                    identifier.toString(),
+                    id,
                     true, () -> this, factory,
                     ResourcePackProfile.InsertionPosition.TOP,
                     ARTIFICE_RESOURCE_PACK_SOURCE

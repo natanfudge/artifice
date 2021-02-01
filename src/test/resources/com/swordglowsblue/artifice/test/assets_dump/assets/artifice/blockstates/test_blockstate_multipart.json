@@ -1,0 +1,34 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "variant": "0"
+      },
+      "apply": {
+        "model": "artifice:model"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "variant": "1|2"
+          },
+          {
+            "other": "3"
+          }
+        ]
+      },
+      "apply": [
+        {
+          "model": "artifice:model0",
+          "weight": 0
+        },
+        {
+          "model": "artifice:model1",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

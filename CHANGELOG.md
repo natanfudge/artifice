@@ -27,3 +27,5 @@ Deprecated NoiseConfigBuilder.densityOffset(int) in favour of NoiseConfigBuilder
 Added a new biome API.
 ## 0.11.0
 Added a feature API.
+### 0.14.5
+- Will now warn instead of crash in a certain case of developer error. 

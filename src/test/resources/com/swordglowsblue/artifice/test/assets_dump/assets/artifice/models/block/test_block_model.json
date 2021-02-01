@@ -1,0 +1,4 @@
+{
+  "parent": "artifice:parent",
+  "ambientocclusion": true
+}
