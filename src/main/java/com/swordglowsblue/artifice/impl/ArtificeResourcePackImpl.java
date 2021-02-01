@@ -39,6 +39,7 @@ import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
 import org.apache.commons.io.input.NullInputStream;
 import org.apache.logging.log4j.LogManager;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.util.*;
@@ -48,6 +49,7 @@ import java.util.function.Supplier;
 
 public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     private final ResourceType type;
+    @Nullable
     private final Identifier identifier;
     private final Set<String> namespaces = new HashSet<>();
     private final Map<Identifier, ArtificeResource> resources = new HashMap<>();
@@ -464,7 +466,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     @Override
     public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory factory) {
         return ResourcePackProfile.of(
-                identifier.toString(),
+                identifier == null ? "null" : identifier.toString(),
                 true, () -> this, factory,
                 ResourcePackProfile.InsertionPosition.BOTTOM,
                 ARTIFICE_RESOURCE_PACK_SOURCE
