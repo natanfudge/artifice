@@ -28,10 +28,7 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
@@ -45,6 +42,8 @@ import net.minecraft.world.gen.feature.StructureFeature;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
     private static Identifier id(String name) { return new Identifier("artifice", name); }
@@ -86,7 +85,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 dimensionTypeBuilder
                         .natural(false).hasRaids(false).respawnAnchorWorks(true).bedWorks(false).piglinSafe(false)
                         .ambientLight(6.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
-                        .ultrawarm(false).hasCeiling(false).hasSkylight(false).coordinate_scale(1.0).logicalHeight(256).effects("minecraft:the_end");
+                        .ultrawarm(false).hasCeiling(false).hasSkylight(false).coordinate_scale(1.0).logicalHeight(832).height(832).minimumY(-512).effects("minecraft:the_end");
             });
             pack.addDimension(id("test_dimension"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimension.getValue()).flatGenerator(flatChunkGeneratorTypeBuilder -> {
@@ -111,7 +110,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 dimensionTypeBuilder
                         .natural(true).hasRaids(false).respawnAnchorWorks(false).bedWorks(false).piglinSafe(false)
                         .ambientLight(0.0F).infiniburn(BlockTags.INFINIBURN_OVERWORLD.getId())
-                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).coordinate_scale(1.0).logicalHeight(256);
+                        .ultrawarm(false).hasCeiling(false).hasSkylight(true).coordinate_scale(1.0).logicalHeight(832).height(832).minimumY(-512);
             });
             pack.addDimension(id("test_dimension_custom"), dimensionBuilder -> {
                 dimensionBuilder.dimensionType(testDimensionCustom.getValue())/*.generator(testChunkGeneratorTypeBuilder -> {
@@ -130,9 +129,7 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
             });
 
             pack.addBiome(id("test_biome"), biomeBuilder -> {
-//                biomeBuilder.surfaceBuilder(id("test_surface_builder").toString());
-                biomeBuilder.surfaceBuilder("minecraft:grass");
-                biomeBuilder.precipitation(Biome.Precipitation.RAIN);
+                biomeBuilder.precipitation(Biome.Precipitation.RAIN).surfaceBuilder("minecraft:grass");
                 biomeBuilder.category(Biome.Category.PLAINS);
                 biomeBuilder.depth(0.125F);
                 biomeBuilder.scale(0.05F);
@@ -225,11 +222,6 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
                 e.printStackTrace();
             }
         });
-        /*try {
-            dataPack.dumpResources("./dump");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Environment(EnvType.CLIENT)
@@ -305,17 +297,18 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
         }
 
         @Override
-        public void populateNoise(WorldAccess world, StructureAccessor accessor, Chunk chunk) {
+        public CompletableFuture<Chunk> populateNoise(Executor executor, StructureAccessor accessor, Chunk chunk) {
+            return null;
         }
 
         @Override
-        public int getHeight(int x, int z, Heightmap.Type heightmapType) {
+        public int getHeight(int x, int z, Heightmap.Type heightmap, HeightLimitView world) {
             return 0;
         }
 
         @Override
-        public BlockView getColumnSample(int x, int z) {
-            return new VerticalBlockSample(new BlockState[0]);
+        public VerticalBlockSample getColumnSample(int x, int z, HeightLimitView world) {
+            return new VerticalBlockSample(10, new BlockState[0]);
         }
     }
 
