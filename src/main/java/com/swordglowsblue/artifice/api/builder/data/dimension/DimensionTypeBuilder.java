@@ -111,6 +111,26 @@ public final class DimensionTypeBuilder extends TypedJsonBuilder<JsonResource<Js
     }
 
     /**
+     * Overworld -> 384
+     * Nether -> 128
+     * End -> 256
+     */
+    public DimensionTypeBuilder minimumY(int minimumY) {
+        root.addProperty("min_y", minimumY);
+        return this;
+    }
+
+    /**
+     * Overworld -> 384
+     * Nether -> 128
+     * End -> 256
+     */
+    public DimensionTypeBuilder height(int height) {
+        root.addProperty("height", height);
+        return this;
+    }
+
+    /**
      * Overworld -> 256
      * Nether -> 128
      * End -> 256

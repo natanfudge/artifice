@@ -19,8 +19,6 @@ public class NoiseSettingsBuilder extends TypedJsonBuilder<JsonResource<JsonObje
      * @return
      */
     public NoiseSettingsBuilder bedrockRoofPosition(int bedrockRoofPosition) {
-        if (bedrockRoofPosition > 276) throw new IllegalArgumentException("bedrockRoofPosition can't be higher than 276! Found " + bedrockRoofPosition);
-        if (bedrockRoofPosition < -20) throw new IllegalArgumentException("bedrockRoofPosition can't be smaller than -20! Found " + bedrockRoofPosition);
         this.root.addProperty("bedrock_roof_position", bedrockRoofPosition);
         return this;
     }
@@ -31,8 +29,6 @@ public class NoiseSettingsBuilder extends TypedJsonBuilder<JsonResource<JsonObje
      * @return
      */
     public NoiseSettingsBuilder bedrockFloorPosition(int bedrockFloorPosition) {
-        if (bedrockFloorPosition > 276) throw new IllegalArgumentException("bedrockFloorPosition can't be higher than 276! Found " + bedrockFloorPosition);
-        if (bedrockFloorPosition < -20) throw new IllegalArgumentException("bedrockFloorPosition can't be smaller than -20! Found " + bedrockFloorPosition);
         this.root.addProperty("bedrock_floor_position", bedrockFloorPosition);
         return this;
     }
@@ -43,28 +39,35 @@ public class NoiseSettingsBuilder extends TypedJsonBuilder<JsonResource<JsonObje
      * @return
      */
     public NoiseSettingsBuilder seaLevel(int seaLevel) {
-        if (seaLevel > 255) throw new IllegalArgumentException("Sealevel can't be higher than 255! Found " + seaLevel);
-        if (seaLevel < 0) throw new IllegalArgumentException("Sealevel can't be smaller than 0! Found " + seaLevel);
         this.root.addProperty("sea_level", seaLevel);
         return this;
     }
 
     /**
      * Build noise config.
-     * @param noiseConfigBuilder
-     * @return
      */
     public NoiseSettingsBuilder noiseConfig(Processor<NoiseConfigBuilder> noiseConfigBuilder) {
         with("noise", JsonObject::new, jsonObject -> noiseConfigBuilder.process(new NoiseConfigBuilder()).buildTo(jsonObject));
         return this;
     }
 
-    /**
-     * @param disableMobGeneration
-     * @return
-     */
     public NoiseSettingsBuilder disableMobGeneration(boolean disableMobGeneration) {
         this.root.addProperty("disable_mob_generation", disableMobGeneration);
+        return this;
+    }
+
+    public NoiseSettingsBuilder aquifersEnabled(boolean aquifersEnabled) {
+        this.root.addProperty("aquifers_enabled", aquifersEnabled);
+        return this;
+    }
+
+    public NoiseSettingsBuilder noiseCavesEnabled(boolean noiseCavesEnabled) {
+        this.root.addProperty("noise_caves_enabled", noiseCavesEnabled);
+        return this;
+    }
+
+    public NoiseSettingsBuilder grimstoneEnabled(boolean grimstoneEnabled) {
+        this.root.addProperty("grimstone_enabled", grimstoneEnabled);
         return this;
     }
 
