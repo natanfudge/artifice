@@ -20,12 +20,7 @@ public final class Artifice {
     }
 
     /**
-     * Register a new client-side resource pack, creating resources with the given callback.
-     *
-     * @param id       The pack ID.
-     * @param register A callback which will be passed a {@link ClientResourcePackBuilder}.
-     * @return The registered pack.
-     * @see ArtificeResourcePack#ofAssets
+     * @deprecated Deprecated in favor of {@link Artifice#registerAssetPack(String, Processor)}
      */
     @Deprecated
     @Environment(EnvType.CLIENT)
@@ -34,12 +29,7 @@ public final class Artifice {
     }
 
     /**
-     * Register a new server-side resource pack, creating resources with the given callback.
-     *
-     * @param id       The pack ID.
-     * @param register A callback which will be passed a {@link ServerResourcePackBuilder}.
-     * @return The registered pack.
-     * @see ArtificeResourcePack#ofData
+     * @deprecated Deprecated in favor of {@link Artifice#registerDataPack(String, Processor)}
      */
     @Deprecated
     public static ArtificeResourcePack registerData(String id, Processor<ServerResourcePackBuilder> register) {
@@ -47,29 +37,21 @@ public final class Artifice {
     }
 
     /**
-     * Register a new client-side resource pack, creating resources with the given callback.
-     *
-     * @param id       The pack ID.
-     * @param register A callback which will be passed a {@link ClientResourcePackBuilder}.
-     * @return The registered pack.
-     * @see ArtificeResourcePack#ofAssets
+     * @deprecated Deprecated in favor of {@link Artifice#registerAssetPack(Identifier, Processor)}
      */
     @Deprecated
     @Environment(EnvType.CLIENT)
     public static ArtificeResourcePack registerAssets(Identifier id, Processor<ClientResourcePackBuilder> register) {
+        ArtificeImpl.LOGGER.warn("Using deprecated Artifice#registerAssets! Please use registerAssetPack! Issues may occur!");
         return ArtificeImpl.registerSafely(ArtificeRegistry.ASSETS, id, ArtificeResourcePack.ofAssets(register));
     }
 
     /**
-     * Register a new server-side resource pack, creating resources with the given callback.
-     *
-     * @param id       The pack ID.
-     * @param register A callback which will be passed a {@link ServerResourcePackBuilder}.
-     * @return The registered pack.
-     * @see ArtificeResourcePack#ofData
+     * @deprecated Deprecated in favor of {@link Artifice#registerDataPack(Identifier, Processor)}
      */
     @Deprecated
     public static ArtificeResourcePack registerData(Identifier id, Processor<ServerResourcePackBuilder> register) {
+        ArtificeImpl.LOGGER.warn("Using deprecated Artifice#registerData! Please use registerDataPack! Issues may occur!");
         return ArtificeImpl.registerSafely(ArtificeRegistry.DATA, id, ArtificeResourcePack.ofData(register));
     }
 
@@ -79,7 +61,6 @@ public final class Artifice {
      * @param id       The pack ID.
      * @param register A callback which will be passed a {@link ClientResourcePackBuilder}.
      * @return The registered pack.
-     * @see ArtificeResourcePack#ofAssets
      */
     @Environment(EnvType.CLIENT)
     public static void registerAssetPack(String id, Processor<ClientResourcePackBuilder> register) {
@@ -92,7 +73,6 @@ public final class Artifice {
      * @param id       The pack ID.
      * @param register A callback which will be passed a {@link ServerResourcePackBuilder}.
      * @return The registered pack.
-     * @see ArtificeResourcePack#ofData
      */
     public static void registerDataPack(String id, Processor<ServerResourcePackBuilder> register) {
         registerDataPack(new Identifier(id), register);
@@ -104,7 +84,6 @@ public final class Artifice {
      * @param id       The pack ID.
      * @param register A callback which will be passed a {@link ClientResourcePackBuilder}.
      * @return The registered pack.
-     * @see ArtificeResourcePack#ofAssets
      */
     @Environment(EnvType.CLIENT)
     public static void registerAssetPack(Identifier id, Processor<ClientResourcePackBuilder> register) {
@@ -118,7 +97,6 @@ public final class Artifice {
      * @param id       The pack ID.
      * @param register A callback which will be passed a {@link ServerResourcePackBuilder}.
      * @return The registered pack.
-     * @see ArtificeResourcePack#ofData
      */
     public static void registerDataPack(Identifier id, Processor<ServerResourcePackBuilder> register) {
         ArtificeImpl.registerSafely(ArtificeRegistry.DATA, id, new DynamicResourcePackFactory<>(ResourceType.SERVER_DATA, id, register));
@@ -130,7 +108,6 @@ public final class Artifice {
      * @param id   The pack ID.
      * @param pack The pack to register.
      * @return The registered pack.
-     * @see ArtificeResourcePack#ofAssets
      */
     @Environment(EnvType.CLIENT)
     public static ArtificeResourcePack registerAssets(String id, ArtificeResourcePack pack) {
@@ -143,7 +120,6 @@ public final class Artifice {
      * @param id   The pack ID.
      * @param pack The pack to register.
      * @return The registered pack.
-     * @see ArtificeResourcePack#ofData
      */
     public static ArtificeResourcePack registerData(String id, ArtificeResourcePack pack) {
         return registerData(new Identifier(id), pack);

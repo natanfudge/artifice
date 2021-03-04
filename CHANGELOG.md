@@ -29,3 +29,5 @@ Added a new biome API.
 Added a feature API.
 ### 0.14.6
 - Will now warn instead of crash in a certain case of developer error. 
+### 0.14.7
+- Added documentation for deprecated methods and made the warning messages more clear.

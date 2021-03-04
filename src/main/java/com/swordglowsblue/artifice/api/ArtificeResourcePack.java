@@ -111,6 +111,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
     ResourcePackProfile getDataContainer(ResourcePackProfile.Factory factory);
 
     /**
+     * @deprecated  use {@link }
      * Create a new client-side {@link ArtificeResourcePack} and register resources using the given callback.
      *
      * @param register A callback which will be passed a {@link ClientResourcePackBuilder}.
@@ -119,7 +120,6 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
     @Deprecated
     @Environment(EnvType.CLIENT)
     static ArtificeResourcePack ofAssets(Processor<ClientResourcePackBuilder> register) {
-        ArtificeImpl.LOGGER.warn("Using deprecated ArtificeResourcePack#ofAssets! Issues may occur!");
         return new ArtificeResourcePackImpl(ResourceType.CLIENT_RESOURCES, null, register);
     }
 
@@ -131,7 +131,6 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
      */
     @Deprecated
     static ArtificeResourcePack ofData(Processor<ServerResourcePackBuilder> register) {
-        ArtificeImpl.LOGGER.warn("Using deprecated ArtificeResourcePack#ofData! Issues may occur!");
         return new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, null, register);
     }
 
