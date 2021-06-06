@@ -1,9 +1,9 @@
 plugins {
-	id 'fabric-loom'
-	id 'maven-publish'
-	id 'signing'
-	id "com.jfrog.bintray"
-	id "com.github.fudge.forgedflowerloom" version "2.0.0"
+    id 'fabric-loom'
+    id 'maven-publish'
+    id 'signing'
+    id "com.jfrog.bintray"
+    id "com.github.fudge.forgedflowerloom" version "2.0.0"
 }
 
 def total_version = "$mod_version+$minecraft_version"
@@ -26,27 +26,27 @@ minecraft {
 }
 
 sourceSets {
-	testmod {
-		compileClasspath += main.compileClasspath
-		runtimeClasspath += main.runtimeClasspath
-	}
-	test{
-		compileClasspath += main.compileClasspath
-		runtimeClasspath += main.runtimeClasspath
-	}
+    testmod {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
+    test {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modApi "net.fabricmc:fabric-loader:${project.loader_version}"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modApi "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
-	testImplementation "org.junit.jupiter:junit-jupiter-params:5.4.2"
-	testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.4.2"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.4.2"
 
-	testmodImplementation sourceSets.main.output
-	modRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_version")
+    testmodImplementation sourceSets.main.output
+    modRuntime("net.fabricmc.fabric-api:fabric-api:$fabric_version")
 
 //	modRuntime "io.github.prospector.modmenu:ModMenu:1.6.2-92"
 //	modRuntime "foamfix-for-minecraft:foamfix:0.12.1"
@@ -58,37 +58,37 @@ dependencies {
 test { useJUnitPlatform() }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
-		expand "version": project.version
-	}
+    from(sourceSets.main.resources.srcDirs) {
+        include "fabric.mod.json"
+        expand "version": project.version
+    }
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+    classifier = "sources"
+    from sourceSets.main.allSource
 }
 jar { from "LICENSE" }
 def pomConfig = {
-	licenses {
-		license {
-			name project.license
-		}
-	}
-	developers {
-		developer {
-			id "fudge"
-			name "natan"
-			email "natandestroyer100@gmail.com"
-		}
-	}
+    licenses {
+        license {
+            name project.license
+        }
+    }
+    developers {
+        developer {
+            id "fudge"
+            name "natan"
+            email "natandestroyer100@gmail.com"
+        }
+    }
 
-	scm {
-		url githubUrl
-	}
+    scm {
+        url githubUrl
+    }
 }
 
 
@@ -96,23 +96,16 @@ def pomConfig = {
 // this fixes some edge cases with special characters not displaying correctly
 // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
 tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
-}
-
-afterEvaluate {
-	artifacts {
-		archives remapJar
-		archives remapSourcesJar.output
-	}
+    options.encoding = "UTF-8"
 }
 
 
 jar {
-	from "LICENSE"
+    from "LICENSE"
 }
 
 String tryProp(String key) {
-	return  project.hasProperty(key) ? project.property(key) : ""
+    return project.hasProperty(key) ? project.property(key) : ""
 }
 
 //bintray {
@@ -139,123 +132,134 @@ String tryProp(String key) {
 //}
 
 
-signing {
-	sign configurations.archives
-}
+afterEvaluate {
+    artifacts {
+        archives remapJar
+        archives remapSourcesJar.output
+    }
+    signing {
+        sign configurations.archives
+    }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			customizePom(pom)
-			groupId maven_group
-			artifactId mod_id
-			version total_version
 
-			artifact(remapJar)
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                customizePom(pom)
+                groupId maven_group
+                artifactId mod_id
+                version total_version
 
-			artifact(sourcesJar) {
-				classifier = "sources"
-				builtBy remapSourcesJar
-			}
+                artifact(remapJar)
 
-			pom.withXml {
-				def pomFile = file("${project.buildDir}/generated-pom.xml")
-				writeTo(pomFile)
-				def pomAscFile = signing.sign(pomFile).signatureFiles[0]
-				artifact(pomAscFile) {
-					classifier = null
-					extension = 'pom.asc'
-				}
-			}
+                artifact(sourcesJar) {
+                    classifier = "sources"
+                    builtBy remapSourcesJar
+                }
+
+                pom.withXml {
+                    def pomFile = file("${project.buildDir}/generated-pom.xml")
+                    writeTo(pomFile)
+                    def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+                    artifact(pomAscFile) {
+                        classifier = null
+                        extension = 'pom.asc'
+                    }
+                }
+//                println(project.tasks.signArchives.signatureFiles.files())
 // create the signed artifacts
-			project.tasks.signArchives.signatureFiles.each {
-				artifact(it) {
-					def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
-					if (matcher.find()) {
-						classifier = matcher.group(1)
-					} else {
-						classifier = null
-					}
-					extension = 'jar.asc'
-				}
-			}
-		}
-	}
-	repositories {
-		maven {
-			url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-			credentials {
-				username tryProp("nexusUsername")
-				password tryProp("nexusPassword")
-			}
-		}
-	}
+                project.tasks.signArchives.signatureFiles.filter { f ->
+                    String name = f.getName()
+                    !name.endsWith("-dev.jar.asc")
+                }.each {
+                    artifact(it) {
+                        def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+                        if (matcher.find()) {
+                            classifier = matcher.group(1)
+                        } else {
+                            classifier = null
+                        }
+                        extension = 'jar.asc'
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                credentials {
+                    username tryProp("nexusUsername")
+                    password tryProp("nexusPassword")
+                }
+            }
+        }
+    }
 }
+
 
 def customizePom(pom) {
-	pom.withXml {
-		def root = asNode()
+    pom.withXml {
+        def root = asNode()
 
-		// eliminate test-scoped dependencies (no need in maven central POMs)
-		root.dependencies.removeAll { dep ->
-			dep.scope == "test"
-		}
+        // eliminate test-scoped dependencies (no need in maven central POMs)
+        root.dependencies.removeAll { dep ->
+            dep.scope == "test"
+        }
 
-		// add all items necessary for maven central publication
-		root.children().last() + {
-			def githubUrl = "https://github.com/$github_repo"
+        // add all items necessary for maven central publication
+        root.children().last() + {
+            def githubUrl = "https://github.com/$github_repo"
 
-			resolveStrategy = Closure.DELEGATE_FIRST
+            resolveStrategy = Closure.DELEGATE_FIRST
 
-			description mod_description
-			name mod_id
-			url githubUrl
-			organization {
-				name maven_group
-				url githubUrl
-			}
-			issueManagement {
-				system 'GitHub'
-				url "${githubUrl}/issues"
-			}
-			licenses {
-				license {
-					name license
-					url 'https://opensource.org/licenses/MIT'
-					distribution 'repo'
-				}
-			}
-			scm {
-				url "https://github.com/${github_repo}"
-				connection "scm:git:git://github.com/${github_repo}.git"
-				developerConnection "scm:git:ssh://git@github.com:${github_repo}.git"
-			}
-			developers {
-				developer {
-					name 'Fudge'
-				}
+            description mod_description
+            name mod_id
+            url githubUrl
+            organization {
+                name maven_group
+                url githubUrl
+            }
+            issueManagement {
+                system 'GitHub'
+                url "${githubUrl}/issues"
+            }
+            licenses {
+                license {
+                    name license
+                    url 'https://opensource.org/licenses/MIT'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url "https://github.com/${github_repo}"
+                connection "scm:git:git://github.com/${github_repo}.git"
+                developerConnection "scm:git:ssh://git@github.com:${github_repo}.git"
+            }
+            developers {
+                developer {
+                    name 'Fudge'
+                }
 
-				developer {
-					name 'OliviaTheVampire'
-				}
-			}
-		}
-	}
+                developer {
+                    name 'OliviaTheVampire'
+                }
+            }
+        }
+    }
 }
 
 model {
-	tasks.generatePomFileForMavenJavaPublication {
-		destination = file("$buildDir/generated-pom.xml")
-	}
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
 
-	tasks.publishMavenJavaPublicationToMavenLocal {
-		dependsOn project.tasks.signArchives
-	}
-	tasks.publishMavenJavaPublicationToMavenRepository {
-		dependsOn project.tasks.signArchives
-	}
+    tasks.publishMavenJavaPublicationToMavenLocal {
+        dependsOn project.tasks.signArchives
+    }
+    tasks.publishMavenJavaPublicationToMavenRepository {
+        dependsOn project.tasks.signArchives
+    }
 }
-
 
 
 Properties properties = new Properties()
@@ -263,19 +267,19 @@ properties.put("total_version", total_version)
 
 
 task updateTemplate(type: Copy) {
-	group = "template"
-	description = "Switches out variables like \$total_version in .template.md files, and copies the results into .md files."
-	from(rootDir)
-	include("**/*.template.md")
-	filesMatching("**/*.template.md") {
-		def extensionLength = ".template.md".length()
+    group = "template"
+    description = "Switches out variables like \$total_version in .template.md files, and copies the results into .md files."
+    from(rootDir)
+    include("**/*.template.md")
+    filesMatching("**/*.template.md") {
+        def extensionLength = ".template.md".length()
 
-		name = sourceName.substring(0, sourceName.length() - extensionLength) + ".md"
-		expand(properties)
-	}
-	destinationDir = rootDir
+        name = sourceName.substring(0, sourceName.length() - extensionLength) + ".md"
+        expand(properties)
+    }
+    destinationDir = rootDir
 }
-
+publish.dependsOn updateTemplate
 //bintrayUpload.dependsOn updateTemplate
 //bintrayUpload.dependsOn build
 //bintrayUpload.dependsOn generatePomFileForMavenPublicationPublication
