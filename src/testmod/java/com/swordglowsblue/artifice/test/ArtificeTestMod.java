@@ -58,6 +58,29 @@ public class ArtificeTestMod implements ModInitializer, ClientModInitializer {
 
     public void onInitialize() {
         Registry.register(Registry.CHUNK_GENERATOR, RegistryKey.of(Registry.DIMENSION,id("test_chunk_generator")).getValue(), TestChunkGenerator.CODEC);
+
+       Artifice.registerDataPack(id("optional_test"), pack -> {
+           pack.setOptional();
+
+               pack.add(id("recipes/test_optional.json"), new StringResource("{\n" +
+                       "  \"type\": \"minecraft:crafting_shaped\",\n" +
+                       "  \"group\": \"wooden_door\",\n" +
+                       "  \"pattern\": [\n" +
+                       "    \"##\",\n" +
+                       "    \"##\",\n" +
+                       "    \"   \"\n" +
+                       "  ],\n" +
+                       "  \"key\": {\n" +
+                       "    \"#\": {\n" +
+                       "      \"item\": \"minecraft:stone\"\n" +
+                       "    }\n" +
+                       "  },\n" +
+                       "  \"result\": {\n" +
+                       "    \"item\": \"artifice:test_item\",\n" +
+                       "    \"count\": 2\n" +
+                       "  }\n" +
+                       "}"));
+       });
         Artifice.registerDataPack(id("testmod"), pack -> {
             pack.setDisplayName("Artifice Test Data");
             pack.setDescription("Data for the Artifice test mod");

@@ -44,7 +44,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
     ResourceType getType();
 
     /**
-     * @return Whether this pack is set as optional (only relevant for client-side packs)
+     * @return Whether this pack is set as optional
      */
     boolean isOptional();
 
@@ -166,6 +166,11 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param filePath The path to dump to
          */
         void dumpResources(String filePath, String type) throws IOException;
+
+        /**
+         * Mark this pack as optional (can be disabled in the resource packs menu). Will automatically mark it as visible.
+         */
+        void setOptional();
         
         void shouldOverwrite();
     }
@@ -248,10 +253,7 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          */
         void addLanguage(String code, String region, String name, boolean rtl);
 
-        /**
-         * Mark this pack as optional (can be disabled in the resource packs menu). Will automatically mark it as visible.
-         */
-        void setOptional();
+
 
         /**
          * Mark this pack as visible (will be shown in the resource packs menu).

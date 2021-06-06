@@ -467,7 +467,7 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
     public <T extends ResourcePackProfile> ResourcePackProfile toServerResourcePackProfile(ResourcePackProfile.Factory factory) {
         return ResourcePackProfile.of(
                 identifier == null ? "null" : identifier.toString(),
-                true, () -> this, factory,
+                !optional, () -> this, factory,
                 ResourcePackProfile.InsertionPosition.BOTTOM,
                 ARTIFICE_RESOURCE_PACK_SOURCE
         );
