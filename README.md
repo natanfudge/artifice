@@ -1,6 +1,5 @@
 # Artifice
 [![Discord](https://img.shields.io/discord/219787567262859264?color=blue&label=Discord)](https://discord.gg/CFaCu97)
-[![Bintray](https://api.bintray.com/packages/natanfudge/libs/artifice/images/download.svg)](https://bintray.com/beta/#/natanfudge/libs/artifice?tab=overview)
 [![Latest Commit](https://img.shields.io/github/last-commit/natanfudge/artifice)](https://github.com/natanfudge/artifice/commits/master)
 
 A library mod for Minecraft 1.15+, for programmatically generated resource files.
@@ -12,7 +11,7 @@ Installation:
 
 ```gradle
 dependencies {
-  modImplementation "com.lettuce.fudge:artifice:0.15.5+21w07a"
-  include "com.lettuce.fudge:artifice:0.15.5+21w07a"
+  modImplementation "io.github.natanfudge:artifice:0.15.5+21w07a"
+  include "io.github.natanfudge:artifice:0.15.5+21w07a"
 }
 ```
