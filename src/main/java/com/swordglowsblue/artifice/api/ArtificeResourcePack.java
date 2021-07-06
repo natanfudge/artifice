@@ -442,5 +442,13 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param f  A callback which will be passed a {@link CookingRecipeBuilder} to create the recipe.
          */
         void addCampfireRecipe(Identifier id, Processor<CookingRecipeBuilder> f);
+
+        /**
+         * Add a smithing table recipe with the given ID.
+         *
+         * @param id The ID of the recipe, which will be converted into the correct path.
+         * @param f  A callback which will be passed a {@link CookingRecipeBuilder} to create the recipe.
+         */
+        void addSmithingRecipe(Identifier id, Processor<SmithingTableRecipeBuilder> f);
     }
 }
