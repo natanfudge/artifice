@@ -3,6 +3,7 @@ package com.swordglowsblue.artifice.api.builder.data.recipe;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.swordglowsblue.artifice.api.builder.JsonObjectBuilder;
+import com.swordglowsblue.artifice.api.util.Processor;
 import net.minecraft.util.Identifier;
 
 /**
@@ -36,6 +37,16 @@ public class SmithingRecipeBuilder extends RecipeBuilder<SmithingRecipeBuilder> 
     }
 
     /**
+     * Set the item being smithed as one of a list of options.
+     * @param settings A callback which will be passed a {@link MultiIngredientBuilder}.
+     * @return this
+     */
+    public SmithingRecipeBuilder multiBase(Processor<MultiIngredientBuilder> settings) {
+        root.add("base", settings.process(new MultiIngredientBuilder()).build());
+        return this;
+    }
+
+    /**
      * Set the item to be added on during the smithing
      * @param id The item ID
      * @return this
@@ -52,6 +63,16 @@ public class SmithingRecipeBuilder extends RecipeBuilder<SmithingRecipeBuilder> 
      * */
     public SmithingRecipeBuilder additionTag(Identifier id) {
         root.add("addition", tag(id));
+        return this;
+    }
+
+    /**
+     * Set the item being added on as one of a list of options.
+     * @param settings A callback which will be passed a {@link MultiIngredientBuilder}.
+     * @return this
+     */
+    public SmithingRecipeBuilder multiAddition(Processor<MultiIngredientBuilder> settings) {
+        root.add("addition", settings.process(new MultiIngredientBuilder()).build());
         return this;
     }
 
