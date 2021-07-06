@@ -362,8 +362,8 @@ public class ArtificeResourcePackImpl implements ArtificeResourcePack {
         }
 
         @Override
-        public void addSmithingRecipe(Identifier id, Processor<SmithingTableRecipeBuilder> f) {
-            this.add("recipes/", id, ".json", r -> f.process(r.type(new Identifier("blasting"))), SmithingTableRecipeBuilder::new);
+        public void addSmithingRecipe(Identifier id, Processor<SmithingRecipeBuilder> f) {
+            this.add("recipes/", id, ".json", r -> f.process(r.type(new Identifier("blasting"))), SmithingRecipeBuilder::new);
         }
 
         private <T extends TypedJsonBuilder<? extends JsonResource>> void add(String path, Identifier id, String ext, Processor<T> f, Supplier<T> ctor) {

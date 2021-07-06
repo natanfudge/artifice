@@ -18,7 +18,6 @@ import com.swordglowsblue.artifice.api.virtualpack.ArtificeResourcePackContainer
 import com.swordglowsblue.artifice.common.ClientOnly;
 import com.swordglowsblue.artifice.common.ClientResourcePackProfileLike;
 import com.swordglowsblue.artifice.common.ServerResourcePackProfileLike;
-import com.swordglowsblue.artifice.impl.ArtificeImpl;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -449,6 +448,6 @@ public interface ArtificeResourcePack extends ResourcePack, ServerResourcePackPr
          * @param id The ID of the recipe, which will be converted into the correct path.
          * @param f  A callback which will be passed a {@link CookingRecipeBuilder} to create the recipe.
          */
-        void addSmithingRecipe(Identifier id, Processor<SmithingTableRecipeBuilder> f);
+        void addSmithingRecipe(Identifier id, Processor<SmithingRecipeBuilder> f);
     }
 }
