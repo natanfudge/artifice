@@ -1,3 +1,5 @@
+I will no longer be maintaining this project. I urge whoever needs this library to fork it and start the cycle anew. 
+
 # Artifice
 [![Discord](https://img.shields.io/discord/219787567262859264?color=blue&label=Discord)](https://discord.gg/CFaCu97)
 [![Latest Commit](https://img.shields.io/github/last-commit/natanfudge/artifice)](https://github.com/natanfudge/artifice/commits/master)
